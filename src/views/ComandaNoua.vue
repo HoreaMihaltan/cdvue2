@@ -4,7 +4,9 @@
 <!--            <tr colspan="24" style="text-align:center"><h2>-->
             <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/comenzi">Inapoi la Comenzi</router-link>
            <tr  style="padding: 10px">
-               <td><input colspan="6" style="padding: 10px; text-align: left" type="text" v-model="IdComanda" /></td></tr>
+               <td><input colspan="6" style="padding: 10px; text-align: left" type="text" v-model="IdComanda  " /></td></tr>
+            <tr  style="padding: 10px">
+               <td>Id Client<input v-validate="'required'" colspan="6" style="padding: 10px; text-align: left; width:20%" type="text" v-model="comenzi.numeClient" required  /></td></tr>
             <!--            </h2></tr>-->
         <table class="col-sm-6" style="padding: 10px" >
             <tr><td><label>Strada</label></td>
@@ -58,11 +60,11 @@
 <!--            coloana2-->
             <table class="col-sm-6" style="padding: 10px" >
                 <tr><td><label>Plata cash</label></td>
-                    <td><input type="number" v-model="comenzi.plataCash"/></td></tr>
+                    <td><input type="text" v-model="comenzi.plataCash"/></td></tr>
                 <tr><td><label>Plata card</label></td>
-                    <td><input type="number" v-model="comenzi.plataCard"/></td></tr>
+                    <td><input type="text" v-model="comenzi.plataCard"/></td></tr>
                 <tr><td><label>Valoare comanda</label></td>
-                    <td><input type="number" :value="total" /></td></tr>
+                    <td><input type="text" :value="total" disabled/></td></tr>
                 <tr><td><label >Decontat</label></td>
                     <td><input style="width: auto" type="radio" name="Decontat" v-model="comenzi.decontat" value="true" checked/> Da <input style="width: auto" type="radio" name="Decontat" v-model="comenzi.decontat" value="false" checked/> Nu </td></tr>
                 <tr><td><label>Livrator</label></td>
@@ -77,15 +79,20 @@
                         <option value="in lucru" label="In lucru" />
                         <option value="gata de livrare" label="Gata de livrare" />
                     </select></td></tr>
+                <tr><td><label>Detalii Comanda</label></td>
+                    <td><input type="text" v-model="comenzi.detaliiComanda "/></td></tr>
+                </td></tr>
 
 
                     </td></tr>
             </table>
         </table>
 
+        <button @click="setStatus('in lucru')">In lucru</button>
+
 
         <form v-if="!formIsSent"
-              style="text-align: left" @submit.prevent="submit" disabled>
+              style="text-align: left" @submit.prevent="submit" >
 <!--            de aici-->
 <!--            <div v-for="(item,key) in comenzi">-->
 <!--                <table class="col-sm-6"  >-->
@@ -93,10 +100,6 @@
 <!--                    <td style="text-align: left; width:auto">-->
 <!--                        <input :id="key" :placeholder="key" :type=-->
 <!--                                "key === 'idComanda' ? 'text'-->
-<!--                               : key === 'plataCash' ? 'number'-->
-<!--                               : key === 'plataCard' ? 'number'-->
-<!--                               : key === 'valoareComanda' ? 'number'-->
-<!--                               : key === 'tarifare' ? 'number'-->
 <!--                               : key === 'decontat' ? 'boolean'-->
 <!--                               : 'text'"-->
 <!--                               v-model="comenzi[key]"-->
@@ -110,7 +113,8 @@
             <br>
             <h3><router-link to="/comenzi">Cancel</router-link></h3> <br> <br>
 
-            <input class="btn btn-primary dropdown-toggle" style="font-size: xx-large" type="submit" value="Trimite">    </form>
+            <input class="btn btn-primary dropdown-toggle" formaction=":to/comenzi" style="font-size: xx-large"
+                   type="submit" value="Trimite"><router-link to="/comenzi"></router-link></form>
 
 
         <h1 v-else>Comanda a fost lansata</h1>
@@ -129,11 +133,12 @@
         data: function () {
             return {
                 adresa: {
-                    strada: 'strada',
+                    strada: '',
                     sc: '',
                     ap: '',
                     et: '',
-                    nr: ''
+                    nr: '',
+                    cod:''
                 },
                 comenzi: {
                     idComanda: '',
@@ -143,15 +148,16 @@
                     telefonDestinatar: '',
                     cartier:'',
                     livrator: 'fara livrator',
-                    plataCash: '0',
-                    plataCard: '0',
+                    plataCash: '',
+                    plataCard: '',
                     oraComanda: '',
                     oraLimita: '',
                     stareComanda: 'In lucru',
                     decontat: 'false',
                     oraLivrare: '',
                     valoareComanda: '',
-                    tarifare: ''
+                    tarifare: '16',
+                    detaliiComanda: ''
                 }
             }
         },
@@ -164,11 +170,14 @@
             this.comenzi.dataComanda = today
             const ora = (d.getHours() < 10 ? '0' : '') + d.getHours()
             const minute = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes()
-            const acum = ora + ":" + minute
+            const secunde = (d.getSeconds() < 10 ? '0' : '') + d.getSeconds()
+            const cod = ora + minute + secunde
+            const acum = ora + ":" + minute + ":" + secunde
             const mtranzit = 90
             const mt = ((d.getMinutes() + mtranzit) % 60 < 10 ? '0' : '') + (d.getMinutes() + mtranzit) % 60
             const ht = ((d.getMinutes() + mtranzit) < 120 ? d.getHours() + 1 : d.getHours() + 2)
             const tranzit = ht + ":" + mt
+            this.adresa.cod = cod
             this.comenzi.oraComanda = acum
             this.comenzi.oraLimita = tranzit
             // const text = valueOf(adresaLivrare())
@@ -182,21 +191,27 @@
             }),
             total () {
               // return   1+1
-                return this.comenzi.plataCash + this.comenzi.plataCard
+                return +this.comenzi.plataCash + +this.comenzi.plataCard
             },
             adresaLivrare () {
-                return `Strada: ${this.adresa.strada}, nr:${this.adresa.nr}, sc:${this.adresa.sc}, et:${this.adresa.et}, ap:${this.adresa.ap}, Cluj-Napoca`
+                return `Str: ${this.adresa.strada} ${this.adresa.nr}, (sc:${this.adresa.sc}, et:${this.adresa.et}, ap:${this.adresa.ap}) Cluj-Napoca`
             },
             IdComanda () {
-                return `CD-${this.comenzi.numeClient}(${this.adresa.strada}-${this.adresa.nr})/${this.comenzi.oraComanda}`
+                return `CD-${this.adresa.cod}/${this.comenzi.numeClient}(${this.adresa.strada}-${this.adresa.nr})`
             }
         },
 
         methods: {
             submit () {
-                this.$store.dispatch('create_comanda', this.comenzi, this.adresa)
+                this.comenzi.idComanda = this.IdComanda
+                this.comenzi.adresaLivrare = this.adresaLivrare
+                this.comenzi.valoareComanda = this.total
+                this.$store.dispatch('create_comanda', this.comenzi)
                 // this.$store.dispatch('create_comanda', this.adresa)
             },
+            setStatus (status) {
+                this.comenzi.stareComanda = status
+            }
         },
      }
 

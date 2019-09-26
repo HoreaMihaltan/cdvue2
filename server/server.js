@@ -89,14 +89,17 @@ app.use('/create-comanda', (req, res) => {
     }
 })
 
-app.use('/get-comenzi', (req, res) => {
+app.use('/get-comenzi/:view', (req, res) => {
+    const view = req.params.view
     getComenzi()
     async function getComenzi () {
-        const url = `${comenziDb}/_design/comenziAzi/_view/byIdComanda`
+        // const url = `${comenziDb}/_design/comenziAzi/_view/byIdComanda`
+        const url = `${comenziDb}/_design/comenziAzi/_view/${view}`
+        console.log(url)
         try {
           axios(url)
               .then(resp => {
-                  console.log(resp.data)
+                  //console.log(resp.data)
                   res.send(resp.data.rows)
               })
         } catch (e) {

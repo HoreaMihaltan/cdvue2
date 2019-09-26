@@ -5,8 +5,16 @@
             <!--            <tr colspan="24" style="text-align:center"><h2>-->
             <tr  style="padding: 10px">
                 <td><input colspan="6" style="padding: 10px; text-align: left" type="text" v-model="comenzi.idComanda" disabled /></td></tr>
+
             <!--            </h2></tr>-->
             <table class="col-sm-6" style="padding: 10px" >
+                <tr><td><label>Client</label></td>
+                    <td> <input type="text" v-model="comenzi.numeClient"/>
+                    </td></tr>
+                <tr><td><label>Adresa Livrare</label></td>
+                    <td>  <input type="text"
+                                 v-model="comenzi.adresaLivrare"  />
+                    </td></tr>
                 <tr><td><label>Cartier</label></td>
                     <td><select id="cartier"
                                 type="text"
@@ -19,11 +27,6 @@
                         <option value="Centru" label="Centru"  />
                     </select></td></tr>
 
-                <tr><td><label>Adresa Livrare</label></td>
-
-                    <td>  <input type="text"
-                                 v-model="comenzi.adresaLivrare"  />
-                    </td></tr>
                 <!--            </tr>-->
                 <tr><td><label>Telefon</label></td>
                     <td><input type="text" v-model="comenzi.telefonDestinatar "/></td></tr>
@@ -38,7 +41,7 @@
             <!--            coloana2-->
             <table class="col-sm-6" style="padding: 10px" >
                 <tr><td><label>Valoare comanda</label></td>
-                    <td><input type="number" :value="total" /></td></tr>
+                    <td><input type="number" v-model="comenzi.valoareComanda" /></td></tr>
                 <tr><td><label >Decontat</label></td>
                     <td><input style="width: auto" type="radio" name="Decontat" v-model="comenzi.decontat" value="true" checked/> Da <input style="width: auto" type="radio" name="Decontat" v-model="comenzi.decontat" value="false" checked/> Nu </td></tr>
                 <tr><td><label>Livrator</label></td>
@@ -51,6 +54,8 @@
                         <option value="in lucru" label="In lucru" />
                         <option value="gata de livrare" label="Gata de livrare" />
                     </select></td></tr>
+                <tr><td><label>Tarifare</label></td>
+                    <td><input type="number" v-model="comenzi.tarifare" /></td></tr>
 
 
                 </td></tr>

@@ -46,7 +46,8 @@
     export default {
         name: 'comenzi',
         created () {
-            this.$store.dispatch('get_comenzi')
+            this.$store.dispatch('get_comenzi', 'byIdComanda')
+            // this.$store.dispatch('get_comenzi', 'byToday')
         },
         computed: {
             ...mapState({

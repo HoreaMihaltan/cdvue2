@@ -2,7 +2,7 @@
  <div>
 <!--<br><br><br>-->
 
-     <div class="navbar" style="background-color: gainsboro; width: 100%;">
+     <div class="footer" style="background-color: gainsboro; width: 100%;">
 
          <h1 style="color: #5b5b5b; width: 100%;">Call Delivery App</h1>
      </div>

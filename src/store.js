@@ -61,7 +61,8 @@ export default new Vuex.Store({
           plataCash: '',
           plataCard: '',
           valoareComanda: '',
-          tarifare: ''
+          tarifare: '',
+          detaliiComanda: ''
       },
       updated: false
   },
@@ -118,8 +119,8 @@ export default new Vuex.Store({
             console.log(e.response)
           })
     },
-      get_comenzi ({ state }) {
-        axios('/api/get-comenzi')
+      get_comenzi ({ state }, view) {
+        axios(`/api/get-comenzi/${view}`)
             .then(resp => {
                 state.comenzi = resp.data
             })
