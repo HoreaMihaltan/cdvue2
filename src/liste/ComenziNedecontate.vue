@@ -46,9 +46,9 @@
     export default {
         name: 'comenzi',
         created () {
-            this.$store.dispatch('get_comenzi', 'byIdComanda')
+            // this.$store.dispatch('get_comenzi', 'byIdComanda')
             // this.$store.dispatch('get_comenzi', 'byToday')
-            // this.$store.dispatch('get_comenzi', 'byStareGata')
+            this.$store.dispatch('get_comenzi', 'byStareGata')
         },
         computed: {
             ...mapState({

@@ -1,6 +1,7 @@
 <template>
 
     <div class="container" style="padding: 10px">
+        <comenzi_azi></comenzi_azi>
         <h1>Clienti</h1>
         <table class="col-sm-12" style="padding: 10px">
             <tr> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/clientnou">Adauga Client</router-link></tr>
@@ -40,8 +41,10 @@
 
 <script>
     import { mapState } from 'vuex'
+    import Comenzi_azi from "../liste/ComenziAzi";
     export default {
         name: 'clienti',
+        components: {Comenzi_azi},
         created () {
             this.$store.dispatch('get_clienti')
         },

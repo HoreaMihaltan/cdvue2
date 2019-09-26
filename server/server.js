@@ -146,6 +146,25 @@ app.use('/update-comanda', (req, res) => {
         }
     }
 })
+// app.use('/delete-comanda', (req, res) => {
+//     const id = req.body.id
+//     const comenzi = req.body.comenzi
+//     delete()
+//     async function delete () {
+//         try {
+//             const { data } = await axios(`${comenziDb}/${id}`)
+//             // console.log(data)
+//             for (let comenziKey in comenzi) {
+//                 data[comenziKey] = comenzi[comenziKey]
+//             }
+//             const resp = await axios.delete(`${comenziDb}/${id}`, data)
+//             console.log(resp.data)
+//             res.send(resp.data)
+//         } catch (e) {
+//             //
+//         }
+//     }
+// })
 // de aici clienti
 app.use('/create-client', (req, res) => {
     const clienti = req.body

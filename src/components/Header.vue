@@ -10,7 +10,7 @@
                  </button>
              <div class="dropdown-menu">
                      <router-link class="dropdown-item" to="/"><img src="../assets/logo.png" style="height: 50px; padding: 5px"> Home</router-link>
-                     <router-link class="dropdown-item" router-link  to="/dasboard"> Dashboard</router-link>
+                     <router-link class="dropdown-item" router-link  to="/dashboard"> Dashboard</router-link>
                      <router-link class="dropdown-item" router-link  to="/users"> Useri</router-link>
 <!--                     <router-link class="dropdown-item" router-link  to="/userinput"> Adauga user</router-link>-->
                      <router-link class="dropdown-item" router-link  to="/clienti"> Clienti</router-link>

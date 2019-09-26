@@ -70,7 +70,8 @@
 <!--                </table>-->
 <!--            </div>-->
 
-            <input class="btn btn-primary dropdown-toggle" style="font-size: medium" type="submit" value="ok"><br>
+            <input class="btn btn-primary dropdown-toggle" style="font-size: medium" type="submit" value="ok"/><br>
+<!--            <button class="btn btn-primary dropdown-toggle" style="font-size: medium" onclick="remove()" value="delete"/><br>-->
 
 <!--            <button onclick="delete(this)">-->
 
@@ -105,7 +106,10 @@
         methods: {
             submit () {
                 this.$store.dispatch('update_comanda', this.$router.currentRoute.params.id)
-            }
+            },
+            // remove () {
+            //     this.$store.dispatch('delete_comanda', this.$router.currentRoute.params.id)
+            // }
         }
     }
 </script>

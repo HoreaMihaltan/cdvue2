@@ -1,37 +1,68 @@
 <template>
-    <div>
-<comenzi></comenzi>
-<view-users></view-users>
 
-<!--        <div class="container">-->
-<!--            <h2>Dropdowns</h2>-->
-<!--            <p>The .dropdown class is used to indicate a dropdown menu.</p>-->
-<!--            <p>Use the .dropdown-menu class to actually build the dropdown menu.</p>-->
-<!--            <p>To open the dropdown menu, use a button or a link with a class of .dropdown-toggle and data-toggle="dropdown".</p>-->
-<!--            <div class="dropdown" style=align-items: ref="left: auto">-->
-<!--                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">-->
-<!--                    Meniu-->
-<!--                </button>-->
-<!--                <div class="dropdown-menu">-->
-<!--                    <router-link class="dropdown-item" router-link  to="/users"> Useri</router-link>-->
-<!--                    <router-link class="dropdown-item" router-link  to="/comenzi"> Comenzi</router-link>-->
+    <div class="container" style="padding: 10px">
+        <comenzi_azi></comenzi_azi>
 
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+
     </div>
 </template>
 
 <script>
-    import Comenzi from "./Comenzi";
-    import ViewUsers from "./ViewUsers";
+    import { mapState } from 'vuex'
+    import Comenzi_azi from "../liste/ComenziAzi";
 
     export default {
-        name: "Dashboard",
-        components: {ViewUsers, Comenzi}
+        name: 'dashboard',
+        components: {Comenzi_azi},
+    //     created () {
+    //         this.$store.dispatch('get_clienti')
+    //     },
+    //     computed: {
+    //         ...mapState({
+    //             clienti: 'clienti'
+    //         })
+    //     }
     }
+
+    // location.reload(true)
+    // src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+    // src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"
 </script>
 
-<style scoped>
+<style>
+    /** {*/
+    /*    box-sizing: border-box;*/
+    /*}*/
 
+    /*.header {*/
+    /*    border: 1px solid red;*/
+    /*    padding: 15px;*/
+    /*}*/
+
+    /*.row::after {*/
+    /*    content: "";*/
+    /*    clear: both;*/
+    /*    display: table;*/
+    /*}*/
+
+
+    /*[class*="col-"] {*/
+    /*    float: right;*/
+    /*    inline-size: 10px;*/
+    /*    padding: 10px;*/
+    /*    border: 0px solid red;*/
+    /*}*/
+
+    /*.col-1 {width: 8.33%;}*/
+    /*.col-sm-2 {width: 50%;}*/
+    /*.col-3 {width: 20%;}*/
+    /*.col-4 {width: 33.33%;}*/
+    /*.col-5 {width: 41.66%;}*/
+    /*.col-6 {width: 50%;}*/
+    /*.col-7 {width: 58.33%;}*/
+    /*.col-8 {width: 66.66%;}*/
+    /*.col-9 {width: 80%;}*/
+    /*.col-10 {width: 83.33%;}*/
+    /*.col-11 {width: 91.66%;}*/
+    /*.col-sm-12 {width: 100%;}*/
 </style>

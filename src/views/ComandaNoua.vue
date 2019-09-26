@@ -80,9 +80,8 @@
                         <option value="gata de livrare" label="Gata de livrare" />
                     </select></td></tr>
                 <tr><td><label>Detalii Comanda</label></td>
-                    <td><input type="text" v-model="comenzi.detaliiComanda "/></td></tr>
+                    <td><input  name="detalii comanda" required="true" type="text" v-model="comenzi.detaliiComanda "/></td></tr>
                 </td></tr>
-
 
                     </td></tr>
             </table>

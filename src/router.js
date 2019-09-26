@@ -46,17 +46,71 @@ export default new Router({
       path: '/comenzi',
       name: 'comenzi',
 
-      component: () => import(/* webpackChunkName: "about" */ './views/Comenzi.vue')
+      component: () => import('./views/Comenzi.vue')
+    },
+    {
+      path: '/comenzi_azi',
+      name: 'comenzi_azi',
+
+      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziAzi.vue')
+    },
+    {
+      path: '/comenzi_disponibile',
+      name: 'comenzi_disponibile',
+
+      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziDisponibile.vue')
+    },
+    {
+      path: '/comenzi_gata',
+      name: 'comenzi_gata',
+
+      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziGata.vue')
+    },
+    {
+      path: '/comenzi_in_livrare',
+      name: 'comenzi_in_livrare',
+
+      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziInLivrare.vue')
+    },
+    {
+      path: '/comenzi_in_lucru',
+      name: 'comenzi_in_lucru',
+
+      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziInLucru.vue')
+    },
+    {
+      path: '/comenzi_livrate',
+      name: 'comenzi_livrate',
+
+      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziLivrate.vue')
+    },
+    {
+      path: '/comenzi_programate',
+      name: 'comenzi_programate',
+
+      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziProgramate.vue')
+    },
+    {
+      path: '/comenzi_ridicate',
+      name: 'comenzi_ridicate',
+
+      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziRidicate.vue')
+    },
+    {
+      path: '/comenzi_nedecontate',
+      name: 'comenzi_nedecontate',
+
+      component: () => import('./liste/ComenziNedecontate.vue')
     },
     {
       path: '/comanda/:id',
       name: 'comanda',
-          component: () => import(/* webpackChunkName: "about" */ './views/Comanda.vue')
+          component: () => import('./views/Comanda.vue')
     },
     {
-      path: '/comandanoua/',
+      path: '/comandanoua',
       name: 'comandanoua',
-           component: () => import(/* webpackChunkName: "about" */ './views/ComandaNoua.vue')
+           component: () => import('./views/ComandaNoua.vue')
     },
     // {
     //   path: '/neworder/',
@@ -64,14 +118,14 @@ export default new Router({
     //        component: () => import(/* webpackChunkName: "about" */ './views/NewOrder.vue')
     // },
     {
-      path: '/dashboard/',
+      path: '/dashboard',
       name: 'dashboard',
-           component: () => import(/* webpackChunkName: "about" */ './views/Dashboard.vue')
+           component: () => import( './views/Dashboard.vue')
     },
     {
       path: '/logo/',
       name: 'logo',
-           component: () => import(/* webpackChunkName: "about" */ './assets/logo.png')
+           component: () => import('./assets/logo.png')
     }
   ]
 })

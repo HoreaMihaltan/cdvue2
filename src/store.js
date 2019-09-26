@@ -147,6 +147,16 @@ export default new Vuex.Store({
                   console.log(resp.data)
               })
       },
+      // delete_comanda: function ({state}, id) {
+      //     axios.post('/api/update-comanda', {
+      //         id,
+      //         comenzi: state.comenzi
+      //     })
+      //         .then(resp => {
+      //             state.deleted = true
+      //             console.log(resp.data)
+      //         })
+      // },
       // de aici clienti
     create_client ({ state }, clienti) {
       axios.post('/api/create-client', clienti)

@@ -5,8 +5,7 @@
 
 <!--      <h3 style="inline"><router-link to="/">Home</router-link> |<router-link to="/users">Useri</router-link></h3>-->
 
-
-<!-- <ViewUsers></ViewUsers>-->
+<ViewUsers></ViewUsers>
 <router-view/>
     <Footer style="position: static"></Footer>
   </div>

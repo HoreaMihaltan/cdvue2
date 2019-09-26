@@ -1,7 +1,7 @@
 <template>
 
     <div class="container" style="padding: 10px">
-        <h1>Comenzi</h1
+        <h1>Comenzi Programate</h1
 
               <table class="col-sm-12" style="padding: 10px">
                  <tr> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/comandanoua">Adauga Comanda</router-link></tr>
@@ -44,11 +44,11 @@
 <script>
     import { mapState } from 'vuex'
     export default {
-        name: 'comenzi',
+        name: 'comenzi_programate',
         created () {
-            this.$store.dispatch('get_comenzi', 'byIdComanda')
+            // this.$store.dispatch('get_comenzi', 'byIdComanda')
             // this.$store.dispatch('get_comenzi', 'byToday')
-            // this.$store.dispatch('get_comenzi', 'byStareGata')
+            this.$store.dispatch('get_comenzi', 'byStareProgramata')
         },
         computed: {
             ...mapState({
