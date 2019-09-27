@@ -10,10 +10,11 @@
 <script>
     import { mapState } from 'vuex'
     import Comenzi_azi from "../liste/ComenziAzi";
+    import Comenzi_programate from "../liste/ComenziProgramate";
 
     export default {
         name: 'dashboard',
-        components: {Comenzi_azi},
+        components: {Comenzi_programate, Comenzi_azi},
     //     created () {
     //         this.$store.dispatch('get_clienti')
     //     },

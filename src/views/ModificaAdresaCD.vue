@@ -13,48 +13,59 @@
         </nav>
 <!--    <i-button-group style="width: 100%"> <button style="padding: 5px; width: auto" @click="setStatus('in lucru')">In lucru</button><button style="padding: 5px; width: auto" @click="setStatus('gata de livrare')">Gata De livrare</button></i-button-group>-->
 
-        <table class="col-sm-10" style="padding: 10px" >
+        <table class="col-sm-6" style="padding: 10px" >
             <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/comenzi_azi">Inapoi la Comenzi</router-link>
             <!--            <tr colspan="24" style="text-align:center"><h2>-->
             <tr  style="padding: 10px">
-                <td><input colspan="6" style="padding: 10px; text-align: left" type="text" v-model="comenzi.idComanda" disabled /></td></tr>
+                <td><input colspan="12" style="padding: 10px; text-align: left" type="text" v-model="comenzi.idComanda" disabled /></td></tr>
 
             <!--            </h2></tr>-->
-            <table class="col-sm-6" style="padding: 10px" >
+            <table class="col-sm-12" style="padding: 10px" >
                 <tr><td><label>Client</label></td>
                     <td> <input type="text" v-model="comenzi.numeClient"/>
                     </td></tr>
-                <tr><td><label>Adresa Livrare</label></td>
+                <tr><td><label>Strada</label></td>
+                    <td><select id="strada"
+                                type="text"
+                                v-model="adresa.strada">
+                        <option value="Rasinari" label="Rasinari" />
+                        <option value="Lunii" label="Lunii" />
+                        <option value="Eroilor" label="Eroilor" />
+                        <option value="Florilor" label="Florilor" />
+                        <option value="Motilor" label="Motilor"  />
+                        <option value="Floresti" label="Floresti"  />
+                    </select></td></tr>
+                <tr><td><label>Cartier</label></td>
+                    <td><select id="cartier"
+                                type="text"
+                                v-model="comenzi.cartier">
+                        <option value="Apahida" label="Apahida" />
+                        <option value="Gheorgheni" label="Gheorgheni" />
+                        <option value="Gruia" label="Gruia" />
+                        <option value="Zorilor" label="Zorilor" />
+                        <option value="Manastur" label="Manastur"  />
+                        <option value="Centru" label="Centru"  />
+                    </select></td></tr>
+                <tr>  <td><label>
+                    Nr</label><td>
+                    <input type="text"
+                           v-model="adresa.nr"></td></tr>
+                <tr>  <td><label>
+                    Sc</label><td>
+                    <input type="text"
+                           v-model="adresa.sc"></td></tr>
+                <tr>    <td><label>
+                    Et</label><td>
+                    <input type="text" v-model="adresa.et"></td></tr>
+                <tr>    <td><label>
+                    Ap</label><td>
+                    <input type="text"
+                           v-model="adresa.ap"></td></tr>
+                <tr><td><label>Noua Adresa Livrare</label></td>
+
                     <td>  <input type="text"
-                                 v-model="comenzi.adresaLivrare"  />
+                                 v-model="adresaLivrare"  />
                     </td></tr>
-
-                <!--            </tr>-->
-                <tr><td><label>Telefon</label></td>
-                    <td><input type="text" v-model="comenzi.telefonDestinatar "/></td></tr>
-                </td></tr>
-                <tr><td><label>Plata cash</label></td>
-                    <td><input type="number" v-model="comenzi.plataCash"/></td></tr>
-                <tr><td><label>Plata card</label></td>
-                    <td><input type="number" v-model="comenzi.plataCard"/></td></tr>
-
-                </tr>
-            </table>
-            <!--            coloana2-->
-            <table class="col-sm-6" style="padding: 10px" >
-                <tr><td><label>Valoare comanda</label></td>
-                    <td><input type="number" :value="total" disabled /></td></tr>
-               <tr><td><label>Livrator</label></td>
-                    <td><input type="text" v-model="comenzi.livrator"/></td></tr>
-                <tr><td><label>Ora Limita</label></td>
-                    <td><input type="time" v-model="comenzi.oraLimita"/></td></tr>
-                <tr><td><label>Stare Comanda</label></td>
-                    <td><input type="text" v-model="comenzi.stareComanda" />
-                    </td></tr>
-                <tr><td><label>Tarifare</label></td>
-                    <td><input type="number" v-model="comenzi.tarifare" /></td></tr>
-
-
                 </td></tr>
             </table>
         </table>
@@ -135,9 +146,19 @@
                 // return   1+1
                 return +this.comenzi.plataCash + +this.comenzi.plataCard
             },
+            adresaLivrare () {
+                return `Str: ${this.adresa.strada} ${this.adresa.nr}, (sc:${this.adresa.sc}, et:${this.adresa.et}, ap:${this.adresa.ap}) Cluj-Napoca`
+            },
+            IdComanda () {
+                return `CD-${this.adresa.cod}/${this.comenzi.numeClient}(${this.adresa.strada}-${this.adresa.nr})`
+            }
+
+
         },
         methods: {
             submit () {
+                this.comenzi.idComanda = this.IdComanda
+                this.comenzi.adresaLivrare = this.adresaLivrare
                 this.comenzi.valoareComanda = this.total
                 this.$store.dispatch('update_comanda', this.$router.currentRoute.params.id)
                 alert("Comanda a fost modificata!")

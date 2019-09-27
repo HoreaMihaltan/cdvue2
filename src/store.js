@@ -47,6 +47,7 @@ export default new Vuex.Store({
       comenzi: [],
      formIsSent: false,
       comenzi: {
+          total_rows:'',
           idComanda: '',
           dataComanda: ``,
           numeClient: '',

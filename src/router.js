@@ -52,13 +52,13 @@ export default new Router({
       path: '/comenzi_azi',
       name: 'comenzi_azi',
 
-      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziAzi.vue')
+      component: () => import('./liste/ComenziAzi.vue')
     },
     {
       path: '/comenzi_disponibile',
       name: 'comenzi_disponibile',
 
-      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziDisponibile.vue')
+      component: () => import( './liste/ComenziDisponibile.vue')
     },
     {
       path: '/comenzi_gata',
@@ -70,13 +70,13 @@ export default new Router({
       path: '/comenzi_in_livrare',
       name: 'comenzi_in_livrare',
 
-      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziInLivrare.vue')
+      component: () => import('./liste/ComenziInLivrare.vue')
     },
     {
       path: '/comenzi_in_lucru',
       name: 'comenzi_in_lucru',
 
-      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziInLucru.vue')
+      component: () => import( './liste/ComenziInLucru.vue')
     },
     {
       path: '/comenzi_livrate',
@@ -88,13 +88,13 @@ export default new Router({
       path: '/comenzi_programate',
       name: 'comenzi_programate',
 
-      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziProgramate.vue')
+      component: () => import('./liste/ComenziProgramate.vue')
     },
     {
       path: '/comenzi_ridicate',
       name: 'comenzi_ridicate',
 
-      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziRidicate.vue')
+      component: () => import('./liste/ComenziRidicate.vue')
     },
     {
       path: '/comenzi_nedecontate',
@@ -106,6 +106,11 @@ export default new Router({
       path: '/comanda/:id',
       name: 'comanda',
           component: () => import('./views/Comanda.vue')
+    },
+    {
+      path: '/modifica_adresa_comanda/:id',
+      name: 'comanda',
+          component: () => import('./views/ModificaAdresaCD.vue')
     },
     {
       path: '/comandanoua',

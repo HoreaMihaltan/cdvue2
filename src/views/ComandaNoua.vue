@@ -87,7 +87,7 @@
             </table>
         </table>
 
-        <button @click="setStatus('in lucru')">In lucru</button>
+<!--        <button @click="setStatus('in lucru')">In lucru</button>-->
 
 
         <form v-if="!formIsSent"
@@ -117,6 +117,7 @@
 
 
         <h1 v-else>Comanda a fost lansata</h1>
+        < v-if="loadPage" http-equiv="refresh">
     </div>
 
 </template>
@@ -197,6 +198,9 @@
             },
             IdComanda () {
                 return `CD-${this.adresa.cod}/${this.comenzi.numeClient}(${this.adresa.strada}-${this.adresa.nr})`
+            },
+            refresh(){
+                return
             }
         },
 
