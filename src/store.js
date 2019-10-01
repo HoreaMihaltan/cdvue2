@@ -1,202 +1,259 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as axios from 'axios'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-      users: [],
-      formIsSent: false,
-      users: {
-          idUser: '',
-          nume: '',
-          userEmail: '',
-          pin: '',
-          tipUser: '',
-          userActiv: ``
-      },
-      updated: false,
-      clienti: [],
-      formIsSent: false,
-      clienti: {
-          numeLocatie: '',
-          idClient: '',
-          clientEmail:  '',
-          clientTelefon:  '',
-          adresaLocatie:  '',
-          clientLocatieGPS:  '',
-          clientNumeFirma: '',
-          clientCUI: '',
-          clientNIRC: '',
-          clientAdresaFirma: '',
-          clientTelefonFirma: '',
-          clientEmailFirma: '',
-          clientReprezentantFirma: '',
-          clientIBANFirma: '',
-          clientTipContract: '',
-          clientCurseIncluse: '',
-          clientTarifareBaza: '',
-          clientTarifareZona2: '',
-          clientTarifareZona3: '',
-          clientSigla: '',
-          clientProfil: '',
-          clientSiteRedirect: '',
-          clientActiv: ''
-      },
-      updated: false,
-      comenzi: [],
-     formIsSent: false,
-      comenzi: {
-          total_rows:'',
-          idComanda: '',
-          dataComanda: ``,
-          numeClient: '',
-          adresaLivrare: '',
-          cartier: '',
-          livrator: '',
-          oraComanda: '',
-          oraLimita: '',
-          stareComanda: '',
-          decontat: '',
-          oraLivrare: '',
-          plataCash: '',
-          plataCard: '',
-          valoareComanda: '',
-          tarifare: '',
-          detaliiComanda: ''
-      },
-      updated: false
-  },
-  mutations: {
+    state: {
+        users: [],
+        formIsSent: false,
+        users: {
+            idUser: '',
+            nume: '',
+            userEmail: '',
+            pin: '',
+            tipUser: '',
+            userActiv: ``
+        },
+        updated: false,
+        clienti: [],
+        formIsSent: false,
+        clienti: {
+            numeLocatie: '',
+            idClient: '',
+            clientEmail: '',
+            clientTelefon: '',
+            adresaLocatie: '',
+            clientLocatieGPS: '',
+            clientNumeFirma: '',
+            clientCUI: '',
+            clientNIRC: '',
+            clientAdresaFirma: '',
+            clientTelefonFirma: '',
+            clientEmailFirma: '',
+            clientReprezentantFirma: '',
+            clientIBANFirma: '',
+            clientTipContract: '',
+            clientCurseIncluse: '',
+            clientTarifareBaza: '',
+            clientTarifareZona2: '',
+            clientTarifareZona3: '',
+            clientSigla: '',
+            clientProfil: '',
+            clientSiteRedirect: '',
+            clientActiv: ''
+        },
+        updated: false,
 
-  },
-  actions: {
-    create_user ({ state }, user) {
-      axios.post('/api/create-user', user)
-          .then(resp => {
-            console.log(resp)
-              state.formIsSent = true
-          })
-          .catch(e => {
-            console.log(e.response)
-          })
+        livratori: [],
+        formIsSent: false,
+        livratori: {
+            dataAdaugare: '',
+            numeLivrator: '',
+            livratorEmail: '',
+            livratorTelefon: '',
+            livratorNumeFirma: '',
+            livratorCUI: '',
+            livratorNIRC: '',
+            livratorAdresaFirma: '',
+            livratorTelefonFirma: '',
+            livratorEmailFirma: '',
+            livratorReprezentantFirma: '',
+            livratorIBANFirma: '',
+            livratorActiv: ''
+        },
+        updated: false,
+        comenzi: [],
+        formIsSent: false,
+        comenzi: {
+            total_rows: '',
+            idComanda: '',
+            dataComanda: ``,
+            numeClient: '',
+            adresaLivrare: '',
+            cartier: '',
+            livrator: '',
+            oraComanda: '',
+            oraLimita: '',
+            stareComanda: '',
+            decontat: '',
+            oraLivrare: '',
+            plataCash: '',
+            plataCard: '',
+            valoareComanda: '',
+            tarifare: '',
+            detaliiComanda: ''
+        },
+        updated: false
     },
-      get_users ({ state }) {
-        axios('/api/get-users')
-            .then(resp => {
-                state.users = resp.data
+    mutations: {},
+    actions: {
+        create_user({state}, user) {
+            axios.post('/api/create-user', user)
+                .then(resp => {
+                    console.log(resp)
+                    state.formIsSent = true
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_users({state}) {
+            axios('/api/get-users')
+                .then(resp => {
+                    state.users = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_user({state}, id) {
+            axios(`/api/get-user/${id}`)
+                .then(resp => {
+                    state.users = resp.data
+                })
+                .catch(e => {
+                    //
+                })
+        },
+        update_user({state}, id) {
+            axios.post('/api/update-user', {
+                id,
+                user: state.users
             })
-            .catch(e => {
-                console.log(e.response)
-            })
-      },
-      get_user ({ state }, id) {
-        axios(`/api/get-user/${id}`)
-            .then(resp => {
-                state.users = resp.data
-            })
-            .catch(e => {
-                //
-            })
-      },
-      update_user ({ state }, id) {
-        axios.post('/api/update-user', {
-            id,
-            user: state.users
-        })
-            .then(resp => {
-                state.updated = true
-                console.log(resp.data)
-            })
-      },
+                .then(resp => {
+                    state.updated = true
+                    console.log(resp.data)
+                })
+        },
 // de aici comenzi
-    create_comanda ({ state }, comenzi) {
-      axios.post('/api/create-comanda', comenzi)
-          .then(resp => {
-            console.log(resp)
-              state.formIsSent = true
-          })
-          .catch(e => {
-            console.log(e.response)
-          })
-    },
-      get_comenzi ({ state }, view) {
-        axios(`/api/get-comenzi/${view}`)
-            .then(resp => {
-                state.comenzi = resp.data
+        create_comanda({state}, comenzi) {
+            axios.post('/api/create-comanda', comenzi)
+                .then(resp => {
+                    console.log(resp)
+                    state.formIsSent = true
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comenzi({state}, view) {
+            axios(`/api/get-comenzi/${view}`)
+                .then(resp => {
+                    state.comenzi = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comanda({state}, id) {
+            axios(`/api/get-comanda/${id}`)
+                .then(resp => {
+                    state.comenzi = resp.data
+                })
+                .catch(e => {
+                    //
+                })
+        },
+        update_comanda({state}, id) {
+            axios.post('/api/update-comanda', {
+                id,
+                comenzi: state.comenzi
             })
-            .catch(e => {
-                console.log(e.response)
+                .then(resp => {
+                    state.updated = true
+                    console.log(resp.data)
+                })
+        },
+        // delete_comanda: function ({state}, id) {
+        //     axios.post('/api/update-comanda', {
+        //         id,
+        //         comenzi: state.comenzi
+        //     })
+        //         .then(resp => {
+        //             state.deleted = true
+        //             console.log(resp.data)
+        //         })
+        // },
+        // de aici livratori
+        create_livrator({state}, livratori) {
+            axios.post('/api/create-livrator', livratori)
+                .then(resp => {
+                    console.log(resp)
+                    state.formIsSent = true
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_livratori({state}) {
+            axios('/api/get-livratori')
+                .then(resp => {
+                    state.livratori = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_livrator({state}, id) {
+            axios(`/api/get-livrator/${id}`)
+                .then(resp => {
+                    state.livratori = resp.data
+                })
+                .catch(e => {
+                    //
+                })
+        },
+        update_livrator({state}, id) {
+            axios.post('/api/update-livrator', {
+                id,
+                livratori: state.livratori
             })
-      },
-      get_comanda ({ state }, id) {
-          axios(`/api/get-comanda/${id}`)
-              .then(resp => {
-                  state.comenzi = resp.data
-              })
-              .catch(e => {
-                  //
-              })
-      },
-      update_comanda ({ state }, id) {
-          axios.post('/api/update-comanda', {
-              id,
-              comenzi: state.comenzi
-          })
-              .then(resp => {
-                  state.updated = true
-                  console.log(resp.data)
-              })
-      },
-      // delete_comanda: function ({state}, id) {
-      //     axios.post('/api/update-comanda', {
-      //         id,
-      //         comenzi: state.comenzi
-      //     })
-      //         .then(resp => {
-      //             state.deleted = true
-      //             console.log(resp.data)
-      //         })
-      // },
-      // de aici clienti
-    create_client ({ state }, clienti) {
-      axios.post('/api/create-client', clienti)
-          .then(resp => {
-            console.log(resp)
-              state.formIsSent = true
-          })
-          .catch(e => {
-            console.log(e.response)
-          })
-    },
-      get_clienti ({ state }) {
-        axios('/api/get-clienti')
-            .then(resp => {
-                state.clienti = resp.data
+                .then(resp => {
+                    state.updated = true
+                    console.log(resp.data)
+                })
+        },
+        // de aici clienti
+        create_client({state}, clienti) {
+            axios.post('/api/create-client', clienti)
+                .then(resp => {
+                    console.log(resp)
+                    state.formIsSent = true
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_clienti({state}) {
+            axios('/api/get-clienti')
+                .then(resp => {
+                    state.clienti = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_client({state}, id) {
+            axios(`/api/get-client/${id}`)
+                .then(resp => {
+                    state.clienti = resp.data
+                })
+                .catch(e => {
+                    //
+                })
+        },
+        update_client({state}, id) {
+            axios.post('/api/update-client', {
+                id,
+                clienti: state.clienti
             })
-            .catch(e => {
-                console.log(e.response)
-            })
-      },
-      get_client ({ state }, id) {
-          axios(`/api/get-client/${id}`)
-              .then(resp => {
-                  state.clienti = resp.data
-              })
-              .catch(e => {
-                  //
-              })
-      },
-      update_client ({ state }, id) {
-          axios.post('/api/update-client', {
-              id,
-              clienti: state.clienti
-          })
-              .then(resp => {
-                  state.updated = true
-                  console.log(resp.data)
-              })
-      },
+                .then(resp => {
+                    state.updated = true
+                    console.log(resp.data)
+                })
+        },
 
-  }
+    }
 })

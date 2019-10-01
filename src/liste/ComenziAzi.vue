@@ -6,6 +6,9 @@
             <router-link class="btn btn-primary" style="font-size: medium" router-link  to="/comenzi_disponibile">Disponibile</router-link>
             <router-link class="btn btn-primary" style="font-size: medium" router-link  to="/comenzi_in_lucru">In lucru</router-link>
             <router-link class="btn btn-primary" style="font-size: medium" router-link  to="/comenzi_gata">Gata de livrare</router-link>
+            <router-link class="btn btn-primary" style="font-size: medium" router-link  to="/comenzi_ridicate">Ridicate</router-link>
+            <router-link class="btn btn-primary" style="font-size: medium" router-link  to="/comenzi_in_livrare">In livrare</router-link>
+            <router-link class="btn btn-primary" style="font-size: medium" router-link  to="/comenzi_livrate">Livrate</router-link>
         </navbar
 
               <table class="col-sm-12" style="padding: 10px">
@@ -34,7 +37,7 @@
                           <td> {{ comenzi.value.livrator }} </td>
                           <td> {{ comenzi.value.oraComanda }} </td>
                           <td> {{ comenzi.value.oraLimita }} </td>
-                          <td> {{ comenzi.value.stareComanda }} </td>
+                          <td  style="color: honeydew; background-color: red "> {{ comenzi.value.stareComanda }} </td>
                           <td> {{ comenzi.value.decontat }} </td>
                           <td> {{ comenzi.value.oraLivrare }} </td>
                           <td> {{ comenzi.value.plataCash }} </td>

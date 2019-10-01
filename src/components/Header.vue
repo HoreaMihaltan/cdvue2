@@ -14,8 +14,11 @@
                      <router-link class="dropdown-item" router-link  to="/users"> Useri</router-link>
 <!--                     <router-link class="dropdown-item" router-link  to="/userinput"> Adauga user</router-link>-->
                      <router-link class="dropdown-item" router-link  to="/clienti"> Clienti</router-link>
+                 <router-link class="dropdown-item" router-link  to="/livratori"> Livratori</router-link>
 <!--                     <router-link class="dropdown-item" router-link  to="/clientnou"> Adauga client</router-link>-->
-                     <router-link class="dropdown-item" router-link  to="/comenzi"> Comenzi</router-link>
+                     <router-link class="dropdown-item" router-link  to="/comenzi_azi"> Comenzi Azi</router-link>
+                 <router-link class="dropdown-item" router-link  to="/comenzi"> Comenzi</router-link>
+                 <router-link class="dropdown-item" router-link  to="/comenzi_nedecontate"> Decont</router-link>
 <!--                     <router-link class="dropdown-item" router-link  to="/comandanoua"> Comanda noua</router-link>-->
 
                  </div>

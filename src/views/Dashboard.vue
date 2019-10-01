@@ -4,6 +4,8 @@
         <comenzi_azi></comenzi_azi>
 
 
+
+
     </div>
 </template>
 
@@ -11,10 +13,11 @@
     import { mapState } from 'vuex'
     import Comenzi_azi from "../liste/ComenziAzi";
     import Comenzi_programate from "../liste/ComenziProgramate";
+    import Comenzi_in_lucru from "../liste/ComenziInLucru";
 
     export default {
         name: 'dashboard',
-        components: {Comenzi_programate, Comenzi_azi},
+        components: {Comenzi_in_lucru, Comenzi_programate, Comenzi_azi},
     //     created () {
     //         this.$store.dispatch('get_clienti')
     //     },

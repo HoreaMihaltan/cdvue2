@@ -29,7 +29,7 @@
                           <td> {{ comenzi.value.adresaLivrare }} </td>
                           <td> {{ comenzi.value.livrator }} </td>
                           <td> {{ comenzi.value.oraComanda }} </td>
-                          <td> {{ comenzi.value.oraLimita }} </td>
+                          <td style="color: honeydew; background-color: red"> {{ comenzi.value.oraLimita }} </td>
                           <td> {{ comenzi.value.stareComanda }} </td>
                           <td> {{ comenzi.value.decontat }} </td>
                           <td> {{ comenzi.value.oraLivrare }} </td>

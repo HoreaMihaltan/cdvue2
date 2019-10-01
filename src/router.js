@@ -22,14 +22,29 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Clienti.vue')
     },
     {
+      path: '/livratori',
+      name: 'livratori',
+      component: () => import(/* webpackChunkName: "about" */ './views/Livratori.vue')
+    },
+    {
       path: '/client/:id',
       name: 'client',
       component: () => import(/* webpackChunkName: "about" */ './views/Client.vue')
     },
     {
+      path: '/livrator/:id',
+      name: 'livrator',
+      component: () => import(/* webpackChunkName: "about" */ './views/Livrator.vue')
+    },
+    {
       path: '/clientnou',
       name: 'clientnou',
       component: () => import(/* webpackChunkName: "about" */ './views/ClientNou.vue')
+    },
+    {
+      path: '/livratornou',
+      name: 'livratornou',
+      component: () => import(/* webpackChunkName: "about" */ './views/LivratorNou.vue')
     },
     {
       path: '/user/:id',

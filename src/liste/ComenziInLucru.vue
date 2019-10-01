@@ -2,7 +2,7 @@
 
     <div class="container" style="padding: 10px">
 
-        <navbar><h2>Comenzi Programate</h2><router-link class="btn btn-primary" style="font-size: medium" router-link  to="/comenzi_azi">Inapoi la comenzi</router-link></navbar
+        <navbar><h2>Comenzi in Lucru</h2><router-link class="btn btn-primary" style="font-size: medium" router-link  to="/comenzi_azi">Inapoi la comenzi</router-link></navbar
 
         <table class="col-sm-12" style="padding: 10px">
             <tr> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/comandanoua">Adauga Comanda</router-link></tr>
@@ -45,7 +45,7 @@
 <script>
     import { mapState } from 'vuex'
     export default {
-        name: 'comenzi_programate',
+        name: 'comenzi_in_lucru',
         created () {
             // this.$store.dispatch('get_comenzi', 'byIdComanda')
             //  this.$store.dispatch('get_comenzi', 'byToday')

@@ -6,6 +6,7 @@ const port = 3000
 const useriDb = `http://localhost:5984/user`
 const comenziDb = `http://localhost:5984/comenzi`
 const clientiDb = `http://localhost:5984/clienti`
+const livratoriDb = `http://localhost:5984/livratori`
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }))
 
@@ -72,6 +73,74 @@ app.use('/update-user', (req, res) => {
             res.send(resp.data)
         } catch (e) {
 
+        }
+    }
+})
+// de aici livratori
+app.use('/create-livrator', (req, res) => {
+    const livratori = req.body
+    save()
+    async function save () {
+        try {
+            const { data } = await axios.post(livratoriDb, livratori)
+            res.send('LIVRATOR CREEAT')
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+
+app.use('/get-livratori', (req, res) => {
+    getLivratori()
+    async function getLivratori () {
+        const url = `${livratoriDb}/_design/livratori/_view/byNumeLivrator`
+        try {
+            axios(url)
+                .then(resp => {
+                    console.log(resp.data)
+                    res.send(resp.data.rows)
+                })
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+
+app.use('/get-livrator/:id', (req, res) => {
+    const id = req.params.id
+    getLivrator()
+    async function getLivrator () {
+        const url = `${livratoriDb}/${id}`
+        try {
+            axios(url)
+                .then(resp => {
+                    delete resp.data._id
+                    delete resp.data._rev
+                    res.send(resp.data)
+                })
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+
+
+app.use('/update-livrator', (req, res) => {
+    const id = req.body.id
+    const livratori = req.body.livratori
+    update()
+    async function update () {
+        try {
+            const { data } = await axios(`${livratoriDb}/${id}`)
+            // console.log(data)
+            for (let livratoriKey in livratori) {
+                data[livratoriKey] = livratori[livratoriKey]
+            }
+            const resp = await axios.put(`${livratoriDb}/${id}`, data)
+            console.log(resp.data)
+            res.send(resp.data)
+        } catch (e) {
+            //
         }
     }
 })

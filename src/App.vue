@@ -7,7 +7,7 @@
 
 <ViewUsers></ViewUsers>
 <router-view/>
-    <Footer style="position: static"></Footer>
+    <Footer style="position: sticky"></Footer>
   </div>
 </template>
 <script>

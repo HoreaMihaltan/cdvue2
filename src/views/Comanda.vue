@@ -15,7 +15,9 @@
 
         <table class="col-sm-10" style="padding: 10px" >
             <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/comenzi_azi">Inapoi la Comenzi</router-link>
+            <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/comenzi_nedecontate">Inapoi la Decont</router-link>
             <!--            <tr colspan="24" style="text-align:center"><h2>-->
+
             <tr  style="padding: 10px">
                 <td><input colspan="6" style="padding: 10px; text-align: left" type="text" v-model="comenzi.idComanda" disabled /></td></tr>
 

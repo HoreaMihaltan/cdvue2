@@ -36,6 +36,8 @@
                 <td> {{ comenzi.value.plataCash }} </td>
                 <td> {{ comenzi.value.valoareComanda }} </td>
                 <td> {{ comenzi.value.tarifare }} </td>
+
+
             </tr>
 
         </table>
@@ -45,7 +47,7 @@
 <script>
     import { mapState } from 'vuex'
     export default {
-        name: 'comenzi_gata_de_livrare',
+        name: 'comenzi_gata',
         created () {
             // this.$store.dispatch('get_comenzi', 'byIdComanda')
             //  this.$store.dispatch('get_comenzi', 'byToday')
