@@ -9,17 +9,17 @@
 <!--                   v-validate="'required'"-->
 <!--                   placeholder="nume">-->
 <!--            <span style="color: red;" v-show="errors.has('nume')">{{ errors.first('nume')}}</span>-->
-
+        <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link
+                     to="/comenzi_azi">Inapoi la Comenzi
+        </router-link>
+        <h2>Comanda Noua ( {{ totalComenzi}} )</h2>
 
         <form v-if="!formIsSent"
               style="text-align: left" @submit.prevent="submitValidation ">
         <table class="col-sm-12" style="padding: 10px">
             <!--            <tr colspan="24" style="text-align:center"><h2>-->
 
-            <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link
-                         to="/comenzi_azi">Inapoi la Comenzi
-            </router-link>
-            <h2>Comanda Noua ( {{ totalComenzi}} )</h2>
+
 
             <tr style="padding: 10px">
                 <td><input colspan="6" style="padding: 10px; text-align: left" type="text" v-model="IdComanda"
@@ -31,7 +31,7 @@
                            name="CodClient"
                            v-model="comenzi.numeClient"
                            required="true"
-                           v-validate="'required'"
+                           v-validate="'required|min:3'"
                            placeholder="Nu esti inregistrat!"
                            colspan="6" style="padding: 10px; text-align: left; width:20%"/>
                     <span style="color: red;" v-show="errors.has('CodClient')">{{ errors.first('CodClient')}}</span>
@@ -58,10 +58,15 @@
                 <tr>
                     <td><label>Cartier</label></td>
                     <td><select
-                            v-if="adresa.strada"
                             id="cartier"
-                            type="text"
+                            name="Cartier"
+                            v-if="adresa.strada"
+                            required="true"
+                            v-validate="'required'"
+                            placeholder="Alege cartier"
                             v-model="comenzi.cartier">
+                        <span style="color: red;" v-show="errors.has('Cartier')">{{ errors.first('Cartier')}}</span>
+
                         <option value="Apahida" label="Apahida"/>
                         <option value="Gheorgheni" label="Gheorgheni"/>
                         <option value="Gruia" label="Gruia"/>
@@ -117,9 +122,15 @@
                 <!--            </tr>-->
                 <tr>
                     <td><label>Telefon</label></td>
-                    <td><input
+                    <td><input type="text"
+                            name="TelefonDestinatar"
                             v-if="adresa.nr"
-                            type="text" v-model="comenzi.telefonDestinatar "/></td>
+                            required="true"
+                            v-validate="'required|min:10'"
+                            placeholder="Telefon destinatar"
+                            v-model="comenzi.telefonDestinatar "/>
+                        <span style="color: red;" v-show="errors.has('TelefonDestinatar')">{{ errors.first('TelefonDestinatar')}}</span>
+                    </td>
                 </tr>
                 </td></tr>
                 </tr>
@@ -203,14 +214,11 @@
             <!--            </div>-->
             <!--            pana aici-->
 
-            <input type="submit" value="TRIMITE"/>
             <input v-if="comenzi.numeClient && comenzi.cartier && (comenzi.plataCash >0 || comenzi.plataCard>0)"
                    class="btn btn-primary dropdown-toggle" formaction=":to/comenzi" style="font-size: xx-large"
-                   type="submit" value="Trimite">
+                   type="submit" value="Trimite Comanda"/>
 
             </form>
-
-
         <h1 v-else>Comanda a fost lansata</h1>
     </div>
 
@@ -233,7 +241,7 @@
         data() {
             return {
                 nume: '',
-                idClient:'',
+                CodClient:'',
                 adresa: {
                     strada: '',
                     sc: '',
@@ -324,6 +332,10 @@
                     .then(resp => {
                         console.log(resp)
                         if (resp) {
+                            this.comenzi.idComanda = this.IdComanda
+                            this.comenzi.adresaLivrare = this.adresaLivrare
+                            this.comenzi.valoareComanda = this.total
+                            this.$store.dispatch('create_comanda', this.comenzi)
                             alert("Comanda a fost lansata!");
                             // aici pui codul ce doresti sa ruleze daca validarile sunt corecte
                         } else {

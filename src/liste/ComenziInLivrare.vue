@@ -2,7 +2,9 @@
 
     <div class="container" style="padding: 10px">
 
-        <navbar><h2>Comenzi in Livrare ( {{ totalComenzi}} )</h2><router-link class="btn btn-primary" style="font-size: medium" router-link  to="/comenzi_azi">Inapoi la comenzi</router-link></navbar
+        <div><h2>Comenzi in Livrare ( {{ totalComenzi}} )</h2>
+            <listnav></listnav>
+        </div>
 
         <table class="col-sm-12" style="padding: 10px">
             <tr> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/comandanoua">Adauga Comanda</router-link></tr>
@@ -44,8 +46,10 @@
 
 <script>
     import { mapState } from 'vuex'
+    import Listnav from "../components/ListNav";
     export default {
         name: 'comenzi_in_livrare',
+        components: {Listnav},
         created () {
             // this.$store.dispatch('get_comenzi', 'byIdComanda')
             //  this.$store.dispatch('get_comenzi', 'byToday')

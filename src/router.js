@@ -146,6 +146,11 @@ export default new Router({
       path: '/logo/',
       name: 'logo',
            component: () => import('./assets/logo.png')
+    },
+    {
+      path: '/listanav/',
+      name: 'listnav',
+           component: () => import('./components/ListNav.vue')
     }
   ]
 })

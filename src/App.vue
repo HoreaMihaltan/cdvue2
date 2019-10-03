@@ -12,13 +12,11 @@
 </template>
 <script>
   import MainHeader from "./components/Header.vue";
-  import ViewUsers from "./views/ViewUsers";
   import Header from "./components/Header";
   import Footer from "./components/Footer";
     export default {
         name: 'App',
         components: {
-            ViewUsers,
             Header,
             Footer
         }

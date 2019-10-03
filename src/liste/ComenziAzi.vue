@@ -1,26 +1,9 @@
 <template>
 
     <div class="container" style="padding: 10px">
-        <navbar><h2>Comenzi Azi ( {{ totalComenzi}} )</h2>
-            <router-link class="btn btn-primary" style="font-size: medium" router-link to="/comenzi_programate">
-                Programate
-            </router-link>
-            <router-link class="btn btn-primary" style="font-size: medium" router-link to="/comenzi_disponibile">
-                Disponibile
-            </router-link>
-            <router-link class="btn btn-primary" style="font-size: medium" router-link to="/comenzi_in_lucru">In lucru
-            </router-link>
-            <router-link class="btn btn-primary" style="font-size: medium" router-link to="/comenzi_gata">Gata de
-                livrare
-            </router-link>
-            <router-link class="btn btn-primary" style="font-size: medium" router-link to="/comenzi_ridicate">Ridicate
-            </router-link>
-            <router-link class="btn btn-primary" style="font-size: medium" router-link to="/comenzi_in_livrare">In
-                livrare
-            </router-link>
-            <router-link class="btn btn-primary" style="font-size: medium" router-link to="/comenzi_livrate">Livrate
-            </router-link>
-        </navbar
+        <div><h2>Comenzi Azi ( {{ totalComenzi}} )</h2>
+            <listnav></listnav>
+        </div>
 
         <table class="col-sm-12" style="padding: 10px">
             <tr>
@@ -91,10 +74,11 @@
 <script>
     import {mapState} from 'vuex'
     import Comenzi_programate from "./ComenziProgramate";
+    import Listnav from "../components/ListNav";
 
     export default {
         name: 'comenzi_azi',
-        components: {Comenzi_programate},
+        components: {Listnav, Comenzi_programate},
         created() {
             // this.$store.dispatch('get_comenzi', 'byIdComanda')
             this.$store.dispatch('get_comenzi', 'byToday')
@@ -108,15 +92,8 @@
                 return this.comenzi.length;
             }
         },
-
-
-
-
     }
 
-    // location.reload(true)
-    // src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-    // src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"
 </script>
 
 <style>
