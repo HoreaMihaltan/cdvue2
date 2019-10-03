@@ -124,7 +124,7 @@ export default new Router({
     },
     {
       path: '/modifica_adresa_comanda/:id',
-      name: 'comanda',
+      name: 'modifica_adresa_comanda',
           component: () => import('./views/ModificaAdresaCD.vue')
     },
     {

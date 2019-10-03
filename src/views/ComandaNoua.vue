@@ -1,17 +1,18 @@
 <template>
     <div class="container">
 
-        <form @submit.prevent="submitValidation">
-            <input type="text"
-                   name="nume"
-                   v-model="nume"
-                   v-validate="'required'"
-                   placeholder="nume">
-            <span style="color: red;" v-show="errors.has('nume')">{{ errors.first('nume')}}</span>
+<!--            style="text-align: left" @submit.prevent="submitValidation ">-->
+<!--            <input type="text"-->
+<!--                   name="nume"-->
+<!--                   v-model="nume"-->
+<!--                   required="true"-->
+<!--                   v-validate="'required'"-->
+<!--                   placeholder="nume">-->
+<!--            <span style="color: red;" v-show="errors.has('nume')">{{ errors.first('nume')}}</span>-->
 
-            <input type="submit" value="TRIMITE" />
-        </form>
 
+        <form v-if="!formIsSent"
+              style="text-align: left" @submit.prevent="submitValidation ">
         <table class="col-sm-12" style="padding: 10px">
             <!--            <tr colspan="24" style="text-align:center"><h2>-->
 
@@ -19,13 +20,23 @@
                          to="/comenzi_azi">Inapoi la Comenzi
             </router-link>
             <h2>Comanda Noua ( {{ totalComenzi}} )</h2>
+
             <tr style="padding: 10px">
-                <td><input colspan="6" style="padding: 10px; text-align: left" type="text" v-model="IdComanda  " disabled/></td>
+                <td><input colspan="6" style="padding: 10px; text-align: left" type="text" v-model="IdComanda"
+                           disabled/></td>
             </tr>
             <tr style="padding: 10px">
-                <td>Id Client<input colspan="6" style="padding: 10px; text-align: left; width:20%"
-                                    type="text" v-model="comenzi.numeClient" placeholder="Nu esti inregistrat!"
-                                    required/></td>
+                 <td>
+                           <input type="text"
+                           name="CodClient"
+                           v-model="comenzi.numeClient"
+                           required="true"
+                           v-validate="'required'"
+                           placeholder="Nu esti inregistrat!"
+                           colspan="6" style="padding: 10px; text-align: left; width:20%"/>
+                    <span style="color: red;" v-show="errors.has('CodClient')">{{ errors.first('CodClient')}}</span>
+
+                </td>
             </tr>
             <!--            </h2></tr>-->
             <table class="col-sm-6" style="padding: 10px">
@@ -155,13 +166,14 @@
                 <tr>
                     <td><label>Ora Limita</label></td>
                     <td><input v-if="comenzi.stareComanda === 'in lucru'"
-                               type="time" v-model="comenzi.oraLimita" disabled/> <input v-else="comenzi.stareComanda === 'programata'"
-                                                                                         type="time" v-model="comenzi.oraLimita"/></td>
+                               type="time" v-model="comenzi.oraLimita" disabled/> <input
+                            v-else="comenzi.stareComanda === 'programata'"
+                            type="time" v-model="comenzi.oraLimita"/></td>
                 </tr>
 
                 <tr>
                     <td><label>Detalii Comanda</label></td>
-                    <td><input name="detalii comanda" required="true" type="text" v-model="comenzi.detaliiComanda "/>
+                    <td><input name="detalii comanda"  type="text" v-model="comenzi.detaliiComanda "/>
                     </td>
                 </tr>
                 </td></tr>
@@ -173,8 +185,8 @@
         <!--        <button @click="setStatus('in lucru')">In lucru</button>-->
 
 
-        <form v-if="!formIsSent"
-              style="text-align: left" @submit.prevent="submit">
+<!--        <form v-if="!formIsSent"-->
+<!--              style="text-align: left" @submit.prevent="submit, submitValidation ">-->
             <!--            de aici-->
             <!--            <div v-for="(item,key) in comenzi">-->
             <!--                <table class="col-sm-6"  >-->
@@ -191,12 +203,12 @@
             <!--            </div>-->
             <!--            pana aici-->
 
-
+            <input type="submit" value="TRIMITE"/>
             <input v-if="comenzi.numeClient && comenzi.cartier && (comenzi.plataCash >0 || comenzi.plataCard>0)"
                    class="btn btn-primary dropdown-toggle" formaction=":to/comenzi" style="font-size: xx-large"
                    type="submit" value="Trimite">
-            <router-link to="/comenzi"></router-link>
-        </form>
+
+            </form>
 
 
         <h1 v-else>Comanda a fost lansata</h1>
@@ -213,14 +225,15 @@
 
     export default {
         name: 'ComandaNoua',
-        created () {
+        created() {
             this.$store.dispatch('get_comenzi', 'byIdComanda')
             //this.$store.dispatch('get_comenzi', 'byToday')
             // this.$store.dispatch('get_comenzi', 'byStareGata')
         },
-        data () {
+        data() {
             return {
                 nume: '',
+                idClient:'',
                 adresa: {
                     strada: '',
                     sc: '',
@@ -284,6 +297,7 @@
         computed: {
             ...mapState({
                 formIsSent: 'formIsSent',
+                // comenziData: 'comenzi'
                 comenziData: 'comenzi'
             }),
             total() {
@@ -305,13 +319,15 @@
         },
 
         methods: {
-            submitValidation () {
+            submitValidation() {
                 this.$validator.validateAll()
                     .then(resp => {
                         console.log(resp)
                         if (resp) {
+                            alert("Comanda a fost lansata!");
                             // aici pui codul ce doresti sa ruleze daca validarile sunt corecte
                         } else {
+                                alert("Camp necesar!");
                             // aici pui cod pentru cazul in care vrei sa notifici ceva daca nu e validat corect
                         }
                     })
