@@ -5,8 +5,8 @@
 
 <!--      <h3 style="inline"><router-link to="/">Home</router-link> |<router-link to="/users">Useri</router-link></h3>-->
 
-<ViewUsers></ViewUsers>
-<router-view/>
+
+    <router-view/>
     <Footer style="position: sticky"></Footer>
   </div>
 </template>
@@ -17,7 +17,11 @@
   import Footer from "./components/Footer";
     export default {
         name: 'App',
-      components: {Header,Footer},
+        components: {
+            ViewUsers,
+            Header,
+            Footer
+        }
     }
 
   component: { MainHeader}

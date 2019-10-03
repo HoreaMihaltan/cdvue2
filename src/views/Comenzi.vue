@@ -1,7 +1,7 @@
 <template>
 
     <div class="container" style="padding: 10px">
-        <h1>Comenzi </h1
+        <h1>Comenzi ( {{ totalComenzi}} )</h1
 
         <table class="col-sm-12" style="padding: 10px">
             <tr> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/comandanoua">Adauga Comanda</router-link></tr>
@@ -53,7 +53,10 @@
         computed: {
             ...mapState({
                 comenzi: 'comenzi'
-            })
+            }),
+            totalComenzi: function () {
+                return this.comenzi.length;
+            }
         }
     }
 

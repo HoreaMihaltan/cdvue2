@@ -1,24 +1,41 @@
 <template>
     <div class="container">
+
+        <form @submit.prevent="submitValidation">
+            <input type="text"
+                   name="nume"
+                   v-model="nume"
+                   v-validate="'required'"
+                   placeholder="nume">
+            <span style="color: red;" v-show="errors.has('nume')">{{ errors.first('nume')}}</span>
+
+            <input type="submit" value="TRIMITE" />
+        </form>
+
         <table class="col-sm-12" style="padding: 10px">
             <!--            <tr colspan="24" style="text-align:center"><h2>-->
+
             <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link
                          to="/comenzi_azi">Inapoi la Comenzi
             </router-link>
+            <h2>Comanda Noua ( {{ totalComenzi}} )</h2>
             <tr style="padding: 10px">
-                <td><input colspan="6" style="padding: 10px; text-align: left" type="text" v-model="IdComanda  "/></td>
+                <td><input colspan="6" style="padding: 10px; text-align: left" type="text" v-model="IdComanda  " disabled/></td>
             </tr>
             <tr style="padding: 10px">
-                <td>Id Client<input v-validate="required" colspan="6" style="padding: 10px; text-align: left; width:20%"
-                                    type="text" v-model="comenzi.numeClient" required/></td>
+                <td>Id Client<input colspan="6" style="padding: 10px; text-align: left; width:20%"
+                                    type="text" v-model="comenzi.numeClient" placeholder="Nu esti inregistrat!"
+                                    required/></td>
             </tr>
             <!--            </h2></tr>-->
             <table class="col-sm-6" style="padding: 10px">
                 <tr>
                     <td><label>Strada</label></td>
-                    <td><select id="strada"
-                                type="text"
-                                v-model="adresa.strada">
+                    <td><select
+                            v-if="comenzi.numeClient"
+                            id="strada"
+                            type="text"
+                            v-model="adresa.strada">
                         <option value="Rasinari" label="Rasinari"/>
                         <option value="Lunii" label="Lunii"/>
                         <option value="Eroilor" label="Eroilor"/>
@@ -29,9 +46,11 @@
                 </tr>
                 <tr>
                     <td><label>Cartier</label></td>
-                    <td><select id="cartier"
-                                type="text"
-                                v-model="comenzi.cartier">
+                    <td><select
+                            v-if="adresa.strada"
+                            id="cartier"
+                            type="text"
+                            v-model="comenzi.cartier">
                         <option value="Apahida" label="Apahida"/>
                         <option value="Gheorgheni" label="Gheorgheni"/>
                         <option value="Gruia" label="Gruia"/>
@@ -44,40 +63,52 @@
                     <td><label>
                         Nr</label>
                     <td>
-                        <input type="text"
-                               v-model="adresa.nr"></td>
+                        <input
+                                v-if="adresa.strada"
+                                type="text"
+                                v-model="adresa.nr"></td>
                 </tr>
                 <tr>
                     <td><label>
                         Sc</label>
                     <td>
-                        <input type="text"
-                               v-model="adresa.sc"></td>
+                        <input
+                                v-if="adresa.nr"
+                                type="text"
+                                v-model="adresa.sc"></td>
                 </tr>
                 <tr>
                     <td><label>
                         Et</label>
                     <td>
-                        <input type="text" v-model="adresa.et"></td>
+                        <input
+                                v-if="adresa.nr"
+                                type="text" v-model="adresa.et"></td>
                 </tr>
                 <tr>
                     <td><label>
                         Ap</label>
                     <td>
-                        <input type="text"
-                               v-model="adresa.ap"></td>
+                        <input
+                                v-if="adresa.nr"
+                                type="text"
+                                v-model="adresa.ap"></td>
                 </tr>
                 <tr>
                     <td><label>Adresa Livrare</label></td>
 
-                    <td><input type="text"
-                               v-model="adresaLivrare"/>
+                    <td><input
+                            type="text"
+                            v-model="adresaLivrare" disabled/>
+
                     </td>
                 </tr>
                 <!--            </tr>-->
                 <tr>
                     <td><label>Telefon</label></td>
-                    <td><input type="text" validate="required" v-model="comenzi.telefonDestinatar "/></td>
+                    <td><input
+                            v-if="adresa.nr"
+                            type="text" v-model="comenzi.telefonDestinatar "/></td>
                 </tr>
                 </td></tr>
                 </tr>
@@ -86,11 +117,15 @@
             <table class="col-sm-6" style="padding: 10px">
                 <tr>
                     <td><label>Plata cash</label></td>
-                    <td><input type="text" v-model="comenzi.plataCash"/></td>
+                    <td><input
+                            v-if="comenzi.telefonDestinatar"
+                            type="text" v-model="comenzi.plataCash"/></td>
                 </tr>
                 <tr>
                     <td><label>Plata card</label></td>
-                    <td><input type="text" v-model="comenzi.plataCard"/></td>
+                    <td><input
+                            v-if="comenzi.plataCash"
+                            type="text" v-model="comenzi.plataCard"/></td>
                 </tr>
                 <tr>
                     <td><label>Valoare comanda</label></td>
@@ -98,29 +133,32 @@
                 </tr>
                 <tr>
                     <td><label>Decontat</label></td>
-                    <td><input style="width: auto" type="radio" name="Decontat" v-model="comenzi.decontat" value="true"
-                               checked/> Da <input style="width: auto" type="radio" name="Decontat"
-                                                   v-model="comenzi.decontat" value="false" checked/> Nu
+                    <td><input
+                            v-if="comenzi.plataCash"
+                            style="width: auto" type="radio" name="Decontat" v-model="comenzi.decontat" value="true"
+                            checked/> Da <input style="width: auto" type="radio" name="Decontat"
+                                                v-model="comenzi.decontat" value="false" checked/> Nu
                     </td>
                 </tr>
                 <tr>
                     <td><label>Livrator</label></td>
-                    <td><input type="text" v-model="comenzi.livrator"/></td>
+                    <td><input type="text" v-model="comenzi.livrator" disabled/></td>
                 </tr>
-                <tr>
-                    <td><label>Ora Limita</label></td>
-                    <td><input type="time" v-model="comenzi.oraLimita"/></td>
-                </tr>
-
-
                 <tr>
                     <td><label>Stare Comanda</label></td>
                     <td><select type="text" v-model="comenzi.stareComanda">
-                        <option value="programata" label="Programata"/>
                         <option value="in lucru" label="In lucru"/>
-                        <option value="gata de livrare" label="Gata de livrare"/>
+                        <option value="programata" label="Programata"/>
+
                     </select></td>
                 </tr>
+                <tr>
+                    <td><label>Ora Limita</label></td>
+                    <td><input v-if="comenzi.stareComanda === 'in lucru'"
+                               type="time" v-model="comenzi.oraLimita" disabled/> <input v-else="comenzi.stareComanda === 'programata'"
+                                                                                         type="time" v-model="comenzi.oraLimita"/></td>
+                </tr>
+
                 <tr>
                     <td><label>Detalii Comanda</label></td>
                     <td><input name="detalii comanda" required="true" type="text" v-model="comenzi.detaliiComanda "/>
@@ -154,20 +192,14 @@
             <!--            pana aici-->
 
 
-            <br>
-            <h3>
-                <router-link to="/comenzi">Cancel</router-link>
-            </h3>
-            <br> <br>
-
-            <input class="btn btn-primary dropdown-toggle" formaction=":to/comenzi" style="font-size: xx-large"
+            <input v-if="comenzi.numeClient && comenzi.cartier && (comenzi.plataCash >0 || comenzi.plataCard>0)"
+                   class="btn btn-primary dropdown-toggle" formaction=":to/comenzi" style="font-size: xx-large"
                    type="submit" value="Trimite">
             <router-link to="/comenzi"></router-link>
         </form>
 
 
         <h1 v-else>Comanda a fost lansata</h1>
-        < v-if="loadPage" http-equiv="refresh">
     </div>
 
 </template>
@@ -177,11 +209,18 @@
     import {mapState} from 'vuex'
     import moment from "moment";
     import Vue from 'vue';
+    import Comenzi_azi from "../liste/ComenziAzi";
 
     export default {
         name: 'ComandaNoua',
-        data: function () {
+        created () {
+            this.$store.dispatch('get_comenzi', 'byIdComanda')
+            //this.$store.dispatch('get_comenzi', 'byToday')
+            // this.$store.dispatch('get_comenzi', 'byStareGata')
+        },
+        data () {
             return {
+                nume: '',
                 adresa: {
                     strada: '',
                     sc: '',
@@ -190,7 +229,11 @@
                     nr: '',
                     cod: ''
                 },
+                // getTotalLength:{
+                //   lengthComenzi: [get_comenzi, byIdComanda]
+                // },
                 comenzi: {
+
                     idComanda: '',
                     dataComanda: ``,
                     numeClient: '',
@@ -240,7 +283,8 @@
         },
         computed: {
             ...mapState({
-                formIsSent: 'formIsSent'
+                formIsSent: 'formIsSent',
+                comenziData: 'comenzi'
             }),
             total() {
                 // return   1+1
@@ -254,10 +298,24 @@
             },
             refresh() {
                 return
+            },
+            totalComenzi: function () {
+                return this.comenzi.length;
             }
         },
 
         methods: {
+            submitValidation () {
+                this.$validator.validateAll()
+                    .then(resp => {
+                        console.log(resp)
+                        if (resp) {
+                            // aici pui codul ce doresti sa ruleze daca validarile sunt corecte
+                        } else {
+                            // aici pui cod pentru cazul in care vrei sa notifici ceva daca nu e validat corect
+                        }
+                    })
+            },
             submit() {
                 this.comenzi.idComanda = this.IdComanda
                 this.comenzi.adresaLivrare = this.adresaLivrare

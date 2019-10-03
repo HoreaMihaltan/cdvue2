@@ -1,16 +1,6 @@
 <template>
     <div class="container">
-        <nav class="col-sm-2">
-            <h3>Modifica strare</h3><i-table style="margin-top: 30px" >
-            <tr><button class="btn-dark" style="padding: 5px; width: 100%" @click="setStatus('programata')">Programata</button></tr>
-            <tr><button class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in lucru')">In lucru</button></tr>
-            <tr><button class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('gata de livrare')">Gata de livrare</button></tr>
-            <tr><button class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('ridicata')">Ridicata</button></tr>
-            <tr><button class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in livrare')">In livrare</button></tr>
-            <tr><button class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('livrata')">Livrata</button></tr>
-            <tr><button class="btn-red" style="padding: 5px; width: 100%" @click="decontat('true')">Decontat</button></tr>
-            </i-table>
-        </nav>
+
 <!--    <i-button-group style="width: 100%"> <button style="padding: 5px; width: auto" @click="setStatus('in lucru')">In lucru</button><button style="padding: 5px; width: auto" @click="setStatus('gata de livrare')">Gata De livrare</button></i-button-group>-->
 
         <table class="col-sm-10" style="padding: 10px" >
@@ -24,7 +14,7 @@
             <!--            </h2></tr>-->
             <table class="col-sm-6" style="padding: 10px" >
                 <tr><td><label>Client</label></td>
-                    <td> <input type="text" v-model="comenzi.numeClient"/>
+                    <td> <input type="text" v-model="comenzi.numeClient"  disabled/>
                     </td></tr>
                 <tr><td><label>Adresa Livrare</label></td>
                     <td>  <input type="text"
@@ -33,10 +23,10 @@
 
                 <!--            </tr>-->
                 <tr><td><label>Telefon</label></td>
-                    <td><input type="text" v-model="comenzi.telefonDestinatar "/></td></tr>
+                    <td><input type="text" v-model="comenzi.telefonDestinatar " /></td></tr>
                 </td></tr>
                 <tr><td><label>Plata cash</label></td>
-                    <td><input type="number" v-model="comenzi.plataCash"/></td></tr>
+                    <td><input type="number" v-model="comenzi.plataCash" /></td></tr>
                 <tr><td><label>Plata card</label></td>
                     <td><input type="number" v-model="comenzi.plataCard"/></td></tr>
 
@@ -47,20 +37,30 @@
                 <tr><td><label>Valoare comanda</label></td>
                     <td><input type="number" :value="total" disabled /></td></tr>
                <tr><td><label>Livrator</label></td>
-                    <td><input type="text" v-model="comenzi.livrator"/></td></tr>
+                    <td><input type="text" v-model="comenzi.livrator"disabled/></td></tr>
                 <tr><td><label>Ora Limita</label></td>
-                    <td><input type="time" v-model="comenzi.oraLimita"/></td></tr>
+                    <td><input type="time" v-model="comenzi.oraLimita" disabled/></td></tr>
                 <tr><td><label>Stare Comanda</label></td>
-                    <td><input type="text" v-model="comenzi.stareComanda" />
+                    <td><input type="text" v-model="comenzi.stareComanda" disabled />
                     </td></tr>
                 <tr><td><label>Tarifare</label></td>
-                    <td><input type="number" v-model="comenzi.tarifare" /></td></tr>
+                    <td><input type="number" v-model="comenzi.tarifare" disabled/></td></tr>
 
 
                 </td></tr>
             </table>
         </table>
-
+        <nav class="col-sm-2">
+            <h3>Modifica strare</h3><i-table style="margin-top: 10px" >
+            <tr><button v-if="comenzi.stareComanda ==='in lucru'" class="btn-dark" style="padding: 5px; width: 100% " @click="setStatus('programata')">Programata</button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='programata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in lucru')">In lucru</button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='in lucru'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('gata de livrare')">Gata de livrare</button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='gata de livrare'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('ridicata')">Ridicata</button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='ridicata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in livrare')">In livrare</button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='in livrare'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('livrata')">Livrata</button></tr>
+            <tr><button v-if="comenzi.decontat ==='false'"class="btn-red" style="padding: 5px; width: 100%" @click="decontat('true')">Decontat</button></tr>
+        </i-table>
+        </nav>
 <!--        <form   v-if="!updated" @submit.prevent="submit">-->
         <form    @submit.prevent="submit">
 

@@ -4,8 +4,11 @@ import router from './router'
 import store from './store'
 import './styles/base.less'
 import './assets/logo.png'
+import * as VeeValidate from 'vee-validate';
+
 
 Vue.config.productionTip = false
+Vue.use(VeeValidate)
 
 new Vue({
   router,
