@@ -50,17 +50,17 @@
                 </td></tr>
             </table>
         </table>
-        <nav class="col-sm-2">
+        <div class="btn-group;icon-bar" style="width: auto" >
             <h3>Modifica strare</h3><i-table style="margin-top: 10px" >
-            <tr><button v-if="comenzi.stareComanda ==='in lucru'" class="btn-dark" style="padding: 5px; width: 100% " @click="setStatus('programata')">Programata</button></tr>
-            <tr><button v-if="comenzi.stareComanda ==='programata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in lucru')">In lucru</button></tr>
-            <tr><button v-if="comenzi.stareComanda ==='in lucru'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('gata de livrare')">Gata de livrare</button></tr>
-            <tr><button v-if="comenzi.stareComanda ==='gata de livrare'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('ridicata')">Ridicata</button></tr>
-            <tr><button v-if="comenzi.stareComanda ==='ridicata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in livrare')">In livrare</button></tr>
-            <tr><button v-if="comenzi.stareComanda ==='in livrare'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('livrata')">Livrata</button></tr>
-            <tr><button v-if="comenzi.decontat ==='false'"class="btn-red" style="padding: 5px; width: 100%" @click="decontat('true')">Decontat</button></tr>
+            <tr><i-button v-if="comenzi.stareComanda ==='in lucru'"  @click="setStatus('programata')"><i class="fa fa-exclamation"></i><br/><h4>Programata</h4></i-button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='programata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in lucru')"><i class="fa fa-fire"></i><br/><h4>In Lucru</h4></button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='in lucru'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('gata de livrare')"><i class="fa fa-cart-arrow-down"></i><br/><h4>Gata de Livrare</h4></button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='gata de livrare'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('ridicata')"><i class="fa fa-truck"></i><br/><h4>Ridicate</h4></button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='ridicata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in livrare')"><i class="fa fa-fighter-jet"></i><br/><h4>In Livrare</h4></button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='in livrare'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('livrata')"><i class="fa fa-check"></i><br/><h4>Livrate</h4></button></tr>
+            <tr><button v-if="comenzi.decontat ==='false'"class="btn-red" style="padding: 5px; width: 100%" @click="decontat('true')"><i class="fa fa-money"></i><br/><h4>Decont</h4></button></tr>
         </i-table>
-        </nav>
+        </div>
 <!--        <form   v-if="!updated" @submit.prevent="submit">-->
         <form    @submit.prevent="submit">
 
@@ -127,6 +127,15 @@
         },
         created () {
           this.$store.dispatch('get_comanda', this.$router.currentRoute.params.id)
+            this.$store.dispatch('get_comenziProgramate')
+            this.$store.dispatch('get_comenziAzi')
+            this.$store.dispatch('get_comenziInLucru')
+            this.$store.dispatch('get_comenziDisponibile')
+            this.$store.dispatch('get_comenziGata')
+            this.$store.dispatch('get_comenziRidicate')
+            this.$store.dispatch('get_comenziInLivrare')
+            this.$store.dispatch('get_comenziLivrate')
+            this.$store.dispatch('get_comenziNedecontate')
         },
         computed: {
             ...mapState({
@@ -177,5 +186,55 @@ padding: 20px;
             margin: auto;
             width:25%;
         }
+    }
+    body {
+        margin: 0;
+        font-size: 28px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .header {
+        background-color: #f1f1f1;
+        padding: 30px;
+        text-align: center;
+    }
+
+    #navbar {
+        overflow: hidden;
+        background-color: #333;
+    }
+
+    #navbar a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+    }
+
+    #navbar a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+
+    #navbar a.active {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .content {
+        padding: 16px;
+    }
+
+    .sticky {
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+
+    .sticky + .content {
+        padding-top: 60px;
     }
 </style>

@@ -46,35 +46,6 @@
     }
 </script>
 
-
-
-<!--<style lang="less">-->
-<!--    .view-users {-->
-
-<!--    }-->
-<!--    table {-->
-<!--        font-family: arial, sans-serif;-->
-<!--        border-collapse: collapse;-->
-<!--        width: 100%;-->
-<!--    }-->
-
-<!--    td, th {-->
-<!--        border: 1px solid #dddddd;-->
-<!--        text-align: left;-->
-<!--        padding: 8px;-->
-<!--    }-->
-
-<!--    tr:nth-child(even) {-->
-<!--        background-color: #dddddd;-->
-<!--    }-->
-<!--</style>-->
 <style >
-    /*[class*="col-"] {*/
-    /*    float: right;*/
-    /*    inline-size: 10px;*/
-    /*    padding: 10px;*/
-    /*    border: 0px solid red;*/
-    /*}*/
-    /*.col-sm-2 {width: 50%;}*/
-    /*.col-sm-12 {width: 100%;}*/
+
 </style>

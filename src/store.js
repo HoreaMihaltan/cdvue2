@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        users: [],
+        //users: [],
         formIsSent: false,
         users: {
             idUser: '',
@@ -17,7 +17,7 @@ export default new Vuex.Store({
             userActiv: ``
         },
         updated: false,
-        clienti: [],
+        //clienti: [],
         formIsSent: false,
         clienti: {
             numeLocatie: '',
@@ -46,7 +46,7 @@ export default new Vuex.Store({
         },
         updated: false,
 
-        livratori: [],
+        //livratori: [],
         formIsSent: false,
         livratori: {
             dataAdaugare: '',
@@ -64,7 +64,15 @@ export default new Vuex.Store({
             livratorActiv: ''
         },
         updated: false,
-        comenzi: [],
+        comenziAzi: [],
+        comenziProgramate: [],
+        comenziInLucru: [],
+        comenziGata: [],
+        comenziRidicate: [],
+        comenziInLivrare: [],
+        comenziLivrate: [],
+        comenziDisponibile: [],
+        comenziNedecontate: [],
         formIsSent: false,
         comenzi: {
             total_rows: '',
@@ -142,6 +150,87 @@ export default new Vuex.Store({
             axios(`/api/get-comenzi/${view}`)
                 .then(resp => {
                     state.comenzi = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comenziProgramate({state}) {
+            axios(`/api/get-comenzi/byStareProgramata`)
+                .then(resp => {
+                    state.comenziProgramate = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comenziAzi({state}) {
+            axios(`/api/get-comenzi/byToday`)
+                .then(resp => {
+                    state.comenziAzi = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comenziInLucru({state}) {
+            axios(`/api/get-comenzi/byStareInLucru`)
+                .then(resp => {
+                    state.comenziInLucru = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comenziDisponibile({state}) {
+            axios(`/api/get-comenzi/byFaraLivrator`)
+                .then(resp => {
+                    state.comenziDisponibile = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comenziGata({state}) {
+            axios(`/api/get-comenzi/byStareGata`)
+                .then(resp => {
+                    state.comenziGata = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comenziRidicate({state}) {
+            axios(`/api/get-comenzi/byStareRidicata`)
+                .then(resp => {
+                    state.comenziRidicate = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comenziInLivrare({state}) {
+            axios(`/api/get-comenzi/byStareInLivrare`)
+                .then(resp => {
+                    state.comenziInLivrare = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comenziLivrate({state}) {
+            axios(`/api/get-comenzi/byStareLivrata`)
+                .then(resp => {
+                    state.comenziLivrate = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comenziNedecontate({state}) {
+            axios(`/api/get-comenzi/byNedecontate`)
+                .then(resp => {
+                    state.comenziNedecontate = resp.data
                 })
                 .catch(e => {
                     console.log(e.response)

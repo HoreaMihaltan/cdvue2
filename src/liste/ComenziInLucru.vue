@@ -2,8 +2,7 @@
 
     <div class="container" style="padding: 10px">
 
-        <div><h2>Comenzi in Lucru ( {{ totalComenzi}} )</h2>
-        <listnav></listnav>
+        <div><h2>Comenzi in Lucru ( {{ totalInLucru}} )</h2>
         </div>
 
         <table class="col-sm-12" style="padding: 10px">
@@ -51,16 +50,26 @@
         name: 'comenzi_in_lucru',
         components: {Listnav},
         created () {
-            // this.$store.dispatch('get_comenzi', 'byIdComanda')
+             //this.$store.dispatch('get_comenzi', 'byIdComanda')
             //  this.$store.dispatch('get_comenzi', 'byToday')
             this.$store.dispatch('get_comenzi', 'byStareInLucru')
+            this.$store.dispatch('get_comenziProgramate')
+            this.$store.dispatch('get_comenziAzi')
+            this.$store.dispatch('get_comenziInLucru')
+            this.$store.dispatch('get_comenziDisponibile')
+            this.$store.dispatch('get_comenziGata')
+            this.$store.dispatch('get_comenziRidicate')
+            this.$store.dispatch('get_comenziInLivrare')
+            this.$store.dispatch('get_comenziLivrate')
+            this.$store.dispatch('get_comenziNedecontate')
         },
         computed: {
             ...mapState({
+                comenziInLucru: 'comenziInLucru',
                 comenzi: 'comenzi'
             }),
-            totalComenzi: function () {
-                return this.comenzi.length;
+            totalInLucru: function () {
+                return this.comenziInLucru.length;
             }
         }
     }

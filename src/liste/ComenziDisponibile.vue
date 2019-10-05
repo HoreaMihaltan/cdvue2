@@ -3,7 +3,6 @@
     <div class="container" style="padding: 10px">
 
         <div><h2>Comenzi disponibile ( {{ totalComenzi}} )</h2>
-        <listnav></listnav>
         </div>
 
         <table class="col-sm-12" style="padding: 10px">

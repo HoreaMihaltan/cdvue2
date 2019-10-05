@@ -1,7 +1,6 @@
 <template>
 
     <div class="container" style="padding: 10px">
-        <comenzi_azi></comenzi_azi>
         <h1>Clienti</h1>
         <table class="col-sm-12" style="padding: 10px">
             <tr> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/clientnou">Adauga Client</router-link></tr>

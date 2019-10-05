@@ -1,13 +1,19 @@
 <template>
   <div id="app">
-
-    <Header></Header>
-
-<!--      <h3 style="inline"><router-link to="/">Home</router-link> |<router-link to="/users">Useri</router-link></h3>-->
-
-
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
     <router-view/>
-    <Footer style="position: sticky"></Footer>
+    <br/><br/><br/><br/>
+    <br/><br/><br/><br/>
+    <Header class="sticky"></Header>
+    <Footer  class="footer"></Footer>
   </div>
 </template>
 <script>
@@ -42,5 +48,32 @@
       color: #42b983;
     }
   }
+}
+body {margin:0}
+
+body {margin:0;}
+
+.icon-bar {
+  width: 100%;
+  background-color: #555;
+  overflow: auto;
+}
+
+.icon-bar a {
+  float: left;
+  width: 20%;
+  text-align: center;
+  padding: 12px 0;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 36px;
+}
+
+.icon-bar a:hover {
+  background-color: #000;
+}
+
+.active {
+  background-color: #4CAF50;
 }
 </style>

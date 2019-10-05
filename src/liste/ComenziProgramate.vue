@@ -3,7 +3,6 @@
     <div class="container" style="padding: 10px">
 
         <div><h2>Comenzi Programate ( {{ totalComenzi}} )</h2>
-            <listnav></listnav>
         </div>
 
               <table class="col-sm-12" style="padding: 10px">
@@ -52,15 +51,24 @@
         components: {Listnav},
         created () {
             // this.$store.dispatch('get_comenzi', 'byIdComanda')
-            //  this.$store.dispatch('get_comenzi', 'byToday')
              this.$store.dispatch('get_comenzi', 'byStareProgramata')
+            this.$store.dispatch('get_comenziProgramate')
+            this.$store.dispatch('get_comenziAzi')
+            this.$store.dispatch('get_comenziInLucru')
+            this.$store.dispatch('get_comenziDisponibile')
+            this.$store.dispatch('get_comenziGata')
+            this.$store.dispatch('get_comenziRidicate')
+            this.$store.dispatch('get_comenziInLivrare')
+            this.$store.dispatch('get_comenziLivrate')
+            this.$store.dispatch('get_comenziNedecontate')
         },
         computed: {
             ...mapState({
-                comenzi: 'comenzi'
+                comenzi: "comenzi",
+                comenziProgramate: 'comenziProgramate'
             }),
             totalComenzi: function () {
-                return this.comenzi.length;
+                return this.comenziProgramate.length;
             }
         }
     }

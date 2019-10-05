@@ -2,6 +2,7 @@
 
   <div class="home">
     <h1>Bine ati revenit</h1>
+    <h1>Pentru a avea acces la aplicatie, trebuie sa fiti logat!</h1>
 
   </div>
 </template>

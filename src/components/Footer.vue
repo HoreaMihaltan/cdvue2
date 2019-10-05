@@ -2,32 +2,82 @@
  <div>
 <!--<br><br><br>-->
 
-     <div class="footer" style="background-color: gainsboro; width: 100%;">
+<!--     <div class="footer" style="background-color: gainsboro; width: auto;">-->
+         <div class="icon-bar" style="width: auto">
+             <a class="active" href="/#/comenzi_azi" style="width: 11.11%"><i class="fa fa-home"></i><br/><h4>Comenzi Azi({{totalAzi}})</h4></a>
+             <a href="/#/comenzi_programate" style="width: 11.11%"><i class="fa fa-exclamation"></i><br/><h4>Programate({{totalProgramate}})</h4></a>
+             <a href="/#/comenzi_disponibile" style="width: 11.11%"><i class="fa fa-eye"></i><br/><h4>Disponibile({{totalDisponibile}})</h4></a>
+             <a href="/#/comenzi_in_lucru" style="width: 11.11%"><i class="fa fa-fire"></i><br/><h4>In Lucru({{totalInLucru}})</h4></a>
+             <a href="/#/comenzi_gata" style="width: 11.11%"><i class="fa fa-cart-arrow-down"></i><br/><h4>Gata de Livrare({{totalGata}})</h4></a>
+             <a href="/#/comenzi_ridicate" style="width: 11.11%"><i class="fa fa-truck"></i><br/><h4>Ridicate({{totalRidicate}})</h4></a>
+             <a href="/#/comenzi_in_livrare" style="width: 11.11%"><i class="fa fa-fighter-jet"></i><br/><h4>In Livrare({{totalInLivrare}})</h4></a>
+             <a href="/#/comenzi_livrate" style="width: 11.11%"><i class="fa fa-check"></i><br/><h4>Livrate({{totalLivrate}})</h4></a>
+             <a href="/#/comenzi_nedecontate" style="width: 11.11%"><i class="fa fa-money"></i><br/><h4>Decont({{totalNedecontate}})</h4></a>
+         </div>
+<!--         <h1 style="color: #5b5b5b; width: 100%;">Call Delivery App</h1>-->
+<!--     </div>-->
 
-         <h1 style="color: #5b5b5b; width: 100%;">Call Delivery App</h1>
-     </div>
-<div class="navbar-wrapper">
-
-<!--&lt;!&ndash;                    <router-link  to="/"><img src="../assets/logo.png" style="height: 50px; padding: 5px"></router-link>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <router-link  to="/users"> Useri |</router-link>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <router-link to="/comenzi"> Comenzi |</router-link>&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;                    <router-link to="/neworder"> New Order |</router-link>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                    <router-link to="/dashboard"> Dashboard |</router-link>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="col-sm-2">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <router-link to="comandanoua" style="width: auto; padding: 10px; "><button  style="width: 100%; padding: 10px" >Comanda Noua</button></router-link>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>                <div class="col-sm-2">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <router-link to="userinput" style="width: auto; padding: 10px; "><button  style="width: 100%; padding: 10px" >User Nou</button></router-link>&ndash;&gt;-->
-<!--</div>-->
-
-            </div>
  </div>
 </template>
 
 <script>
+    import {mapState} from 'vuex'
     export default {
-        name: "Footer"
+        name: "Footer",
+        created() {
+            this.$store.dispatch('get_comenziProgramate')
+            this.$store.dispatch('get_comenziAzi')
+            this.$store.dispatch('get_comenziInLucru')
+            this.$store.dispatch('get_comenziDisponibile')
+            this.$store.dispatch('get_comenziGata')
+            this.$store.dispatch('get_comenziRidicate')
+            this.$store.dispatch('get_comenziInLivrare')
+            this.$store.dispatch('get_comenziLivrate')
+            this.$store.dispatch('get_comenziNedecontate')
+            // this.$store.dispatch('get_comenzi', 'byStareGata')
+        },
+        computed: {
+            ...mapState({
+                comenziAzi: 'comenziAzi',
+                comenziProgramate: 'comenziProgramate',
+                comenziInLucru: 'comenziInLucru',
+                comenziDisponibile: 'comenziDisponibile',
+                comenziGata: 'comenziGata',
+                comenziRidicate: 'comenziRidicate',
+                comenziInLivrare: 'comenziInLivrare',
+                comenziLivrate: 'comenziLivrate',
+                comenziNedecontate: 'comenziNedecontate',
+            }),
+            totalAzi: function () {
+                return this.comenziAzi.length;
+            },
+            totalProgramate: function () {
+                return this.comenziProgramate.length;
+            },
+            totalInLucru: function () {
+                return this.comenziInLucru.length;
+            },
+            totalDisponibile: function () {
+                return this.comenziDisponibile.length;
+            },
+            totalGata: function () {
+                return this.comenziGata.length;
+            },
+            totalRidicate: function () {
+                return this.comenziRidicate.length;
+            },
+            totalInLivrare: function () {
+                return this.comenziInLivrare.length;
+            },
+            totalLivrate: function () {
+                return this.comenziLivrate.length;
+            },
+            totalNedecontate: function () {
+                return this.comenziNedecontate.length;
+            }
+        }
     }
+
     // // ------ceas-----
     // clock() {
     //     var today = new Date();
@@ -60,5 +110,54 @@
 </script>
 
 <style>
+    body {
+        margin: 0;
+        font-size: 28px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
 
+    .header {
+        background-color: #f1f1f1;
+        padding: 30px;
+        text-align: center;
+    }
+
+    #navbar {
+        overflow: hidden;
+        background-color: #333;
+    }
+
+    #navbar a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+    }
+
+    #navbar a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+
+    #navbar a.active {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .content {
+        padding: 16px;
+    }
+
+    .sticky {
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+
+    .sticky + .content {
+        padding-top: 60px;
+    }
 </style>
