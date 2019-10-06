@@ -19,7 +19,7 @@
                 <th style="text-align: center">Ora Limita</th>
                 <th style="text-align: center">Stare Comanda</th>
                 <th style="text-align: center">Decontat</th>
-                <th style="text-align: center">Ora Livrare</th>
+                <th style="text-align: center">Cartier</th>
                 <th style="text-align: center">Plata Cash</th>
                 <th style="text-align: center">Valoare Comanda</th>
                 <th style="text-align: center">Tarifare</th>
@@ -60,7 +60,7 @@
                     style="color: honeydew; background-color: gray "> {{ comenzi.value.stareComanda }}
                 </td>
                 <td> {{ comenzi.value.decontat }}</td>
-                <td> {{ comenzi.value.oraLivrare }}</td>
+                <td> {{ comenzi.value.cartier }}</td>
                 <td> {{ comenzi.value.plataCash }}</td>
                 <td> {{ comenzi.value.valoareComanda }}</td>
                 <td> {{ comenzi.value.tarifare }}</td>

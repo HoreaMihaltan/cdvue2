@@ -23,7 +23,7 @@
 
                 <!--            </tr>-->
                 <tr><td><label>Telefon</label></td>
-                    <td><input type="text" v-model="comenzi.telefonDestinatar " /></td></tr>
+                    <td><input type="text" v-model="comenzi.telefonDestinatar "/></td></tr>
                 </td></tr>
                 <tr><td><label>Plata cash</label></td>
                     <td><input type="number" v-model="comenzi.plataCash" /></td></tr>
@@ -52,13 +52,13 @@
         </table>
         <div class="btn-group;icon-bar" style="width: auto" >
             <h3>Modifica strare</h3><i-table style="margin-top: 10px" >
-            <tr><i-button v-if="comenzi.stareComanda ==='in lucru'"  @click="setStatus('programata')"><i class="fa fa-exclamation"></i><br/><h4>Programata</h4></i-button></tr>
+            <tr><button class="btn-primary" style="padding: 5px; width: 100%"v-if="comenzi.stareComanda ==='in lucru'"  @click="setStatus('programata')"><i class="fa fa-exclamation"></i><br/><h2>Programata</h2></button></tr>
             <tr><button v-if="comenzi.stareComanda ==='programata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in lucru')"><i class="fa fa-fire"></i><br/><h4>In Lucru</h4></button></tr>
             <tr><button v-if="comenzi.stareComanda ==='in lucru'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('gata de livrare')"><i class="fa fa-cart-arrow-down"></i><br/><h4>Gata de Livrare</h4></button></tr>
             <tr><button v-if="comenzi.stareComanda ==='gata de livrare'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('ridicata')"><i class="fa fa-truck"></i><br/><h4>Ridicate</h4></button></tr>
             <tr><button v-if="comenzi.stareComanda ==='ridicata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in livrare')"><i class="fa fa-fighter-jet"></i><br/><h4>In Livrare</h4></button></tr>
             <tr><button v-if="comenzi.stareComanda ==='in livrare'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('livrata')"><i class="fa fa-check"></i><br/><h4>Livrate</h4></button></tr>
-            <tr><button v-if="comenzi.decontat ==='false'"class="btn-red" style="padding: 5px; width: 100%" @click="decontat('true')"><i class="fa fa-money"></i><br/><h4>Decont</h4></button></tr>
+            <tr><button v-if="comenzi.decontat ==='false'"class="btn-primary" style="padding: 5px; width: 100%" @click="decontat('true')"><i class="fa fa-money"></i><br/><h4>Decont</h4></button></tr>
         </i-table>
         </div>
 <!--        <form   v-if="!updated" @submit.prevent="submit">-->
@@ -127,15 +127,7 @@
         },
         created () {
           this.$store.dispatch('get_comanda', this.$router.currentRoute.params.id)
-            this.$store.dispatch('get_comenziProgramate')
-            this.$store.dispatch('get_comenziAzi')
-            this.$store.dispatch('get_comenziInLucru')
-            this.$store.dispatch('get_comenziDisponibile')
-            this.$store.dispatch('get_comenziGata')
-            this.$store.dispatch('get_comenziRidicate')
-            this.$store.dispatch('get_comenziInLivrare')
-            this.$store.dispatch('get_comenziLivrate')
-            this.$store.dispatch('get_comenziNedecontate')
+
         },
         computed: {
             ...mapState({
@@ -151,17 +143,44 @@
             submit () {
                 this.comenzi.valoareComanda = this.total
                 this.$store.dispatch('update_comanda', this.$router.currentRoute.params.id)
+                this.$store.dispatch('get_comenziProgramate')
+                this.$store.dispatch('get_comenziAzi')
+                this.$store.dispatch('get_comenziInLucru')
+                this.$store.dispatch('get_comenziDisponibile')
+                this.$store.dispatch('get_comenziGata')
+                this.$store.dispatch('get_comenziRidicate')
+                this.$store.dispatch('get_comenziInLivrare')
+                this.$store.dispatch('get_comenziLivrate')
+                this.$store.dispatch('get_comenziNedecontate')
                 alert("Comanda a fost modificata!")
 
             },
             setStatus (status) {
                 this.comenzi.stareComanda = status
                 this.$store.dispatch('update_comanda', this.$router.currentRoute.params.id)
+                this.$store.dispatch('get_comenziProgramate')
+                this.$store.dispatch('get_comenziAzi')
+                this.$store.dispatch('get_comenziInLucru')
+                this.$store.dispatch('get_comenziDisponibile')
+                this.$store.dispatch('get_comenziGata')
+                this.$store.dispatch('get_comenziRidicate')
+                this.$store.dispatch('get_comenziInLivrare')
+                this.$store.dispatch('get_comenziLivrate')
+                this.$store.dispatch('get_comenziNedecontate')
                 alert("Starea comenzii a fost modificata!")
             },
             decontat (decontatCD) {
                 this.comenzi.decontat = decontatCD
                 this.$store.dispatch('update_comanda', this.$router.currentRoute.params.id)
+                this.$store.dispatch('get_comenziProgramate')
+                this.$store.dispatch('get_comenziAzi')
+                this.$store.dispatch('get_comenziInLucru')
+                this.$store.dispatch('get_comenziDisponibile')
+                this.$store.dispatch('get_comenziGata')
+                this.$store.dispatch('get_comenziRidicate')
+                this.$store.dispatch('get_comenziInLivrare')
+                this.$store.dispatch('get_comenziLivrate')
+                this.$store.dispatch('get_comenziNedecontate')
                 alert("Comanda a fost decontata!")
             }
             // remove () {

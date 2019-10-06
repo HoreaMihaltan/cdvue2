@@ -4,7 +4,7 @@
         <div><h2>Comenzi Azi ( {{ totalComenzi}} )</h2>
         </div>
 
-        <table class="col-sm-12" style="padding: 10px">
+        <i-card class="col-sm-12" style="padding: 10px">
             <tr>
                 <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link
                              to="/comandanoua">Adauga Comanda
@@ -19,9 +19,6 @@
                 <th style="text-align: center">Stare Comanda</th>
                 <th style="text-align: center">Decontat</th>
                 <th style="text-align: center">Ora Livrare</th>
-                <th style="text-align: center">Plata Cash</th>
-                <th style="text-align: center">Valoare Comanda</th>
-                <th style="text-align: center">Tarifare</th>
             </tr>
             <tr v-for="(comenzi,index) in comenzi" :key="index">
                 <!--                      <tr v-for="comenzi in comenzi">-->
@@ -60,12 +57,9 @@
                 </td>
                 <td> {{ comenzi.value.decontat }}</td>
                 <td> {{ comenzi.value.oraLivrare }}</td>
-                <td> {{ comenzi.value.plataCash }}</td>
-                <td> {{ comenzi.value.valoareComanda }}</td>
-                <td> {{ comenzi.value.tarifare }}</td>
             </tr>
 
-        </table>
+        </i-card>
 
     </div>
 </template>

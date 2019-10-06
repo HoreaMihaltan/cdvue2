@@ -10,13 +10,11 @@
                       <tr >
                           <th style="text-align: center">IdComanda</th>
                           <th style="text-align: center">Client</th>
-                          <th style="text-align: center">Adresa Livrare</th>
+                          <th style="text-align: center; width: auto">Adresa Livrare</th>
                           <th style="text-align: center">Livrator</th>
-                          <th style="text-align: center">Ora Comanda</th>
                           <th style="text-align: center">Ora Limita</th>
                           <th style="text-align: center">Stare Comanda</th>
                           <th style="text-align: center">Decontat</th>
-                          <th style="text-align: center">Ora Livrare</th>
                           <th style="text-align: center">Plata Cash</th>
                           <th style="text-align: center">Valoare Comanda</th>
                           <th style="text-align: center">Tarifare</th>
@@ -27,13 +25,13 @@
                               {{ comenzi.value.idComanda }}
                           </router-link></td>
                           <td> {{ comenzi.value.numeClient }}</td>
-                          <td> {{ comenzi.value.adresaLivrare }} </td>
+                          <td> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium; width: 100%" :to="'/comanda/' + comenzi.id">
+                              {{ comenzi.value.adresaLivrare }}
+                              </router-link></td>
                           <td> {{ comenzi.value.livrator }} </td>
-                          <td> {{ comenzi.value.oraComanda }} </td>
                           <td style="color: honeydew; background-color: red"> {{ comenzi.value.oraLimita }} </td>
                           <td> {{ comenzi.value.stareComanda }} </td>
                           <td> {{ comenzi.value.decontat }} </td>
-                          <td> {{ comenzi.value.oraLivrare }} </td>
                           <td> {{ comenzi.value.plataCash }} </td>
                           <td> {{ comenzi.value.valoareComanda }} </td>
                           <td> {{ comenzi.value.tarifare }} </td>

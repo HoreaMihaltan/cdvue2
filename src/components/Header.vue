@@ -25,13 +25,13 @@
 
          </div>
          <div class="header">
-             <h1 style="color: #5b5b5b; width: 100%;">Call Delivery App </h1>
+             <h2 style="color: #5b5b5b; width: 100%;">Call Delivery App </h2>
 
          </div>
 
          <div id="navbar">
              <a class="active" href="/#/">Home</a>
-             <a class="active" href="/#/dashboard">Dashboard</a>
+             <a  href="/#/dashboard">Dashboard</a>
              <a href="/#/users">Useri</a>
               <a href="/#/comenzi">Comenzi</a>
              <a href="/#/clienti">Clienti</a>
@@ -100,7 +100,7 @@
 
     .header {
         background-color: #f1f1f1;
-        padding: 30px;
+        padding: 20px;
         text-align: center;
     }
 
@@ -135,7 +135,7 @@
 
     .sticky {
         position: fixed;
-        top: 0;
+        top: 10;
         width: 100%;
     }
 

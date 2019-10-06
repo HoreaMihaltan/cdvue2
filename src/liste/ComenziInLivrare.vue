@@ -14,7 +14,6 @@
                 <th style="text-align: center">Livrator</th>
                 <th style="text-align: center">Ora Comanda</th>
                 <th style="text-align: center">Ora Limita</th>
-                <th style="text-align: center">Stare Comanda</th>
                 <th style="text-align: center">Decontat</th>
                 <th style="text-align: center">Ora Livrare</th>
                 <th style="text-align: center">Plata Cash</th>
@@ -31,7 +30,6 @@
                 <td> {{ comenzi.value.livrator }} </td>
                 <td> {{ comenzi.value.oraComanda }} </td>
                 <td> {{ comenzi.value.oraLimita }} </td>
-                <td> {{ comenzi.value.stareComanda }} </td>
                 <td> {{ comenzi.value.decontat }} </td>
                 <td> {{ comenzi.value.oraLivrare }} </td>
                 <td> {{ comenzi.value.plataCash }} </td>
