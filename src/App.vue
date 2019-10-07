@@ -3,17 +3,11 @@
     <br/>
     <br/>
     <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
     <router-view/>
     <br/><br/><br/><br/>
     <br/><br/><br/><br/>
-    <Header class="sticky"></Header>
-    <Footer  class="footer"></Footer>
+    <Header class="sticky"/>
+    <Footer  class="footer"/>
   </div>
 </template>
 <script>

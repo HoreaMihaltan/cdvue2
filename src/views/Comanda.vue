@@ -9,42 +9,50 @@
             <!--            <tr colspan="24" style="text-align:center"><h2>-->
 
             <tr  style="padding: 10px">
-                <td><input colspan="6" style="padding: 10px; text-align: left" type="text" v-model="comenzi.idComanda" disabled /></td></tr>
+                <td>{{comenzi.idComanda}}/{{comenzi.dataComanda}} de la Client: {{comenzi.numeClient}}</td></tr>
 
             <!--            </h2></tr>-->
             <table class="col-sm-6" style="padding: 10px" >
-                <tr><td><label>Client</label></td>
-                    <td> <input type="text" v-model="comenzi.numeClient"  disabled/>
-                    </td></tr>
                 <tr><td><label>Adresa Livrare</label></td>
                     <td>  <input type="text"
+                                 v-on:change="submit"
                                  v-model="comenzi.adresaLivrare"  />
                     </td></tr>
 
                 <!--            </tr>-->
                 <tr><td><label>Telefon</label></td>
-                    <td><input type="text" v-model="comenzi.telefonDestinatar "/></td></tr>
+                    <td><input type="text"
+                               v-on:change="submit"
+                               v-model="comenzi.telefonDestinatar "/></td></tr>
                 </td></tr>
                 <tr><td><label>Plata cash</label></td>
-                    <td><input type="number" v-model="comenzi.plataCash" /></td></tr>
+                    <td><input type="number"
+                               v-on:change="submit"
+                               v-model="comenzi.plataCash" /></td></tr>
                 <tr><td><label>Plata card</label></td>
-                    <td><input type="number" v-model="comenzi.plataCard"/></td></tr>
+                    <td><input type="number"
+                               v-on:change="submit"
+                               v-model="comenzi.plataCard"/></td></tr>
 
                 </tr>
             </table>
             <!--            coloana2-->
             <table class="col-sm-6" style="padding: 10px" >
                 <tr><td><label>Valoare comanda</label></td>
-                    <td><input type="number" :value="total" disabled /></td></tr>
+                    <td style="text-align: left">{{total}}lei
+                    </td></tr>
                <tr><td><label>Livrator</label></td>
-                    <td><input type="text" v-model="comenzi.livrator"disabled/></td></tr>
+                    <td style="text-align: left">{{comenzi.livrator}}
+                    </td></tr>
                 <tr><td><label>Ora Limita</label></td>
-                    <td><input type="time" v-model="comenzi.oraLimita" disabled/></td></tr>
+                    <td style="text-align: left">{{comenzi.oraLimita}}
+                    </td></tr>
                 <tr><td><label>Stare Comanda</label></td>
-                    <td><input type="text" v-model="comenzi.stareComanda" disabled />
+                    <td style="text-align: left">{{comenzi.stareComanda}}
                     </td></tr>
                 <tr><td><label>Tarifare</label></td>
-                    <td><input type="number" v-model="comenzi.tarifare" disabled/></td></tr>
+                    <td style="text-align: left">{{comenzi.tarifare}}
+                    </td></tr>
 
 
                 </td></tr>
@@ -71,7 +79,7 @@
 <!--                </table>-->
 <!--            </div>-->
 
-            <input class="btn btn-primary dropdown-toggle" style="font-size: medium" type="submit" value="Modifica"/><br>
+<!--            <input class="btn btn-primary dropdown-toggle" style="font-size: medium" type="submit" value="Modifica"/><br>-->
 <!--            <button class="btn btn-primary dropdown-toggle" style="font-size: medium" onclick="remove()" value="delete"/><br>-->
 
 <!--            <button onclick="delete(this)">-->
@@ -167,7 +175,7 @@
                 this.$store.dispatch('get_comenziInLivrare')
                 this.$store.dispatch('get_comenziLivrate')
                 this.$store.dispatch('get_comenziNedecontate')
-                alert("Starea comenzii a fost modificata!")
+                alert("Starea comenzii modificata!")
             },
             decontat (decontatCD) {
                 this.comenzi.decontat = decontatCD

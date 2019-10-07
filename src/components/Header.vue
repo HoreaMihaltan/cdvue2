@@ -1,58 +1,34 @@
 <template>
- <div>
-<!--<br><br><br>-->
+    <div>
+        <!--<br><br><br>-->
 
-     <div class="navbar" style="background-color: gainsboro; width: 100%;">
+        <div class="col-sm-12" style="background-color: gainsboro; width: 100%;">
 
-         <div class="dropdown" style="text-align: left;     position:absolute;">
-<!--                 <button type="button" class="btn btn-primary dropdown-toggle" style="font-size: large; align-items: flex-end" data-toggle="dropdown"><img src="../assets/logo.png" style="height: 40px; padding: 5px">-->
-<!--                     Meniu-->
-<!--                 </button>-->
-<!--             <div class="dropdown-menu">-->
-<!--                     <router-link class="dropdown-item" to="/"><img src="../assets/logo.png" style="height: 50px; padding: 5px"> Home</router-link>-->
-<!--                     <router-link class="dropdown-item" router-link  to="/dashboard"><i class="fa fa-home"></i> Dashboard</router-link>-->
-<!--                     <router-link class="dropdown-item" router-link  to="/users"> Useri</router-link>-->
-<!--&lt;!&ndash;                     <router-link class="dropdown-item" router-link  to="/userinput"> Adauga user</router-link>&ndash;&gt;-->
-<!--                     <router-link class="dropdown-item" router-link  to="/clienti"> Clienti</router-link>-->
-<!--                 <router-link class="dropdown-item" router-link  to="/livratori"> Livratori</router-link>-->
-<!--&lt;!&ndash;                     <router-link class="dropdown-item" router-link  to="/clientnou"> Adauga client</router-link>&ndash;&gt;-->
-<!--                     <router-link class="dropdown-item" router-link  to="/comenzi_azi"> Comenzi Azi</router-link>-->
-<!--                 <router-link class="dropdown-item" router-link  to="/comenzi"> Comenzi</router-link>-->
-<!--                 <router-link class="dropdown-item" router-link  to="/comenzi_nedecontate"> Decont</router-link>-->
-<!--&lt;!&ndash;                     <router-link class="dropdown-item" router-link  to="/comandanoua"> Comanda noua</router-link>&ndash;&gt;-->
+<!--            <div class="dropdown" style="text-align: left;     position:absolute;">-->
 
-<!--                 </div>-->
 
-         </div>
-         <div class="header">
-             <h2 style="color: #5b5b5b; width: 100%;">Call Delivery App </h2>
-
-         </div>
-
-         <div id="navbar">
-             <a class="active" href="/#/">Home</a>
-             <a  href="/#/dashboard">Dashboard</a>
-             <a href="/#/users">Useri</a>
-              <a href="/#/comenzi">Comenzi</a>
-             <a href="/#/clienti">Clienti</a>
-             <a href="/#/livratori">Livratori</a>
-         </div>
-<div class="navbar-wrapper">
-
-<!--                    <router-link  to="/"><img src="../assets/logo.png" style="height: 50px; padding: 5px"></router-link>-->
-<!--                    <router-link  to="/users"> Useri |</router-link>-->
-<!--                    <router-link to="/comenzi"> Comenzi |</router-link>-->
-<!--&lt;!&ndash;                    <router-link to="/neworder"> New Order |</router-link>&ndash;&gt;-->
-<!--                    <router-link to="/dashboard"> Dashboard |</router-link>-->
-<!--                      </div>-->
-<!--                <div class="col-sm-2">-->
-<!--                    <router-link to="comandanoua" style="width: auto; padding: 10px; "><button  style="width: 100%; padding: 10px" >Comanda Noua</button></router-link>-->
-<!--                </div>                <div class="col-sm-2">-->
-<!--                    <router-link to="userinput" style="width: auto; padding: 10px; "><button  style="width: 100%; padding: 10px" >User Nou</button></router-link>-->
-</div>
-
+<!--            </div>-->
+            <div class="col-sm-6">
+                <router-link to="/" style="width: 100%; font-size: xx-large" active="active">CallDelivery App</router-link>
+                <a href="tel:0752621501"> Suna-ne!</a>
             </div>
- </div>
+
+
+            <div id="navbar" class="col-sm-6">
+<!--                    <router-link to="/" style="background-color: rgba(176,176,176,0.75)" active-class="active">Home</router-link>-->
+                    <router-link to="/dashboard" active-class="active">Dashboard</router-link>
+                        <router-link to="/users" active-class="active">Useri</router-link>
+                            <router-link to="/comenzi" active-class="active">Comenzi</router-link>
+                                <router-link to="/clienti" active-class="active">Clienti</router-link>
+                                    <router-link to="/livratori" active-class="active">Livratori</router-link>
+            </div>
+<!--            <div class="navbar-wrapper">-->
+
+
+<!--            </div>-->
+
+        </div>
+    </div>
 </template>
 
 <script>
@@ -91,7 +67,7 @@
     // }
 </script>
 
-<style >
+<style>
     body {
         margin: 0;
         font-size: 28px;

@@ -5,15 +5,14 @@
         <div><h2>Comenzi Programate ( {{ totalComenzi}} )</h2>
         </div>
 
-              <table class="col-sm-12" style="padding: 10px">
+              <i-card class="col-sm-12" style="padding: 10px">
                  <tr> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/comandanoua">Adauga Comanda</router-link></tr>
                       <tr >
-                          <th style="text-align: center">IdComanda</th>
-                          <th style="text-align: center">Client</th>
-                          <th style="text-align: center; width: auto">Adresa Livrare</th>
-                          <th style="text-align: center">Livrator</th>
+
+                          <th style="text-align: center"></th>
+                          <th style="text-align: center; width: auto">Comanda</th>
+                          <th style="text-align: center">Data programata</th>
                           <th style="text-align: center">Ora Limita</th>
-                          <th style="text-align: center">Stare Comanda</th>
                           <th style="text-align: center">Decontat</th>
                           <th style="text-align: center">Plata Cash</th>
                           <th style="text-align: center">Valoare Comanda</th>
@@ -21,23 +20,25 @@
                       </tr>
                   <tr v-for="(comenzi,index) in comenzi" :key="index">
 <!--                      <tr v-for="comenzi in comenzi">-->
-                          <td> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium; width: 100%" :to="'/comanda/' + comenzi.id">
+                      <td> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium; width: 100%" :to="'/comanda/' + comenzi.id">Modifica Comanda</router-link><router-link class="btn btn-primary dropdown-toggle" style="font-size: medium; width: 100%" :to="'/modifica_adresa_comanda/' + comenzi.id">
+                          Modifica Adresa
+                      </router-link> </td>
+                          <td style="width: auto; alignment: center">
                               {{ comenzi.value.idComanda }}
-                          </router-link></td>
-                          <td> {{ comenzi.value.numeClient }}</td>
-                          <td> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium; width: 100%" :to="'/comanda/' + comenzi.id">
-                              {{ comenzi.value.adresaLivrare }}
-                              </router-link></td>
-                          <td> {{ comenzi.value.livrator }} </td>
+                          </td>
+<!--                          <td>-->
+<!--                              {{ comenzi.value.adresaLivrare }}-->
+<!--                          </td>-->
+                      <td> {{ comenzi.value.dataComanda }} </td>
                           <td style="color: honeydew; background-color: red"> {{ comenzi.value.oraLimita }} </td>
-                          <td> {{ comenzi.value.stareComanda }} </td>
-                          <td> {{ comenzi.value.decontat }} </td>
+                          <td > {{ comenzi.value.decontat }} </td>
                           <td> {{ comenzi.value.plataCash }} </td>
                           <td> {{ comenzi.value.valoareComanda }} </td>
                           <td> {{ comenzi.value.tarifare }} </td>
+
                       </tr>
 
-              </table>
+              </i-card>
     </div>
 </template>
 

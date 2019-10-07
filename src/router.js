@@ -6,15 +6,14 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/',
+    {path: '/',
       name: 'home',
       component: Home
     },
     {
       path: '/users',
       name: 'users',
-      component: () => import(/* webpackChunkName: "about" */ './views/ViewUsers.vue')
+      component: () => import('./views/ViewUsers.vue')
     },
     {
       path: '/clienti',

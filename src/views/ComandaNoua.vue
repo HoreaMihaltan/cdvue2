@@ -21,8 +21,10 @@
 
 
                 <tr style="padding: 10px">
-                    <td><input colspan="6" style="padding: 10px; text-align: left" type="text" v-model="IdComanda"
-                               disabled/></td>
+                    <td>{{IdComanda}} Adresa livrare: <input
+                            style="width: 50%"
+                            type="text"
+                            v-model="adresaLivrare" disabled/></td>
                 </tr>
                 <tr style="padding: 10px">
                     <td>
@@ -126,13 +128,12 @@
                                     v-model="adresa.ap"></td>
                     </tr>
                     <tr>
-                        <td><label>Adresa Livrare</label></td>
+<!--                        <td><label>Adresa Livrare</label></td>-->
+<!--                        <td><input-->
+<!--                                type="text"-->
+<!--                                v-model="adresaLivrare" disabled/>-->
 
-                        <td><input
-                                type="text"
-                                v-model="adresaLivrare" disabled/>
-
-                        </td>
+<!--                        </td>-->
                     </tr>
                     <!--            </tr>-->
                     <tr>
@@ -145,6 +146,11 @@
                                    placeholder="Telefon destinatar"
                                    v-model="comenzi.telefonDestinatar "/>
                             <span style="color: red;" v-show="errors.has('TelefonDestinatar')">{{ errors.first('TelefonDestinatar')}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Detalii Comanda</label></td>
+                        <td><input name="detalii comanda" type="text" v-model="comenzi.detaliiComanda "/>
                         </td>
                     </tr>
                     </td></tr>
@@ -196,12 +202,14 @@
                                 v-else="comenzi.stareComanda === 'programata'"
                                 type="time" v-model="comenzi.oraLimita"/></td>
                     </tr>
-
-                    <tr>
-                        <td><label>Detalii Comanda</label></td>
-                        <td><input name="detalii comanda" type="text" v-model="comenzi.detaliiComanda "/>
-                        </td>
+                    <td><label>Data Livrare</label></td>
+                        <td><input v-if="comenzi.stareComanda === 'in lucru'"
+                                   type="date" v-model="comenzi.dataComanda" disabled/> <input
+                                v-else="comenzi.stareComanda === 'programata'"
+                                type="date" v-model="comenzi.dataComanda"/></td>
                     </tr>
+
+
                     </td></tr>
 
                     </td></tr>
@@ -235,7 +243,7 @@
                    type="submit" value="Trimite Comanda"/>
 
         </form>
-        <h1 v-else>Comanda a fost lansata</h1>
+        <h1 v-else><a href=" http://192.168.1.3:8080/#/comandanoua" class="btn-primary" >Adauga comanda noua</a> </h1>
     </div>
 
 </template>
@@ -360,21 +368,21 @@
                     .then(resp => {
                         console.log(resp)
                         if (resp) {
-                            this.comenzi.idComanda = this.IdComanda
-                            this.comenzi.adresaLivrare = this.adresaLivrare
-                            this.comenzi.valoareComanda = this.total
-                            this.$store.dispatch('create_comanda', this.comenzi)
-                            this.$store.dispatch('get_comenziProgramate')
-                            this.$store.dispatch('get_comenziAzi')
-                            this.$store.dispatch('get_comenziInLucru')
-                            this.$store.dispatch('get_comenziDisponibile')
-                            this.$store.dispatch('get_comenziGata')
-                            this.$store.dispatch('get_comenziRidicate')
-                            this.$store.dispatch('get_comenziInLivrare')
-                            this.$store.dispatch('get_comenziLivrate')
-                            this.$store.dispatch('get_comenziNedecontate')
-                            location.load(forceGet)
+                            this.comenzi.idComanda = this.IdComanda;
+                            this.comenzi.adresaLivrare = this.adresaLivrare;
+                            this.comenzi.valoareComanda = this.total;
+                            this.$store.dispatch('create_comanda', this.comenzi);
+                            this.$store.dispatch('get_comenziProgramate');
+                            this.$store.dispatch('get_comenziAzi');
+                            this.$store.dispatch('get_comenziInLucru');
+                            this.$store.dispatch('get_comenziDisponibile');
+                            this.$store.dispatch('get_comenziGata');
+                            this.$store.dispatch('get_comenziRidicate');
+                            this.$store.dispatch('get_comenziInLivrare');
+                            this.$store.dispatch('get_comenziLivrate');
+                            this.$store.dispatch('get_comenziNedecontate');
                             alert("Comanda a fost lansata!");
+                            next('/comenzi_azi');
                             // aici pui codul ce doresti sa ruleze daca validarile sunt corecte
                         } else {
                             alert("Camp necesar!");

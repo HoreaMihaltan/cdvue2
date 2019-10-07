@@ -4,15 +4,15 @@
 
 <!--     <div class="footer" style="background-color: gainsboro; width: auto;">-->
          <div class="icon-bar" style="width: auto">
-             <a class="active" href="/#/comenzi_azi" style="width: 11.11%"><i class="fa fa-home"></i><br/><h4>Comenzi Azi({{totalAzi}})</h4></a>
-             <a href="/#/comenzi_programate" style="width: 11.11%"><i class="fa fa-exclamation"></i><br/><h4>Programate({{totalProgramate}})</h4></a>
-             <a href="/#/comenzi_disponibile" style="width: 11.11%"><i class="fa fa-eye"></i><br/><h4>Disponibile({{totalDisponibile}})</h4></a>
-             <a href="/#/comenzi_in_lucru" style="width: 11.11%"><i class="fa fa-fire"></i><br/><h4>In Lucru({{totalInLucru}})</h4></a>
-             <a href="/#/comenzi_gata" style="width: 11.11%"><i class="fa fa-cart-arrow-down"></i><br/><h4>Gata de Livrare({{totalGata}})</h4></a>
-             <a href="/#/comenzi_ridicate" style="width: 11.11%"><i class="fa fa-truck"></i><br/><h4>Ridicate({{totalRidicate}})</h4></a>
-             <a href="/#/comenzi_in_livrare" style="width: 11.11%"><i class="fa fa-fighter-jet"></i><br/><h4>In Livrare({{totalInLivrare}})</h4></a>
-             <a href="/#/comenzi_livrate" style="width: 11.11%"><i class="fa fa-check"></i><br/><h4>Livrate({{totalLivrate}})</h4></a>
-             <a href="/#/comenzi_nedecontate" style="width: 11.11%"><i class="fa fa-money"></i><br/><h4>Decont({{totalNedecontate}})</h4></a>
+             <router-link to="/comenzi_azi" style="width: 11.11%" active-class="active"><i class="fa fa-home"></i><br/><h4>Comenzi Azi({{totalAzi}})</h4></router-link>
+             <router-link to="/comenzi_programate" style="width: 11.11%"active-class="active"><i class="fa fa-exclamation"></i><br/><h4>Programate({{totalProgramate}})</h4></router-link>
+             <router-link to="/comenzi_disponibile" style="width: 11.11%"active-class="active"><i class="fa fa-eye"></i><br/><h4>Disponibile({{totalDisponibile}})</h4></router-link>
+             <router-link to="/comenzi_in_lucru" style="width: 11.11%"active-class="active"><i class="fa fa-fire"></i><br/><h4>In Lucru({{totalInLucru}})</h4></router-link>
+             <router-link to="/comenzi_gata" style="width: 11.11%"active-class="active"><i class="fa fa-cart-arrow-down"></i><br/><h4>Gata de Livrare({{totalGata}})</h4></router-link>
+             <router-link to="/comenzi_ridicate" style="width: 11.11%"active-class="active"><i class="fa fa-truck"></i><br/><h4>Ridicate({{totalRidicate}})</h4></router-link>
+             <router-link to="/comenzi_in_livrare" style="width: 11.11%"active-class="active"><i class="fa fa-fighter-jet"></i><br/><h4>In Livrare({{totalInLivrare}})</h4></router-link>
+             <router-link to="/comenzi_livrate" style="width: 11.11%"active-class="active"><i class="fa fa-check"></i><br/><h4>Livrate({{totalLivrate}})</h4></router-link>
+             <router-link to="/comenzi_nedecontate" style="width: 11.11%"active-class="active"><i class="fa fa-money"></i><br/><h4>Decont({{totalNedecontate}})</h4></router-link>
          </div>
 <!--         <h1 style="color: #5b5b5b; width: 100%;">Call Delivery App</h1>-->
 <!--     </div>-->
@@ -25,15 +25,15 @@
     export default {
         name: "Footer",
         created() {
-            this.$store.dispatch('get_comenziProgramate')
-            this.$store.dispatch('get_comenziAzi')
-            this.$store.dispatch('get_comenziInLucru')
-            this.$store.dispatch('get_comenziDisponibile')
-            this.$store.dispatch('get_comenziGata')
-            this.$store.dispatch('get_comenziRidicate')
-            this.$store.dispatch('get_comenziInLivrare')
-            this.$store.dispatch('get_comenziLivrate')
-            this.$store.dispatch('get_comenziNedecontate')
+            this.$store.dispatch('get_comenziProgramate');
+            this.$store.dispatch('get_comenziAzi');
+            this.$store.dispatch('get_comenziInLucru');
+            this.$store.dispatch('get_comenziDisponibile');
+            this.$store.dispatch('get_comenziGata');
+            this.$store.dispatch('get_comenziRidicate');
+            this.$store.dispatch('get_comenziInLivrare');
+            this.$store.dispatch('get_comenziLivrate');
+            this.$store.dispatch('get_comenziNedecontate');
             // this.$store.dispatch('get_comenzi', 'byStareGata')
         },
         computed: {
