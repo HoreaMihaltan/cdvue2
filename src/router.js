@@ -26,6 +26,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Livratori.vue')
     },
     {
+      path: '/strazi',
+      name: 'strazi',
+      component: () => import(/* webpackChunkName: "about" */ './views/StraziCluj.vue')
+    },
+    {
       path: '/client/:id',
       name: 'client',
       component: () => import(/* webpackChunkName: "about" */ './views/Client.vue')
@@ -36,6 +41,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Livrator.vue')
     },
     {
+      path: '/strada/:id',
+      name: 'strada',
+      component: () => import(/* webpackChunkName: "about" */ './views/StradaCluj.vue')
+    },
+    {
       path: '/clientnou',
       name: 'clientnou',
       component: () => import(/* webpackChunkName: "about" */ './views/ClientNou.vue')
@@ -44,6 +54,11 @@ export default new Router({
       path: '/livratornou',
       name: 'livratornou',
       component: () => import(/* webpackChunkName: "about" */ './views/LivratorNou.vue')
+    },
+    {
+      path: '/stradanoua',
+      name: 'stradanoua',
+      component: () => import(/* webpackChunkName: "about" */ './views/StradaNoua.vue')
     },
     {
       path: '/user/:id',
@@ -96,7 +111,7 @@ export default new Router({
       path: '/comenzi_livrate',
       name: 'comenzi_livrate',
 
-      component: () => import(/* webpackChunkName: "about" */ './liste/ComenziLivrate.vue')
+      component: () => import('./liste/ComenziLivrate.vue')
     },
     {
       path: '/comenzi_programate',

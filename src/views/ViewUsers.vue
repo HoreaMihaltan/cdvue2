@@ -15,16 +15,16 @@
                 <th style="text-align: center">Tip User</th>
                 <th style="text-align: center">User Activ</th>
             </tr>
-            <tr v-for="(user,index) in users" :key="index">
+            <tr v-for="(users,index) in users" :key="index">
 <!--            <tr v-for="user in users">-->
-                <td> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium; width: 100%" :to="'/user/' + user.id">
+                <td> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium; width: 100%" :to="'/user/' + users.id">
                     {{ user.value.nume }}
                 </router-link></td>
-                <td> {{ user.value.idUser }}</td>
-                <td> {{ user.value.userEmail }} </td>
-                <td> {{ user.value.pin }} </td>
-                <td> {{ user.value.tipUser }} </td>
-                <td> {{ user.value.userActiv }} </td>
+                <td> {{ users.value.idUser }}</td>
+                <td> {{ users.value.userEmail }} </td>
+                <td> {{ users.value.pin }} </td>
+                <td> {{ users.value.tipUser }} </td>
+                <td> {{ users.value.userActiv }} </td>
             </tr>
             </table>
 

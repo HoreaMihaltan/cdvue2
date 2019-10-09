@@ -43,13 +43,14 @@
                 <table class="col-sm-6" style="padding: 10px">
                     <tr>
                         <td><label>Strada</label></td>
-                        <td><select
+                        <td ><select
                                 v-if="comenzi.numeClient"
                                 id="strada"
                                 type="text"
+                                class="form-control"
                                 v-model="adresa.strada">
                             <!--                        <option>{{comenzi.value.idComanda}}</option>-->
-                            <option value="Rasinari" label="Rasinari"/>
+                            <option v-for="strada in straziCluj">{{idStrada}}</option>
                             <option value="Lunii" label="Lunii"/>
                             <option value="Eroilor" label="Eroilor"/>
                             <option value="Florilor" label="Florilor"/>
@@ -67,7 +68,7 @@
                                 required="true"
                                 v-validate="'required'"
                                 placeholder="Alege cartier"
-                                v-model="setCartier">
+                                v-model="comenzi.cartier">
                             <span style="color: red;" v-show="errors.has('Cartier')">{{ errors.first('Cartier')}}</span>
 
                             <option value="Andrei Muresanu" label="Andrei Muresanu"/>
@@ -198,8 +199,8 @@
                     <tr>
                         <td><label>Ora Limita</label></td>
                         <td><input v-if="comenzi.stareComanda === 'in lucru'"
-                                   type="time" v-model="comenzi.oraLimita" disabled/> <input
-                                v-else="comenzi.stareComanda === 'programata'"
+                                   type="time" v-model="comenzi.oraLimita" disabled/>
+                            <input v-else="comenzi.stareComanda === 'programata'"
                                 type="time" v-model="comenzi.oraLimita"/></td>
                     </tr>
                     <td><label>Data Livrare</label></td>
@@ -259,12 +260,18 @@
         created() {
             //this.$store.dispatch('get_comenzi', 'byIdComanda')
             this.$store.dispatch('get_comenzi', 'byToday')
+            this.$store.dispatch('get_straziCluj')
             reload()
 
             // this.$store.dispatch('get_comenzi', 'byStareGata')
         },
         data() {
             return {
+                straziCluj:{
+                  idStrada:'',
+                  fromCartier: '',
+                  zona:''
+                },
                 nume: '',
                 CodClient: '',
                 adresa: {
@@ -276,9 +283,6 @@
                     cod: '',
                     cartier: ''
                 },
-                // getTotalLength:{
-                //   lengthComenzi: [get_comenzi, byIdComanda]
-                // },
                 comenzi: {
 
                     idComanda: '',
@@ -330,11 +334,13 @@
             //this.comenzi.valoareComanda=total()
 
         },
+
         computed: {
             ...mapState({
                 formIsSent: 'formIsSent',
                 // comenziData: 'comenzi'
-                comenziData: 'comenzi'
+                comenziData: 'comenzi',
+                straziCluj: 'straziCluj'
             }),
             total() {
                 // return   1+1

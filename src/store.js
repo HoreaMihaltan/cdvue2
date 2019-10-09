@@ -6,7 +6,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        //users: [],
+        formIsSent: false,
+        straziCluj: {
+            idStrada: '',
+            fromCartier: '',
+            zona: ''
+        },
+        updated: false,
         formIsSent: false,
         users: {
             idUser: '',
@@ -14,10 +20,9 @@ export default new Vuex.Store({
             userEmail: '',
             pin: '',
             tipUser: '',
-            userActiv: ``
+            userActiv: ''
         },
         updated: false,
-        //clienti: [],
         formIsSent: false,
         clienti: {
             numeLocatie: '',
@@ -45,8 +50,6 @@ export default new Vuex.Store({
             clientActiv: ''
         },
         updated: false,
-
-        //livratori: [],
         formIsSent: false,
         livratori: {
             dataAdaugare: '',
@@ -75,7 +78,6 @@ export default new Vuex.Store({
         comenziNedecontate: [],
         formIsSent: false,
         comenzi: {
-            total_rows: '',
             idComanda: '',
             dataComanda: ``,
             numeClient: '',
@@ -97,8 +99,8 @@ export default new Vuex.Store({
     },
     mutations: {},
     actions: {
-        create_user({state}, user) {
-            axios.post('/api/create-user', user)
+        create_user({state}, users) {
+            axios.post('/api/create-user', users)
                 .then(resp => {
                     console.log(resp)
                     state.formIsSent = true
@@ -129,6 +131,45 @@ export default new Vuex.Store({
             axios.post('/api/update-user', {
                 id,
                 user: state.users
+            })
+                .then(resp => {
+                    state.updated = true
+                    console.log(resp.data)
+                })
+        },
+        // de aici straziCluj
+        create_strada({state}, straziCluj) {
+            axios.post('/api/create-strada', straziCluj)
+                .then(resp => {
+                    console.log(resp)
+                    state.formIsSent = true
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_straziCluj({state}) {
+            axios('/api/get-straziCluj')
+                .then(resp => {
+                    state.straziCluj = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_stradaCluj({state}, id) {
+            axios(`/api/get-stradaCluj/${id}`)
+                .then(resp => {
+                    state.straziCluj = resp.data
+                })
+                .catch(e => {
+                    //
+                })
+        },
+        update_stradaCluj({state}, id) {
+            axios.post('/api/update-stradaCluj', {
+                id,
+                user: state.straziCluj
             })
                 .then(resp => {
                     state.updated = true

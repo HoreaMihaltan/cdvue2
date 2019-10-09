@@ -3,10 +3,10 @@
     <div class="home">
         <tr> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/users">Inapoi la Useri</router-link></tr>
         <form   v-if="!updated" @submit.prevent="submit">
-            <div v-for="(item, key) in user">
+            <div v-for="(item, key) in users">
                 <table>
               <td style="width: 100px">  <label :for="key">{{ key }}</label> </td>
-              <td> <input  type="text" v-model="user[key]"></td>
+              <td> <input  type="text" v-model="users[key]"></td>
                 </table>
             </div>
 
@@ -30,7 +30,7 @@
         },
         computed: {
             ...mapState({
-                user: 'users',
+                users: 'users',
                 updated: 'updated'
             })
         },

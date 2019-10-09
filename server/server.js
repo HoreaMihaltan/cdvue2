@@ -1,21 +1,22 @@
-const express = require('express')
-const axios = require('axios')
-const bodyParser = require('body-parser')
-const app = express()
-const port = 3000
-const useriDb = `http://localhost:5984/user`
-const comenziDb = `http://localhost:5984/comenzi`
-const clientiDb = `http://localhost:5984/clienti`
-const livratoriDb = `http://localhost:5984/livratori`
+const express = require('express');
+const axios = require('axios');
+const bodyParser = require('body-parser');
+const app = express();
+const port = 3000;
+const useriDb = `http://localhost:5984/_users`;
+const comenziDb = `http://localhost:5984/comenzi`;
+const clientiDb = `http://localhost:5984/clienti`;
+const livratoriDb = `http://localhost:5984/livratori`;
+const straziclujDb = `http://localhost:5984/strazicluj`;
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
-app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }))
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 app.use('/create-user', (req, res) => {
-    const user = req.body
-    save()
+    const users = req.body;
+    save();
     async function save () {
         try {
-            const { data } = await axios.post(useriDb, user)
+            const { data } = await axios.post(useriDb, users);
             res.send('USER CREAT')
         } catch (e) {
             console.log(e.response)
@@ -59,14 +60,14 @@ app.use('/get-user/:id', (req, res) => {
 
 app.use('/update-user', (req, res) => {
     const id = req.body.id
-    const user = req.body.user
+    const users = req.body.users
     update()
     async function update () {
         try {
             const { data } = await axios(`${useriDb}/${id}`)
             // console.log(data)
-            for (let userKey in user) {
-                data[userKey] = user[userKey]
+            for (let userKey in users) {
+                data[userKey] = users[userKey]
             }
             const resp = await axios.put(`${useriDb}/${id}`, data)
             console.log(resp.data)
@@ -137,6 +138,74 @@ app.use('/update-livrator', (req, res) => {
                 data[livratoriKey] = livratori[livratoriKey]
             }
             const resp = await axios.put(`${livratoriDb}/${id}`, data)
+            console.log(resp.data)
+            res.send(resp.data)
+        } catch (e) {
+            //
+        }
+    }
+})
+// de aici straziCluj
+app.use('/create-strada', (req, res) => {
+    const stradaCluj = req.body
+    save()
+    async function save () {
+        try {
+            const { data } = await axios.post(straziclujDb, stradaCluj)
+            res.send('STRADA INTRODUSA')
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+
+app.use('/get-straziCluj', (req, res) => {
+    getStraziCluj()
+    async function getStraziCluj () {
+        const url = `${straziclujDb}/_design/straziCluj/_view/byStraziCluj`
+        try {
+            axios(url)
+                .then(resp => {
+                    console.log(resp.data)
+                    res.send(resp.data.rows)
+                })
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+
+app.use('/get-stradaCluj/:id', (req, res) => {
+    const id = req.params.id
+    getStraziCluj()
+    async function getStraziCluj () {
+        const url = `${straziclujDb}/${id}`
+        try {
+            axios(url)
+                .then(resp => {
+                    delete resp.data._id
+                    delete resp.data._rev
+                    res.send(resp.data)
+                })
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+
+
+app.use('/update-stradaCluj', (req, res) => {
+    const id = req.body.id
+    const straziCluj = req.body.straziCluj
+    update()
+    async function update () {
+        try {
+            const { data } = await axios(`${straziclujDb}/${id}`)
+            // console.log(data)
+            for (let straziClujKey in straziCluj) {
+                data[straziClujKey] = straziCluj[straziClujKey]
+            }
+            const resp = await axios.put(`${straziclujDb}/${id}`, data)
             console.log(resp.data)
             res.send(resp.data)
         } catch (e) {
@@ -301,6 +370,27 @@ app.use('/update-client', (req, res) => {
             //
         }
     }
+})
+
+
+app.use('/create_user', (req, res) => {
+    const url = 'http://admin:admin@localhost:5984/_users'
+    const user = {
+        "_id": "org.couchdb.user:cristian",
+        "name": "cristian",
+        "type": "user",
+        "roles": [],
+        "password": "cristian"
+    }
+    axios.put(url, user)
+        .then(resp => {
+            console.log(resp.data)
+            res.send('ok')
+        })
+        .catch(e => {
+            console.log(e.response.data)
+            res.send('failed')
+        })
 })
 
 

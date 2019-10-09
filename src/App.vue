@@ -3,6 +3,10 @@
     <br/>
     <br/>
     <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div id="txt"></div>
     <router-view/>
     <br/><br/><br/><br/>
     <br/><br/><br/><br/>
@@ -14,6 +18,7 @@
   import MainHeader from "./components/Header.vue";
   import Header from "./components/Header";
   import Footer from "./components/Footer";
+
     export default {
         name: 'App',
         components: {

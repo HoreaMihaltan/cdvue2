@@ -34,7 +34,7 @@
 
         data () {
             return {
-                user: {
+                users: {
                     idUser: '',
                     nume: '',
                     userEmail: '',
@@ -56,7 +56,7 @@
         },
         methods: {
             submit () {
-                this.$store.dispatch('create_user', this.user)
+                this.$store.dispatch('create_user', this.users)
             }
         },
         components: {

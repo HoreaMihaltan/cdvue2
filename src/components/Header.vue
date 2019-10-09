@@ -1,5 +1,6 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html" @load="clock">
     <div>
+
         <!--<br><br><br>-->
 
         <div class="col-sm-12" style="background-color: gainsboro; width: 100%;">
@@ -10,7 +11,9 @@
 <!--            </div>-->
             <div class="col-sm-6">
                 <router-link to="/" style="width: 100%; font-size: xx-large" active="active">CallDelivery App</router-link>
-                <a href="tel:0752621501"> Suna-ne!</a>
+                <a href="tel:0752621501"> Suna-ne! </a>
+                <h2 style="color: black" >{{new Date()}}</h2>
+<!--            <input type="text" style="width: auto" v-model="">-->
             </div>
 
 
@@ -21,6 +24,7 @@
                             <router-link to="/comenzi" active-class="active">Comenzi</router-link>
                                 <router-link to="/clienti" active-class="active">Clienti</router-link>
                                     <router-link to="/livratori" active-class="active">Livratori</router-link>
+                <router-link to="/strazi" active-class="active">Strazi</router-link>
             </div>
 <!--            <div class="navbar-wrapper">-->
 
@@ -33,38 +37,58 @@
 
 <script>
     export default {
-        name: "Header"
-    }
+        name: "Header",
+        data() {
+            return {
+                ceas:{
+                    oraH:'',
+                    min:'',
+                    sec:''
+                },
+            }
+            },
+        mounted: function () {
+            const d = new Date()
+            // const t = new getTime()
+            const month = d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
+            const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
+            const today = `${d.getFullYear()}-${month}-${day}`;
+            const year = d.getFullYear();
+            //this.comenzi.dataComanda = today;
+            const ora = (d.getHours() < 10 ? '0' : '') + d.getHours();
+            const minute = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
+            const secunde = (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
+            //const nr = +this.comenziData.length + 1;
+            const cod = `${nr}/${month}${day}${ora}${minute}${secunde}`;
+            const acum = ora + ":" + minute + ":" + secunde;
+            const mtranzit = 90;
+            const mt = ((d.getMinutes() + mtranzit) % 60 < 10 ? '0' : '') + (d.getMinutes() + mtranzit) % 60;
+            const ht = ((d.getMinutes() + mtranzit) < 120 ? d.getHours() + 1 : d.getHours() + 2);
+            const tranzit = ht + ":" + mt;
+            this.ceas.oraH = moment().format('MMMM Do YYYY, h:mm:ss a');
+            // this.adresa.cod = cod;
+            // this.comenzi.oraLimita = tranzit
 
-    // // ------ceas-----
-    // clock() {
-    //     var today = new Date();
-    //     var h = today.getHours() + 1;
-    //
-    //     var m = today.getMinutes();
-    //     var s = today.getSeconds();
-    //     m = checkTime(m);
-    //     s = checkTime(s);
-    //     document.getElementById("clock").innerHTML = h + ":" + m + ":" + s;
-    //     var t = setTimeout(clock, 500);
-    // }
-    // function checkTime(i) {
-    //     if (i < 10) {
-    //         i = "0" + i
-    //     }
-    //     ; // add zero in front of numbers < 10
-    //     return i;
-    // }
-    // var prevScrollpos = window.pageYOffset;
-    // window.onscroll = function() {
-    //     var currentScrollPos = window.pageYOffset;
-    //     if (prevScrollpos > currentScrollPos) {
-    //         document.getElementById("navbar").style.top = "0";
-    //     } else {
-    //         document.getElementById("navbar").style.top = "-50px";
-    //     }
-    //     prevScrollpos = currentScrollPos;
-    // }
+
+        },
+
+computed: {
+
+    // ------ceas-----
+    clock(){
+        return moment().format('MMMM Do YYYY, h:mm:ss a');
+        },
+
+    checkTime(i)
+    {
+        if (i < 10) {
+            i = "0" + i
+            return i;
+        }
+        ; // add zero in front of numbers < 10
+
+    }},
+        }
 </script>
 
 <style>
