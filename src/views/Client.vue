@@ -3,10 +3,12 @@
     <div class="home">
         <h1>Client</h1>        <h2>Editeaza Client</h2>
         <table class="col-sm-12" style="padding: 10px" >
-            <tr> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/clienti">Inapoi la clienti</router-link></tr>
+            <tr> <router-link class="btn btn-primary dropdown-toggle"
+                              style="font-size: medium"
+                              to="/clienti">Inapoi la clienti</router-link></tr>
             <!--            <tr colspan="24" style="text-align:center"><h2>-->
             <tr  style="padding: 10px">
-                <td><input colspan="6" style="padding: 10px; text-align: center" type="text" v-model="clienti.idClient" placeholder="COD CLIENT" disabled /></td></tr>
+                <td>{{clienti.nume}}</td></tr>
             <!--            </h2></tr>-->
             <table class="col-sm-6" style="padding: 10px" >
 
@@ -20,7 +22,7 @@
                     </td></tr>
                 <tr><td><label>Email</label></td>
                     <td>  <input type="email"
-                                 v-model="clienti.clientEmail"  />
+                                 v-model="clienti.email"  />
                     </td></tr>
                 <!--            </tr>-->
                 <tr><td><label>Telefon Locatie</label></td>

@@ -2,13 +2,13 @@
     <div class="container">
         <nav class="col-sm-2">
             <h3>Modifica strare</h3><i-table style="margin-top: 30px" >
-            <tr><button v-if="comenzi.stareComanda ==='in lucru'" class="btn-dark" style="padding: 5px; width: 100%" @click="setStatus('programata')">Programata</button></tr>
-            <tr><button v-if="comenzi.stareComanda ==='programata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in lucru')">In lucru</button></tr>
-            <tr><button v-if="comenzi.stareComanda ==='in lucru'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('gata de livrare')">Gata de livrare</button></tr>
-            <tr><button v-if="comenzi.stareComanda ==='gata de livrare'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('ridicata')">Ridicata</button></tr>
-            <tr><button v-if="comenzi.stareComanda ==='ridicata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in livrare')">In livrare</button></tr>
-            <tr><button v-if="comenzi.stareComanda ==='in livrare'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('livrata')">Livrata</button></tr>
-            <tr><button v-if="comenzi.decontat ==='false'"class="btn-red" style="padding: 5px; width: 100%" @click="decontat('true')">Decontat</button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='in lucru'" class="btn-dark" style="padding: 5px; width: 100%" @click="setStatus('programata')" @mouseup="goBack">Programata</button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='programata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in lucru')" @mouseup="goBack">In lucru</button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='in lucru'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('gata de livrare')" @mouseup="goBack">Gata de livrare</button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='gata de livrare'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('ridicata')" @mouseup="goBack">Ridicata</button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='ridicata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in livrare')" @mouseup="goBack">In livrare</button></tr>
+            <tr><button v-if="comenzi.stareComanda ==='in livrare'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('livrata')" @mouseup="goBack">Livrata</button></tr>
+            <tr><button v-if="comenzi.decontat ==='false'"class="btn-red" style="padding: 5px; width: 100%" @click="decontat('true')" @mouseup="goBack">Decontat</button></tr>
            </i-table>
         </nav>
 <!--    <i-button-group style="width: 100%"> <button style="padding: 5px; width: auto" @click="setStatus('in lucru')">In lucru</button><button style="padding: 5px; width: auto" @click="setStatus('gata de livrare')">Gata De livrare</button></i-button-group>-->
@@ -173,6 +173,9 @@
                 this.comenzi.decontat = decontatCD
                 this.$store.dispatch('update_comanda', this.$router.currentRoute.params.id)
                 alert("Comanda a fost decontata!")
+            },
+            goBack() {
+                window.history.back();
             }
             // remove () {
             //     this.$store.dispatch('delete_comanda', this.$router.currentRoute.params.id)

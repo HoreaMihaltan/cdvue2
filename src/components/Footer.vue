@@ -3,16 +3,138 @@
 <!--<br><br><br>-->
 
 <!--     <div class="footer" style="background-color: gainsboro; width: auto;">-->
-         <div class="icon-bar" style="width: auto">
-             <router-link to="/comenzi_azi" style="width: 11.11%" active-class="active"><i class="fa fa-home"></i><br/><h4>Comenzi Azi({{totalAzi}})</h4></router-link>
-             <router-link to="/comenzi_programate" style="width: 11.11%"active-class="active"><i class="fa fa-exclamation"></i><br/><h4>Programate({{totalProgramate}})</h4></router-link>
-             <router-link to="/comenzi_disponibile" style="width: 11.11%"active-class="active"><i class="fa fa-eye"></i><br/><h4>Disponibile({{totalDisponibile}})</h4></router-link>
-             <router-link to="/comenzi_in_lucru" style="width: 11.11%"active-class="active"><i class="fa fa-fire"></i><br/><h4>In Lucru({{totalInLucru}})</h4></router-link>
-             <router-link to="/comenzi_gata" style="width: 11.11%"active-class="active"><i class="fa fa-cart-arrow-down"></i><br/><h4>Gata de Livrare({{totalGata}})</h4></router-link>
-             <router-link to="/comenzi_ridicate" style="width: 11.11%"active-class="active"><i class="fa fa-truck"></i><br/><h4>Ridicate({{totalRidicate}})</h4></router-link>
-             <router-link to="/comenzi_in_livrare" style="width: 11.11%"active-class="active"><i class="fa fa-fighter-jet"></i><br/><h4>In Livrare({{totalInLivrare}})</h4></router-link>
-             <router-link to="/comenzi_livrate" style="width: 11.11%"active-class="active"><i class="fa fa-check"></i><br/><h4>Livrate({{totalLivrate}})</h4></router-link>
-             <router-link to="/comenzi_nedecontate" style="width: 11.11%"active-class="active"><i class="fa fa-money"></i><br/><h4>Decont({{totalNedecontate}})</h4></router-link>
+         <div v-if="user._id ==='Horea'" class="icon-bar" style="width: auto">
+             <router-link
+                     to="/comenzi_azi"
+                     style="width: 11.11%" active-class="active">
+                 <i class="fa fa-home"></i>
+                 <br/>
+                 <h4>Comenzi Azi({{totalAzi}})</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_programate"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-exclamation">
+                     </i>
+                 <br/>
+                 <h4>Programate({{totalProgramate}})</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_disponibile"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-eye">
+                     </i>
+                 <br/>
+                 <h4>Disponibile({{totalDisponibile}})</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_in_lucru"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-fire"></i>
+                 <br/>
+                 <h4>In Lucru({{totalInLucru}})</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_gata"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-cart-arrow-down"></i>
+                 <br/>
+                 <h4>Gata de Livrare({{totalGata}})</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_ridicate"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-truck"></i>
+                 <br/>
+                 <h4>Ridicate({{totalRidicate}})</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_in_livrare"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-fighter-jet"></i>
+                 <br/>
+                 <h4>In Livrare({{totalInLivrare}})</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_livrate"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-check"></i>
+                 <br/>
+                 <h4>Livrate({{totalLivrate}})</h4>
+             </router-link>
+             <router-link to="/comenzi_nedecontate"
+                          style="width: 11.11%"active-class="active">
+                 <i class="fa fa-money"></i>
+                 <br/>
+                 <h4>Decont({{totalNedecontate}})</h4>
+             </router-link>
+         </div>
+<!-- /*<FOOTER CLIENT>*/-->
+     <div v-if="user._id !=='Horea'" class="icon-bar" style="width: auto">
+             <router-link
+                     to="/comenzi_azi"
+                     style="width: 11.11%" active-class="active">
+                 <i class="fa fa-home"></i>
+                 <br/>
+                 <h4>Comenzi Azi</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_programate"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-exclamation">
+                     </i>
+                 <br/>
+                 <h4>Programate</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_disponibile"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-eye">
+                     </i>
+                 <br/>
+                 <h4>Disponibile</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_in_lucru"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-fire"></i>
+                 <br/>
+                 <h4>In Lucru</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_gata"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-cart-arrow-down"></i>
+                 <br/>
+                 <h4>Gata de Livrare({{totalGata}})</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_ridicate"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-truck"></i>
+                 <br/>
+                 <h4>Ridicate</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_in_livrare"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-fighter-jet"></i>
+                 <br/>
+                 <h4>In Livrare</h4>
+             </router-link>
+             <router-link
+                     to="/comenzi_livrate"
+                     style="width: 11.11%"active-class="active">
+                 <i class="fa fa-check"></i>
+                 <br/>
+                 <h4>Livrate</h4>
+             </router-link>
+             <router-link to="/comenzi_nedecontate"
+                          style="width: 11.11%"active-class="active">
+                 <i class="fa fa-money"></i>
+                 <br/>
+                 <h4>Decont</h4>
+             </router-link>
          </div>
 <!--         <h1 style="color: #5b5b5b; width: 100%;">Call Delivery App</h1>-->
 <!--     </div>-->
@@ -38,6 +160,7 @@
         },
         computed: {
             ...mapState({
+                user: 'user',
                 comenziAzi: 'comenziAzi',
                 comenziProgramate: 'comenziProgramate',
                 comenziInLucru: 'comenziInLucru',

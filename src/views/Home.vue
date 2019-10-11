@@ -1,66 +1,75 @@
 <template>
+  <div class="login-page">
+    <form @submit.prevent="submit">
+      <label for="nume">nume*</label>
+      <input type="text"
+             v-model="user.name"
+             id="nume"
+             placeholder="nume utilizator">
 
-  <div class="home">
-    <br/>
-    <br/>
-    <br/>
-    <h1>Bine ati revenit</h1>
-    <h1>Va rog sa va logati!</h1>
-    <i-form-group>
-      <hr>
-<input type="text" placeholder="User Name" style="width: 200px"/>
-      <hr>
-<input type="password" placeholder="PIN" style="width: 200px"/>
-    </i-form-group>
-    <hr>
-    <button class="btn-primary" type="submit" >LogIn</button>
+      <br>
+      <label for="pin">pin*</label>
+      <input type="password"
+             v-model="user.password"
+             id="pin"
+             placeholder="pin utilizator">
+
+      <button>LOGIN</button>
+    </form>
+
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
-import { mapState } from 'vuex'
 export default {
   name: 'home',
   data () {
     return {
       user: {
-          nume: '',
-          userId: '',
-          userEmail: '',
-          pin: '',
-          tipUser: ''
+          name: '',
+          password: ''
       }
     }
   },
-  computed: {
-        ...mapState({
-            formIsSent: 'formIsSent'
-        })
-    },
-  created () {
-    this.$store.dispatch("get_users")
-  },
   methods: {
     submit () {
-      //this.$store.dispatch('create_user', this.user)
-
+      this.$store.dispatch('login', this.user)
     }
-  },
-  components: {
-    HelloWorld,
   }
-
 }
 </script>
 
 <style lang="less">
-  .home {
+  .login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     form {
+      text-align: left;
       margin: auto;
-      width: 400px;
+      width: 100%;
+      max-width: 400px;
+      padding: 24px;
+      border: 1px solid lightblue;
+      border-radius: 4px;
+      background-color: white;
+      input, label {
+        display: block;
+      }
+      input {
+        height: 40px;
+        padding-left: 16px;
+      }
+      button {
+        width: 100%;
+        background-color: #1eb386;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-weight: bold;
+        margin-top: 32px;
+        padding: 8px 0;
+      }
     }
   }
 </style>

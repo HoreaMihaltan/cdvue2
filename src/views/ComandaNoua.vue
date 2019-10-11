@@ -9,10 +9,9 @@
         <!--                   v-validate="'required'"-->
         <!--                   placeholder="nume">-->
         <!--            <span style="color: red;" v-show="errors.has('nume')">{{ errors.first('nume')}}</span>-->
-        <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link
-                     to="/comenzi_azi">Inapoi la Comenzi
-        </router-link>
-        <h2>Comanda Noua ( {{ totalComenzi}} )</h2>
+        <button class="btn btn-primary dropdown-toggle" style="font-size: medium " @click="goToComenziAzi">Inapoi la Comenzi
+        </button>
+        <h2>Comanda Noua ( {{ totalComenzi}} ) {{user.nume}}</h2>
 
         <form v-if="!formIsSent"
               style="text-align: left" @submit.prevent="submitValidation ">
@@ -22,19 +21,25 @@
 
                 <tr style="padding: 10px">
                     <td>{{IdComanda}} Adresa livrare: <input
-                            style="width: 50%"
+                            style="width: auto"
                             type="text"
                             v-model="adresaLivrare" disabled/></td>
+                </tr>
+                <tr style="padding: 10px">
+                    <td>Adresa Ridicare: <input
+                            style="width: auto"
+                            type="text"
+                            v-model="user.adresaLocatie" disabled/></td>
                 </tr>
                 <tr style="padding: 10px">
                     <td>
                         <input type="text"
                                name="CodClient"
-                               v-model="comenzi.numeClient"
+                               v-model="user.nume"
                                required="true"
                                v-validate="'required|min:3'"
                                placeholder="Nu esti inregistrat!"
-                               colspan="6" style="padding: 10px; text-align: left; width:20%"/>
+                               colspan="6" style="padding: 10px; text-align: left; width:auto" disabled/>
                         <span style="color: red;" v-show="errors.has('CodClient')">{{ errors.first('CodClient')}}</span>
 
                     </td>
@@ -44,7 +49,7 @@
                     <tr>
                         <td><label>Strada</label></td>
                         <td ><select
-                                v-if="comenzi.numeClient"
+                                v-if="user.nume"
                                 id="strada"
                                 type="text"
                                 class="form-control"
@@ -92,6 +97,15 @@
                             <option value="Zorilor" label="Zorilor"/>
 
                         </select></td>
+                    </tr>
+                    <tr>
+                        <td><label>
+                            Zona</label>
+                        <td>
+                            <input
+                                    v-if="comenzi.cartier"
+                                    type="text"
+                                    v-model="adresa.zona"></td>
                     </tr>
                     <tr>
                         <td><label>
@@ -238,13 +252,13 @@
             <!--            </div>-->
             <!--            pana aici-->
 
-            <input v-if="comenzi.numeClient
+            <input v-if="user._id
              && (comenzi.plataCash >0 || comenzi.plataCard>0)"
-                   class="btn btn-primary dropdown-toggle" action=":to/comenzi" style="font-size: xx-large"
-                   type="submit" value="Trimite Comanda"/>
+                   class="btn btn-primary dropdown-toggle"  style="font-size: xx-large"
+                   type="submit" value="Trimite Comanda" @click="submit,goToComenziAzi"/>
 
         </form>
-        <h1 v-else><a href=" http://192.168.1.3:8080/#/comandanoua" class="btn-primary" >Adauga comanda noua</a> </h1>
+<!--        <h1 v-else>Comanda lansata</h1>-->
     </div>
 
 </template>
@@ -261,7 +275,7 @@
             //this.$store.dispatch('get_comenzi', 'byIdComanda')
             this.$store.dispatch('get_comenzi', 'byToday')
             this.$store.dispatch('get_straziCluj')
-            reload()
+
 
             // this.$store.dispatch('get_comenzi', 'byStareGata')
         },
@@ -270,10 +284,12 @@
                 straziCluj:{
                   idStrada:'',
                   fromCartier: '',
-                  zona:''
+                  inZona:''
                 },
+                _id: '',
                 nume: '',
                 CodClient: '',
+                AdresaLocatie: '',
                 adresa: {
                     strada: '',
                     sc: '',
@@ -281,7 +297,8 @@
                     et: '',
                     nr: '',
                     cod: '',
-                    cartier: ''
+                    cartier: '',
+                    zona:""
                 },
                 comenzi: {
 
@@ -289,7 +306,7 @@
                     dataComanda: ``,
                     numeClient: '',
                     adresaLivrare: '',
-                    telefonDestinatar: '',
+                    telefonDestinatar: '07',
                     cartier: '',
                     livrator: 'fara livrator',
                     plataCash: '',
@@ -301,7 +318,7 @@
                     oraLivrare: '',
                     valoareComanda: '',
                     tarifare: '16',
-                    detaliiComanda: ''
+                    detaliiComanda: '',
                 }
             }
         },
@@ -312,12 +329,11 @@
             const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
             const today = `${d.getFullYear()}-${month}-${day}`;
             const year = d.getFullYear();
-            this.comenzi.dataComanda = today;
             const ora = (d.getHours() < 10 ? '0' : '') + d.getHours();
             const minute = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
             const secunde = (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
             const nr = +this.comenziData.length + 1;
-            const cod = `${nr}/${month}${day}${ora}${minute}${secunde}`;
+            const cod = `${nr}-${month}${day}${ora}${minute}${secunde}`;
             const acum = ora + ":" + minute + ":" + secunde;
             const mtranzit = 90;
             const mt = ((d.getMinutes() + mtranzit) % 60 < 10 ? '0' : '') + (d.getMinutes() + mtranzit) % 60;
@@ -325,7 +341,8 @@
             const tranzit = ht + ":" + mt;
             this.adresa.cod = cod;
             this.comenzi.oraComanda = acum;
-            this.comenzi.oraLimita = tranzit
+            this.comenzi.oraLimita = tranzit;
+            this.comenzi.dataComanda = today;
 
             // const length = this.comenzi.length();
             // this.comenzi.tarifare = length;
@@ -337,10 +354,14 @@
 
         computed: {
             ...mapState({
+                user: 'user',
+                straziCluj: 'straziCluj',
                 formIsSent: 'formIsSent',
                 // comenziData: 'comenzi'
-                comenziData: 'comenzi',
-                straziCluj: 'straziCluj'
+               comenziData: 'comenzi',
+                clienti: 'clienti',
+
+
             }),
             total() {
                 // return   1+1
@@ -350,7 +371,13 @@
                 return `Str: ${this.adresa.strada} ${this.adresa.nr}, Cluj-Napoca (sc:${this.adresa.sc}, et:${this.adresa.et}, ap:${this.adresa.ap})`
             },
             IdComanda() {
-                return `${this.comenzi.numeClient}/CD-${this.adresa.cod}/(${this.adresa.strada}-${this.adresa.nr})`
+                return `${this.user._id}0${this.adresa.cod}/(${this.adresa.strada}-${this.adresa.nr})Z${this.adresa.zona}`
+            },
+            NumeClient() {
+                return `${this.user.nume}`
+            },
+            AdresaRidicare() {
+                return `${this.user.adresaLocatie}`
             },
             // setCartier: function () {
             //    const str  = ["Lunii", "Rasinari","Observator"];
@@ -374,6 +401,9 @@
                     .then(resp => {
                         console.log(resp)
                         if (resp) {
+                            this.comenzi.emailClient = this.user.email;
+                            this.comenzi.numeClient = this.user.nume;
+                            this.comenzi.adresaRidicare = this.user.adresaLocatie;
                             this.comenzi.idComanda = this.IdComanda;
                             this.comenzi.adresaLivrare = this.adresaLivrare;
                             this.comenzi.valoareComanda = this.total;
@@ -388,7 +418,7 @@
                             this.$store.dispatch('get_comenziLivrate');
                             this.$store.dispatch('get_comenziNedecontate');
                             alert("Comanda a fost lansata!");
-                            next('/comenzi_azi');
+
                             // aici pui codul ce doresti sa ruleze daca validarile sunt corecte
                         } else {
                             alert("Camp necesar!");
@@ -397,14 +427,18 @@
                     })
             },
             submit() {
-                this.comenzi.idComanda = this.IdComanda
-                this.comenzi.adresaLivrare = this.adresaLivrare
-                this.comenzi.valoareComanda = this.total
-                this.$store.dispatch('create_comanda', this.comenzi)
+                this.comenzi.idComanda = this.IdComanda;
+                this.comenzi.adresaLivrare = this.adresaLivrare;
+                this.comenzi.valoareComanda = this.total;
+                this.$store.dispatch('create_comanda', this.comenzi);
+
                 // this.$store.dispatch('create_comanda', this.adresa)
             },
             setStatus(status) {
                 this.comenzi.stareComanda = status
+            },
+            goToComenziAzi(){
+                this.$router.push('/comenzi_azi')
             }
         },
     }

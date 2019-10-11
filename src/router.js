@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import store from './store'
 
 Vue.use(Router)
 
-export default new Router({
+const router =  new Router({
   routes: [
     {path: '/',
       name: 'home',
@@ -168,3 +169,15 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.name === 'home') {
+    next()
+  } else if (to.name !== 'home' && !store.state.user.name) {
+    store.dispatch('check_login', next)
+  } else {
+    next()
+  }
+})
+
+export default router

@@ -1,10 +1,15 @@
 <template>
 
-    <div class="container" style="padding: 10px">
+    <div v-if="user._id ==='Horea'" class="container" style="padding: 10px">
         <h1>Comenzi ( {{ totalComenzi}} )</h1
 
         <table class="col-sm-12" style="padding: 10px">
-            <tr> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/comandanoua">Adauga Comanda</router-link></tr>
+            <tr> <router-link
+                    class="btn btn-primary dropdown-toggle"
+                    style="font-size: medium"
+                    router-link  to="/comandanoua">
+                Adauga Comanda</router-link>
+            </tr>
             <tr >
                 <th style="text-align: center">IdComanda</th>
                 <th style="text-align: center">Client</th>
@@ -29,13 +34,13 @@
                 <td> {{ comenzi.value.livrator }} </td>
                 <td> {{ comenzi.value.oraComanda }} </td>
                 <td> {{ comenzi.value.oraLimita }} </td>
-                <td> {{ comenzi.value.stareComanda }} </td>
+                <td> {{ comenzi.value.stareComanda }}</td>
                 <td> {{ comenzi.value.decontat }} </td>
                 <td> {{ comenzi.value.oraLivrare }} </td>
                 <td> {{ comenzi.value.plataCash }} </td>
                 <td> {{ comenzi.value.valoareComanda }} </td>
                 <td> {{ comenzi.value.tarifare }} </td>
-            </tr>
+                </tr>
 
         </table>
     </div>
@@ -50,9 +55,14 @@
             //  this.$store.dispatch('get_comenzi', 'byToday')
 
         },
+        methods: {
+            setStatus (status) {
+                this.comenzi.stareComanda = status}
+        },
         computed: {
             ...mapState({
-                comenzi: 'comenzi'
+                comenzi: 'comenzi',
+                user: 'user'
             }),
             totalComenzi: function () {
                 return this.comenzi.length;

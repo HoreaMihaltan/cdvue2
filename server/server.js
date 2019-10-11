@@ -10,6 +10,51 @@ const livratoriDb = `http://localhost:5984/livratori`;
 const straziclujDb = `http://localhost:5984/strazicluj`;
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+const session = 'http://localhost:5984/_session'
+
+app.use('/check-login', (req, res) => {
+    const config = {
+        url: session,
+        req,
+        res
+    }
+    getData(config)
+    async function getData ({ url, req, res, clbk }) {
+        try {
+            const resp = await axios({ url, headers: req.headers })
+            clbk ? clbk(resp.data) : res.send(resp.data)
+        } catch (e) {
+            // console.log(e.response.data)
+            console.log(req.baseUrl)
+            res.sendStatus(e.response && e.response.status)
+        }
+    }
+})
+
+app.use('/login', (req, res) => {
+    get_login()
+    async function get_login () {
+        try {
+            const resp = await axios.post('http://localhost:5984/_session', req.body)
+            let db
+            switch (resp.data.roles[0]) {
+                case 'client':
+                    db = 'clienti'
+                    break
+                case 'livrator':
+                    db = 'livratori'
+                    break
+            }
+            const url = `http://localhost:5984/${db}/${resp.data.name}`
+            const user = await axios(url)
+            res.cookie(resp.headers['set-cookie'][0])
+            console.log(res.cookie)
+            res.send(user.data)
+        } catch (e) {
+            res.send(e.response)
+        }
+    }
+})
 
 app.use('/create-user', (req, res) => {
     const users = req.body;

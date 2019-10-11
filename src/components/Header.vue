@@ -1,20 +1,21 @@
-<template xmlns="http://www.w3.org/1999/html" @load="clock">
+<template xmlns="http://www.w3.org/1999/html">
     <div>
 
         <!--<br><br><br>-->
 
-        <div class="col-sm-12" style="background-color: gainsboro; width: 100%;">
-
+        <div class="col-sm-12" style="background-color: rgba(224,224,224,0.81); width: 100%;">
+<div style="background-image: url('/logo/')">
 <!--            <div class="dropdown" style="text-align: left;     position:absolute;">-->
 
 
 <!--            </div>-->
             <div class="col-sm-6">
+
                 <router-link to="/" style="width: 100%; font-size: xx-large" active="active">CallDelivery App</router-link>
-                <a href="tel:0752621501"> Suna-ne! </a>
-                <h2 style="color: black" >{{new Date()}}</h2>
+                <a href="tel:0752621501"> Suna-ne!</a>
 <!--            <input type="text" style="width: auto" v-model="">-->
             </div>
+</div>
 
 
             <div id="navbar" class="col-sm-6">
@@ -36,59 +37,45 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
     export default {
         name: "Header",
         data() {
             return {
-                ceas:{
-                    oraH:'',
-                    min:'',
-                    sec:''
-                },
+                ceas: {
+                    oraH: '',
+                    min: '',
+                    sec: ''
+                }
             }
-            },
-        mounted: function () {
-            const d = new Date()
+        },
+        mounted () {
+            // const d = new Date()
             // const t = new getTime()
-            const month = d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
-            const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
-            const today = `${d.getFullYear()}-${month}-${day}`;
-            const year = d.getFullYear();
+            // const month = d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
+            // const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
+            // const today = `${d.getFullYear()}-${month}-${day}`;
+            // const year = d.getFullYear();
             //this.comenzi.dataComanda = today;
-            const ora = (d.getHours() < 10 ? '0' : '') + d.getHours();
-            const minute = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
-            const secunde = (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
-            //const nr = +this.comenziData.length + 1;
-            const cod = `${nr}/${month}${day}${ora}${minute}${secunde}`;
-            const acum = ora + ":" + minute + ":" + secunde;
-            const mtranzit = 90;
-            const mt = ((d.getMinutes() + mtranzit) % 60 < 10 ? '0' : '') + (d.getMinutes() + mtranzit) % 60;
-            const ht = ((d.getMinutes() + mtranzit) < 120 ? d.getHours() + 1 : d.getHours() + 2);
-            const tranzit = ht + ":" + mt;
-            this.ceas.oraH = moment().format('MMMM Do YYYY, h:mm:ss a');
+            //const ora = (d.getHours() < 10 ? '0' : '') + d.getHours();
+            //const minute = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
+            //const secunde = (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
+            //const cod = `${nr}/${month}${day}${ora}${minute}${secunde}`;
+            //const acum = ora + ":" + minute + ":" + secunde;
+            // const mtranzit = 90;
+            // const mt = ((d.getMinutes() + mtranzit) % 60 < 10 ? '0' : '') + (d.getMinutes() + mtranzit) % 60;
+            // const ht = ((d.getMinutes() + mtranzit) < 120 ? d.getHours() + 1 : d.getHours() + 2);
+            // const tranzit = ht + ":" + mt;
+            // this.ceas.oraH = moment().format('MMMM Do YYYY, h:mm:ss a');
             // this.adresa.cod = cod;
             // this.comenzi.oraLimita = tranzit
-
-
         },
-
-computed: {
-
-    // ------ceas-----
-    clock(){
-        return moment().format('MMMM Do YYYY, h:mm:ss a');
-        },
-
-    checkTime(i)
-    {
-        if (i < 10) {
-            i = "0" + i
-            return i;
+        computed: {
+            ...mapState({
+                user: 'user'
+            })
         }
-        ; // add zero in front of numbers < 10
-
-    }},
-        }
+    }
 </script>
 
 <style>

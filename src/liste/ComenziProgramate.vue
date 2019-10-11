@@ -5,7 +5,7 @@
         <div><h2>Comenzi Programate ( {{ totalComenzi}} )</h2>
         </div>
 
-              <i-card class="col-sm-12" style="padding: 10px">
+              <div class="col-sm-12" style="padding: 10px">
                  <tr> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/comandanoua">Adauga Comanda</router-link></tr>
                       <tr >
 
@@ -38,7 +38,7 @@
 
                       </tr>
 
-              </i-card>
+              </div>
     </div>
 </template>
 

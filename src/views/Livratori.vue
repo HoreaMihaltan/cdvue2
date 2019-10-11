@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container" style="padding: 10px">
+    <div v-if="user._id ==='Horea'" class="container" style="padding: 10px">
 <!--        <comenzi_azi></comenzi_azi>-->
         <h1>Livratori</h1>
         <table class="col-sm-12" style="padding: 10px">
@@ -40,7 +40,8 @@
         },
         computed: {
             ...mapState({
-                livratori: 'livratori'
+                livratori: 'livratori',
+                user: 'user'
             })
         }
     }

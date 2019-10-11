@@ -5,13 +5,13 @@
             <tr> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/clienti">Inapoi la Clienti</router-link></tr>
             <!--            <tr colspan="24" style="text-align:center"><h2>-->
             <tr  style="padding: 10px">
-                <td><input colspan="6" style="padding: 10px; text-align: left" type="text" v-model="clienti.idClient" placeholder="COD CLIENT" /></td></tr>
+                <td><input colspan="6" style="padding: 10px; text-align: left; width: auto" type="text" v-model="clienti._id" placeholder="COD CLIENT" /></td></tr>
             <!--            </h2></tr>-->
             <table class="col-sm-6" style="padding: 10px" >
 
-                <tr><td><label>Nume Locatie</label></td>
+                <tr><td><label>Nume</label></td>
                     <td>  <input type="text"
-                                 v-model="clienti.numeLocatie"   />
+                                 v-model="clienti.nume"   />
                     </td></tr>
                 <tr><td><label>Adresa Locatie</label></td>
                     <td>  <input type="text"
@@ -19,7 +19,7 @@
                     </td></tr>
                 <tr><td><label>Email</label></td>
                     <td>  <input type="email"
-                                 v-model="clienti.clientEmail"  />
+                                 v-model="clienti.email"  />
                     </td></tr>
                 <!--            </tr>-->
                 <tr><td><label>Telefon Locatie</label></td>
@@ -123,6 +123,8 @@
         data () {
             return {
                 clienti: {
+                    _id: '',
+                    nume: '',
                     dataAdaugare: '',
                     numeLocatie: '',
                     idClient: '',

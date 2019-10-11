@@ -1,19 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as axios from 'axios'
+import router from './router'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        formIsSent: false,
         straziCluj: {
             idStrada: '',
             fromCartier: '',
             zona: ''
         },
-        updated: false,
-        formIsSent: false,
+        user: {},
         users: {
             idUser: '',
             nume: '',
@@ -25,6 +24,9 @@ export default new Vuex.Store({
         updated: false,
         formIsSent: false,
         clienti: {
+            // _id: '',
+            id: '',
+            nume: '',
             numeLocatie: '',
             idClient: '',
             clientEmail: '',
@@ -99,6 +101,34 @@ export default new Vuex.Store({
     },
     mutations: {},
     actions: {
+        check_login ({ state }, next) {
+            check()
+            async function check () {
+                try {
+                    const { data } = await axios('/api/check-login')
+                    if (data.userCtx.name) {
+                        next()
+                        state.username = data.userCtx.name
+                        state.isMenu = true
+                    }
+                    !data.userCtx.name && next('/login')
+                } catch (e) {
+                    state.username = undefined
+                }
+            }
+        },
+        login ({ state }, user) {
+          get_login()
+          async function get_login () {
+              try {
+                  const { data } = await axios.post('/api/login', user)
+                  state.user = data
+                  router.push('/comenzi_azi')
+              } catch (e) {
+                  console.log(e)
+              }
+          }
+        },
         create_user({state}, users) {
             axios.post('/api/create-user', users)
                 .then(resp => {
