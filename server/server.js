@@ -238,7 +238,6 @@ app.use('/get-stradaCluj/:id', (req, res) => {
     }
 })
 
-
 app.use('/update-stradaCluj', (req, res) => {
     const id = req.body.id
     const straziCluj = req.body.straziCluj
@@ -278,6 +277,26 @@ app.use('/get-comenzi/:view', (req, res) => {
     async function getComenzi () {
         // const url = `${comenziDb}/_design/comenziAzi/_view/byIdComanda`
         const url = `${comenziDb}/_design/comenziAzi/_view/${view}`
+        console.log(url)
+        try {
+          axios(url)
+              .then(resp => {
+                  //console.log(resp.data)
+                  res.send(resp.data.rows)
+              })
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+app.use('/get-comenzi/:view', (req, res) => {
+    console.log("SUnt aici")
+    const view = req.params.view
+    getComenzibyClient()
+    console.log("SUnt aici")
+    async function getComenzibyClient () {
+        // const url = `${comenziDb}/_design/comenziAzi/_view/byClient`
+        const url = `${comenziDb}/_design/comenziAzi/_view/byClient?key='FGP'`
         console.log(url)
         try {
           axios(url)

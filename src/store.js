@@ -69,6 +69,7 @@ export default new Vuex.Store({
             livratorActiv: ''
         },
         updated: false,
+        comenzi_byClient:[],
         comenziAzi: [],
         comenziProgramate: [],
         comenziInLucru: [],
@@ -221,6 +222,16 @@ export default new Vuex.Store({
             axios(`/api/get-comenzi/${view}`)
                 .then(resp => {
                     state.comenzi = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comenzi_byClient({state}) {
+            axios(`/api/get-comenzi/byClient`)
+                .then(resp => {
+                    // console.log(key)
+                    state.comenzi_byClient = resp.data
                 })
                 .catch(e => {
                     console.log(e.response)
@@ -414,6 +425,13 @@ export default new Vuex.Store({
                     console.log(resp.data)
                 })
         },
-
+        // ----utile---
+    aziRef () {
+        const d = new Date()
+        const month = d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
+        const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
+        const today = `${d.getFullYear()}-${month}-${day}`;
+        return today;
+    }
     }
 })

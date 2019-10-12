@@ -2,9 +2,9 @@
 
     <div class="container" style="padding: 10px">
 <!--    <h2>  <input type="text" v-model="aziRef">text</input></h2>-->
-        <div v-if="user._id ==='Horea'"><h2>Comenzi Azi: {{aziRef}} ( {{ totalComenzi}} )</h2>
+        <div v-if="user._id ==='Horea'"><h2>Comenzi Azi: {{aziRef}} ( {{ totalComenziAdmin}} )</h2>
         </div>
-        <div v-if="user._id !=='Horea'"><h2>Comenzi Azi: {{aziRef}}</h2>
+        <div v-if="user._id !=='Horea'"><h2>Comenzi Azi: {{aziRef}} ({{ totalComenziUser}})</h2>
         </div>
 
         <div class="col-sm-12" style="padding: 10px">
@@ -24,7 +24,7 @@
                 <th style="text-align: center">Decontat</th>
                 <th style="text-align: center">Ora Livrare</th>
             </tr>
-            <tr v-if="user._id !=='Horea' && comenzi.value.numeClient===user.nume && comenzi.value.dataComanda===aziRef" v-for="(comenzi,index) in comenzi" :key="index">
+            <tr v-if="user._id !=='Horea' && comenzi.value !== undefined && comenzi.value.numeClient===user.nume && comenzi.value.dataComanda===aziRef" v-for="(comenzi,index) in comenzi" :key="index">
                 <!--                      <tr v-for="comenzi in comenzi">-->
                 <td>
                     <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium; width: 100%"
@@ -63,7 +63,7 @@
                 <td> {{ comenzi.value.decontat }}</td>
                 <td> {{ comenzi.value.oraLivrare }}</td>
             </tr>
-            /*----admin*/
+
 
             <tr v-if="user._id ==='Horea' && comenzi.value.dataComanda===aziRef" v-for="(comenzi,index) in comenzi" :key="index">
                 <!--                      <tr v-for="comenzi in comenzi">-->
@@ -119,6 +119,7 @@
         created() {
             // this.$store.dispatch('get_comenzi', 'byIdComanda')
             this.$store.dispatch('get_comenzi', 'byToday')
+            this.$store.dispatch('get_comenzi_byClient')
             this.$store.dispatch('get_comenziProgramate')
             this.$store.dispatch('get_comenziAzi')
             this.$store.dispatch('get_comenziInLucru')
@@ -128,6 +129,7 @@
             this.$store.dispatch('get_comenziInLivrare')
             this.$store.dispatch('get_comenziLivrate')
             this.$store.dispatch('get_comenziNedecontate')
+
             // this.$store.dispatch('get_comenzi', 'byStareGata')
         },
         mounted () {
@@ -155,10 +157,14 @@
         computed: {
             ...mapState({
                 user: 'user',
-                comenzi: 'comenzi'
+                comenzi: 'comenzi',
+                comenzi_byClient: 'comenzi_byClient'
             }),
-            totalComenzi () {
+            totalComenziAdmin () {
                 return this.comenzi.length
+            },
+            totalComenziUser () {
+                return this.comenzi_byClient.length
             },
             aziRef () {
                 const d = new Date()

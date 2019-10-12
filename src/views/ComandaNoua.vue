@@ -55,13 +55,16 @@
                                 class="form-control"
                                 v-model="adresa.strada">
                             <!--                        <option>{{comenzi.value.idComanda}}</option>-->
-                            <option v-for="strada in straziCluj">{{idStrada}}</option>
+<!--                            <option v-bind:value="{id: straziCluj.idStrada}"-->
+<!--                                    v-for="strada in straziCluj" >-->
+<!--                                {{ straziCluj.value.idStrada }}-->
+<!--                            </option>-->
                             <option value="Lunii" label="Lunii"/>
                             <option value="Eroilor" label="Eroilor"/>
                             <option value="Florilor" label="Florilor"/>
-                            <option value="Motilor" label="Motilor"/>
-                            <option value="Calea Floresti" label="Calea Floresti"/>
-                            <option value="Observator" label="Observatorului"/>
+<!--                            <option value="Motilor" label="Motilor"/>-->
+<!--                            <option value="Calea Floresti" label="Calea Floresti"/>-->
+<!--                            <option value="Observator" label="Observatorului"/>-->
                         </select></td>
                     </tr>
                     <tr>
@@ -281,11 +284,10 @@
         },
         data() {
             return {
-                straziCluj:{
-                  idStrada:'',
-                  fromCartier: '',
-                  inZona:''
-                },
+
+                   idStrada: '',
+                   fromCartier: '',
+                    zona: '',
                 _id: '',
                 nume: '',
                 CodClient: '',
@@ -301,7 +303,6 @@
                     zona:""
                 },
                 comenzi: {
-
                     idComanda: '',
                     dataComanda: ``,
                     numeClient: '',
