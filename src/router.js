@@ -7,8 +7,9 @@ Vue.use(Router)
 
 const router =  new Router({
   routes: [
-    {path: '/',
-      name: 'home',
+    {
+      path: '/',
+      name: 'login',
       component: Home
     },
     {
@@ -171,9 +172,9 @@ const router =  new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name === 'home') {
+  if (to.name === 'login') {
     next()
-  } else if (to.name !== 'home' && !store.state.user.name) {
+  } else if (to.name !== 'login' && !store.state.user.nume) {
     store.dispatch('check_login', next)
   } else {
     next()

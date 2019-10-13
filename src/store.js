@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as axios from 'axios'
 import router from './router'
+import debugInfo from "less/lib/less/tree/debug-info";
 
 Vue.use(Vuex)
 
@@ -70,6 +71,7 @@ export default new Vuex.Store({
         },
         updated: false,
         comenzi_byClient:[],
+        comenziAzi_byClient:[],
         comenziAzi: [],
         comenziProgramate: [],
         comenziInLucru: [],
@@ -107,13 +109,11 @@ export default new Vuex.Store({
             async function check () {
                 try {
                     const { data } = await axios('/api/check-login')
-                    if (data.userCtx.name) {
-                        next()
-                        state.username = data.userCtx.name
-                        state.isMenu = true
-                    }
-                    !data.userCtx.name && next('/login')
+                    state.user = data
+                    state.isMenu = true
+                    next()
                 } catch (e) {
+                    router.push({ name: 'login' })
                     state.username = undefined
                 }
             }
@@ -129,6 +129,13 @@ export default new Vuex.Store({
                   console.log(e)
               }
           }
+        },
+        logout ({ state }) {
+          axios('/api/logout')
+              .then(resp => {
+                  router.push({ name: 'login' })
+                  state.isMenu = false
+              })
         },
         create_user({state}, users) {
             axios.post('/api/create-user', users)
@@ -188,6 +195,15 @@ export default new Vuex.Store({
                     console.log(e.response)
                 })
         },
+        get_straziview({state}) {
+            axios('/api/get-straziview')
+                .then(resp => {
+                    state.straziCluj = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
         get_stradaCluj({state}, id) {
             axios(`/api/get-stradaCluj/${id}`)
                 .then(resp => {
@@ -227,11 +243,19 @@ export default new Vuex.Store({
                     console.log(e.response)
                 })
         },
-        get_comenzi_byClient({state}) {
-            axios(`/api/get-comenzi/byClient`)
+        get_comenzi_byClient({ state }) {
+            axios(`/api/get-comenzi-by-client/${state.user.nume}`)
                 .then(resp => {
-                    // console.log(key)
                     state.comenzi_byClient = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comenziAzi_byClient({ state }) {
+            axios(`/api/get-comenziAzi-by-client/${state.user.nume}`)
+                .then(resp => {
+                    state.comenziAzi_byClient = resp.data
                 })
                 .catch(e => {
                     console.log(e.response)

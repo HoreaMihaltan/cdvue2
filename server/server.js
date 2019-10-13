@@ -21,8 +21,27 @@ app.use('/check-login', (req, res) => {
     getData(config)
     async function getData ({ url, req, res, clbk }) {
         try {
-            const resp = await axios({ url, headers: req.headers })
-            clbk ? clbk(resp.data) : res.send(resp.data)
+            const { data } = await axios({ url, headers: req.headers })
+            if (data.userCtx.name) {
+                let db
+                switch (data.userCtx.roles[0]) {
+                    case 'client':
+                        db = 'clienti'
+                        break
+                    case 'livrator':
+                        db = 'livratori'
+                        break
+                }
+                console.log('db', db)
+                console.log('data.userCtx.name', data.userCtx.name)
+                const url = `http://localhost:5984/${db}/${data.userCtx.name}`
+                const user = await axios(url)
+                clbk ? clbk(user.data) : res.send(user.data)
+            } else {
+                console.log('no valid token')
+                res.sendStatus(401)
+            }
+
         } catch (e) {
             // console.log(e.response.data)
             console.log(req.baseUrl)
@@ -48,11 +67,24 @@ app.use('/login', (req, res) => {
             const url = `http://localhost:5984/${db}/${resp.data.name}`
             const user = await axios(url)
             res.cookie(resp.headers['set-cookie'][0])
-            console.log(res.cookie)
             res.send(user.data)
         } catch (e) {
             res.send(e.response)
         }
+    }
+})
+
+app.use('/logout', (req, res) => {
+    logout()
+    async function logout() {
+        try {
+            const resp = await axios.delete(session)
+            res.cookie(resp.headers['set-cookie'][0])
+            res.send(resp.data)
+        } catch (e) {
+
+        }
+
     }
 })
 
@@ -204,9 +236,9 @@ app.use('/create-strada', (req, res) => {
     }
 })
 
-app.use('/get-straziCluj', (req, res) => {
-    getStraziCluj()
-    async function getStraziCluj () {
+app.use('/get-straziview', (req, res) => {
+    getStraziView()
+    async function getStraziView () {
         const url = `${straziclujDb}/_design/straziCluj/_view/byStraziCluj`
         try {
             axios(url)
@@ -214,6 +246,24 @@ app.use('/get-straziCluj', (req, res) => {
                     console.log(resp.data)
                     res.send(resp.data.rows)
                 })
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+
+app.use('/get-straziCluj', (req, res) => {
+    getStraziCluj()
+    async function getStraziCluj () {
+        const url = `${straziclujDb}/_design/straziCluj/_view/byStraziCluj`
+        try {
+            const { data } = await axios(url)
+            const response = data.rows.map(obj => {
+                delete obj.value._id
+                delete obj.value._rev
+                return obj.value
+            })
+            res.send(response)
         } catch (e) {
             console.log(e.response)
         }
@@ -289,21 +339,33 @@ app.use('/get-comenzi/:view', (req, res) => {
         }
     }
 })
-app.use('/get-comenzi/:view', (req, res) => {
-    console.log("SUnt aici")
-    const view = req.params.view
+app.use('/get-comenzi-by-client/:nume', (req, res) => {
+    const nume = req.params.nume
+    console.log(`nume: ${nume}`)
     getComenzibyClient()
-    console.log("SUnt aici")
     async function getComenzibyClient () {
-        // const url = `${comenziDb}/_design/comenziAzi/_view/byClient`
-        const url = `${comenziDb}/_design/comenziAzi/_view/byClient?key='FGP'`
+        const url = `http://localhost:5984/comenzi/_design/comenziAzi/_view/byClient?key="${nume}"`
         console.log(url)
         try {
-          axios(url)
-              .then(resp => {
-                  //console.log(resp.data)
-                  res.send(resp.data.rows)
-              })
+            const { data } = await axios(url)
+            console.log('data ', data)
+            res.send(data.rows)
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+app.use('/get-comenziAzi-by-client/:nume', (req, res) => {
+    const nume = req.params.nume
+    console.log(`nume: ${nume}`)
+    getComenziAzibyClient()
+    async function getComenziAzibyClient () {
+        const url = `http://localhost:5984/comenzi/_design/comenziAzi/_view/byToday?key="${nume}"`
+        console.log(url)
+        try {
+            const { data } = await axios(url)
+            console.log('data ', data)
+            res.send(data.rows)
         } catch (e) {
             console.log(e.response)
         }

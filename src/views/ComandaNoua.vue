@@ -48,69 +48,39 @@
                 <table class="col-sm-6" style="padding: 10px">
                     <tr>
                         <td><label>Strada</label></td>
-                        <td ><select
-                                v-if="user.nume"
+                        <td >
+                            <select
                                 id="strada"
                                 type="text"
                                 class="form-control"
+                                @change="setAddress"
                                 v-model="adresa.strada">
-                            <!--                        <option>{{comenzi.value.idComanda}}</option>-->
-<!--                            <option v-bind:value="{id: straziCluj.idStrada}"-->
-<!--                                    v-for="strada in straziCluj" >-->
-<!--                                {{ straziCluj.value.idStrada }}-->
-<!--                            </option>-->
-                            <option value="Lunii" label="Lunii"/>
-                            <option value="Eroilor" label="Eroilor"/>
-                            <option value="Florilor" label="Florilor"/>
-<!--                            <option value="Motilor" label="Motilor"/>-->
-<!--                            <option value="Calea Floresti" label="Calea Floresti"/>-->
-<!--                            <option value="Observator" label="Observatorului"/>-->
+                                <option v-for="item,index in straziCluj"
+                                        :key="index">
+                                    {{ item.idStrada }}
+                                </option>
                         </select></td>
                     </tr>
                     <tr>
                         <td><label>Cartier</label></td>
-                        <td><select
-                                id="cartier"
-                                name="Cartier"
-                                v-if="adresa.strada"
-                                required="true"
-                                v-validate="'required'"
-                                placeholder="Alege cartier"
-                                v-model="comenzi.cartier">
-                            <span style="color: red;" v-show="errors.has('Cartier')">{{ errors.first('Cartier')}}</span>
-
-                            <option value="Andrei Muresanu" label="Andrei Muresanu"/>
-                            <option value="Apahida" label="Apahida"/>
-                            <option value="Baciu" label="Baciu"/>
-                            <option value="Borhanci" label="Borhanci"/>
-                            <option value="Buna Ziua" label="Buna Ziua"/>
-                            <option value="Centru" label="Centru"/>
-                            <option value="Dambu Rotund" label="Dambu Rotund"/>
-                            <option value="Faget" label="Faget"/>
-                            <option value="Feleacu" label="Feleacu"/>
-                            <option value="Floresti" label="Floresti"/>
-                            <option value="Gheorgheni" label="Gheorgheni"/>
-                            <option value="Grigorescu" label="Grigorescu"/>
-                            <option value="Gruia" label="Gruia"/>
-                            <option value="Manastur" label="Manastur"/>
-                            <option value="Marasti" label="Marasti"/>
-                            <option value="Muncii" label="Muncii"/>
-                            <option value="Someseni" label="Someseni"/>
-                            <option value="Sopor" label="Sopor"/>
-                            <option value="Zorilor" label="Zorilor"/>
-
-                        </select></td>
-                    </tr>
-                    <tr>
-                        <td><label>
-                            Zona</label>
                         <td>
-                            <input
-                                    v-if="comenzi.cartier"
-                                    type="text"
-                                    v-model="adresa.zona"></td>
+                            <input type="text"
+                                   v-model="adresa.cartier"
+                                   placeholder="cartier" disabled>
+                        </td>
+
+
                     </tr>
                     <tr>
+                        <td><label>Zona</label></td>
+                        <td>
+                            <input type="text"
+                                   v-model="adresa.zona"
+                                   placeholder="zona" disabled>
+                        </td>
+
+
+                    </tr>
                         <td><label>
                             Nr</label>
                         <td>
@@ -145,15 +115,6 @@
                                     type="text"
                                     v-model="adresa.ap"></td>
                     </tr>
-                    <tr>
-<!--                        <td><label>Adresa Livrare</label></td>-->
-<!--                        <td><input-->
-<!--                                type="text"-->
-<!--                                v-model="adresaLivrare" disabled/>-->
-
-<!--                        </td>-->
-                    </tr>
-                    <!--            </tr>-->
                     <tr>
                         <td><label>Telefon</label></td>
                         <td><input type="text"
@@ -234,27 +195,6 @@
                 </table>
             </table>
 
-            <!--        <button @click="setStatus('in lucru')">In lucru</button>-->
-
-
-            <!--        <form v-if="!formIsSent"-->
-            <!--              style="text-align: left" @submit.prevent="submit, submitValidation ">-->
-            <!--            de aici-->
-            <!--            <div v-for="(item,key) in comenzi">-->
-            <!--                <table class="col-sm-6"  >-->
-            <!--                    <td  style="text-align: left; width:150px "><label :for="key">{{ key }}</label></td>-->
-            <!--                    <td style="text-align: left; width:auto">-->
-            <!--                        <input :id="key" :placeholder="key" :type=-->
-            <!--                                "key === 'idComanda' ? 'text'-->
-            <!--                               : key === 'decontat' ? 'boolean'-->
-            <!--                               : 'text'"-->
-            <!--                               v-model="comenzi[key]"-->
-
-            <!--                               /></td>-->
-            <!--                </table>-->
-            <!--            </div>-->
-            <!--            pana aici-->
-
             <input v-if="user._id
              && (comenzi.plataCash >0 || comenzi.plataCard>0)"
                    class="btn btn-primary dropdown-toggle"  style="font-size: xx-large"
@@ -271,23 +211,17 @@
     import {mapState} from 'vuex'
     import moment from "moment";
     import Vue from 'vue';
-
     export default {
         name: 'ComandaNoua',
-        created() {
-            //this.$store.dispatch('get_comenzi', 'byIdComanda')
+        created () {
             this.$store.dispatch('get_comenzi', 'byToday')
             this.$store.dispatch('get_straziCluj')
-
-
-            // this.$store.dispatch('get_comenzi', 'byStareGata')
         },
-        data() {
+        data () {
             return {
-
-                   idStrada: '',
-                   fromCartier: '',
-                    zona: '',
+                idStrada: '',
+                fromCartier: '',
+                zona: '',
                 _id: '',
                 nume: '',
                 CodClient: '',
@@ -352,14 +286,12 @@
             //this.comenzi.valoareComanda=total()
 
         },
-
         computed: {
             ...mapState({
                 user: 'user',
                 straziCluj: 'straziCluj',
                 formIsSent: 'formIsSent',
-                // comenziData: 'comenzi'
-               comenziData: 'comenzi',
+                comenziData: 'comenzi',
                 clienti: 'clienti',
 
 
@@ -394,9 +326,15 @@
                 return nrCRT
             }
         },
-
         methods: {
-
+            setAddress () {
+                this.straziCluj.forEach(obj => {
+                    if (obj.idStrada === this.adresa.strada) {
+                        this.adresa.cartier = obj.fromCartier
+                        this.adresa.zona = obj.zona
+                    }
+                })
+            },
             submitValidation() {
                 this.$validator.validateAll()
                     .then(resp => {
@@ -441,7 +379,7 @@
             goToComenziAzi(){
                 this.$router.push('/comenzi_azi')
             }
-        },
+        }
     }
 
 </script>

@@ -109,17 +109,18 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+        import {mapState} from 'vuex'
 
-    import Listnav from "../components/ListNav";
+        import Listnav from "../components/ListNav";
 
-    export default {
+        export default {
         name: 'comenzi_azi',
         components: {Listnav},
-        created() {
+        created () {
             // this.$store.dispatch('get_comenzi', 'byIdComanda')
             this.$store.dispatch('get_comenzi', 'byToday')
             this.$store.dispatch('get_comenzi_byClient')
+            this.$store.dispatch('get_comenziAzi_byClient')
             this.$store.dispatch('get_comenziProgramate')
             this.$store.dispatch('get_comenziAzi')
             this.$store.dispatch('get_comenziInLucru')
@@ -158,13 +159,13 @@
             ...mapState({
                 user: 'user',
                 comenzi: 'comenzi',
-                comenzi_byClient: 'comenzi_byClient'
+                comenziAzi_byClient: 'comenziAzi_byClient'
             }),
             totalComenziAdmin () {
                 return this.comenzi.length
             },
             totalComenziUser () {
-                return this.comenzi_byClient.length
+               return this.comenziAzi_byClient.length
             },
             aziRef () {
                 const d = new Date()

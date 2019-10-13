@@ -1,5 +1,6 @@
 <template xmlns="http://www.w3.org/1999/html">
     <div>
+        <button class="btn-primary" @click="$store.dispatch('logout')">LOGOUT</button>
 
         <!--<br><br><br>-->
 
@@ -12,8 +13,9 @@
             <div class="col-sm-6">
 
                 <router-link to="/" style="width: 100%; font-size: xx-large" active="active">CallDelivery App</router-link>
-                <a href="tel:0752621501"> Suna-ne!</a>
-<!--            <input type="text" style="width: auto" v-model="">-->
+                <a href="tel:0752621501"> Suna-ne! </a>
+                <h2 style="color: #282c34">Esti inregistrat ca: {{user.nume}}</h2>
+
             </div>
 </div>
 

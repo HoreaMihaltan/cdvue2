@@ -10,8 +10,8 @@
     <router-view/>
     <br/><br/><br/><br/>
     <br/><br/><br/><br/>
-    <Header v-if="$router.currentRoute.name !== 'home'" class="sticky"/>
-    <Footer v-if="$router.currentRoute.name !== 'home'" class="footer"/>
+    <Header v-if="$router.currentRoute.name !== 'login'" class="sticky"/>
+    <Footer v-if="$router.currentRoute.name !== 'login'" class="footer"/>
   </div>
 </template>
 <script>

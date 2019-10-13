@@ -45,7 +45,7 @@
     export default {
         name: 'strazi',
         created () {
-            this.$store.dispatch('get_straziCluj')
+            this.$store.dispatch('get_straziview')
         },
         computed: {
             ...mapState({
