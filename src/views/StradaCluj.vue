@@ -6,7 +6,7 @@
         <table class="col-sm-12" style="padding: 10px" >
             <th colspan="24"> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link  to="/strazi">Inapoi la Strazi</router-link></th>
             <!--            <tr colspan="24" style="text-align:center"><h2>-->
-                <th><input colspan="24" style="padding: 10px; text-align: center" type="text" v-model="straziCluj.idStrada" placeholder="NUME STRADA" disabled /></th>
+                <th><input colspan="24" style="padding: 10px; text-align: center" type="text" v-model="straziCluj.idStrada" placeholder="NUME STRADA" /></th>
             <!--            </h2></tr>-->
 
 

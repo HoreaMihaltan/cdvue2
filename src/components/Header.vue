@@ -14,7 +14,7 @@
 
                 <router-link to="/" style="width: 100%; font-size: xx-large" active="active">CallDelivery App</router-link>
                 <a href="tel:0752621501"> Suna-ne! </a>
-                <h2 style="color: #282c34">Esti inregistrat ca: {{user.nume}}</h2>
+                <h2 style="color: #282c34">Esti inregistrat ca: {{user.nume}} ora: {{ceas}} </h2>
 
             </div>
 </div>
@@ -40,15 +40,11 @@
 
 <script>
     import { mapState } from 'vuex'
+    import moment from "moment";
     export default {
         name: "Header",
         data() {
             return {
-                ceas: {
-                    oraH: '',
-                    min: '',
-                    sec: ''
-                }
             }
         },
         mounted () {
@@ -75,7 +71,11 @@
         computed: {
             ...mapState({
                 user: 'user'
-            })
+            }),
+                ceas(){
+                return  moment().format('LT');
+
+            }
         }
     }
 </script>

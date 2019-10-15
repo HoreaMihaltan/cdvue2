@@ -344,7 +344,7 @@ app.use('/get-comenzi-by-client/:nume', (req, res) => {
     console.log(`nume: ${nume}`)
     getComenzibyClient()
     async function getComenzibyClient () {
-        const url = `http://localhost:5984/comenzi/_design/comenziAzi/_view/byClient?key="${nume}"`
+        const url = `${comenziDb}/_design/comenziAzi/_view/byClient?key="${nume}"`
         console.log(url)
         try {
             const { data } = await axios(url)
@@ -360,7 +360,23 @@ app.use('/get-comenziAzi-by-client/:nume', (req, res) => {
     console.log(`nume: ${nume}`)
     getComenziAzibyClient()
     async function getComenziAzibyClient () {
-        const url = `http://localhost:5984/comenzi/_design/comenziAzi/_view/byToday?key="${nume}"`
+        const url = `${comenziDb}/_design/comenziAzi/_view/byToday?key="${nume}"`
+        console.log(url)
+        try {
+            const { data } = await axios(url)
+            console.log('data ', data)
+            res.send(data.rows)
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+app.use('/get-comenzi-by-clientLuna/:nume', (req, res) => {
+    const nume = req.params.nume
+    console.log(`nume: ${nume}`)
+    getComenzibyClientLuna()
+    async function getComenzibyClientLuna () {
+        const url = `${comenziDb}/_design/comenziAzi/_view/byClientLuna?key="${nume}"`
         console.log(url)
         try {
             const { data } = await axios(url)

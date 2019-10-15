@@ -72,6 +72,7 @@ export default new Vuex.Store({
         updated: false,
         comenzi_byClient:[],
         comenziAzi_byClient:[],
+        comenziAzi_byClientLuna:[],
         comenziAzi: [],
         comenziProgramate: [],
         comenziInLucru: [],
@@ -256,6 +257,15 @@ export default new Vuex.Store({
             axios(`/api/get-comenziAzi-by-client/${state.user.nume}`)
                 .then(resp => {
                     state.comenziAzi_byClient = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_comenziAzi_byClientLuna({ state }) {
+            axios(`/api/get-comenzi-by-clientLuna/${state.user.nume}`)
+                .then(resp => {
+                    state.comenziAzi_byClientLuna = resp.data
                 })
                 .catch(e => {
                     console.log(e.response)

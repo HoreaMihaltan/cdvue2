@@ -1,6 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
 
-    <div class="container" style="padding: 10px">
+    <div class="container" style="padding: 10px">            /*onclick="location.reload()"*/
+
 <!--    <h2>  <input type="text" v-model="aziRef">text</input></h2>-->
         <div v-if="user._id ==='Horea'"><h2>Comenzi Azi: {{aziRef}} ( {{ totalComenziAdmin}} )</h2>
         </div>
@@ -24,7 +25,8 @@
                 <th style="text-align: center">Decontat</th>
                 <th style="text-align: center">Ora Livrare</th>
             </tr>
-            <tr v-if="user._id !=='Horea' && comenzi.value !== undefined && comenzi.value.numeClient===user.nume && comenzi.value.dataComanda===aziRef" v-for="(comenzi,index) in comenzi" :key="index">
+
+            <tr  v-if="user._id !=='Horea' && comenzi.value !== undefined && comenzi.value.numeClient===user.nume && comenzi.value.dataComanda===aziRef" v-for="(comenzi,index) in comenzi" :key="index">
                 <!--                      <tr v-for="comenzi in comenzi">-->
                 <td>
                     <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium; width: 100%"
@@ -39,7 +41,7 @@
                     </router-link>
                 </td>
                 <td style="width: auto"> {{ comenzi.value.adresaRidicare }}</td>
-                <td> {{ comenzi.value.livrator }}</td>
+                <td > {{ comenzi.value.livrator }}</router-link></td>
                 <td> {{ comenzi.value.oraComanda }}</td>
                 <td> {{ comenzi.value.oraLimita }}</td>
                 <td v-if="comenzi.value.stareComanda === 'in lucru'" style="color: honeydew; background-color: green ">
@@ -105,7 +107,9 @@
                 <td> {{ comenzi.value.oraLivrare }}</td>
             </tr>
         </div>
+
     </div>
+
 </template>
 
 <script>
@@ -113,26 +117,38 @@
 
         import Listnav from "../components/ListNav";
 
+        setTimeout(function(){ location.reload(); }, 30000);
         export default {
         name: 'comenzi_azi',
         components: {Listnav},
         created () {
+
             // this.$store.dispatch('get_comenzi', 'byIdComanda')
-            this.$store.dispatch('get_comenzi', 'byToday')
-            this.$store.dispatch('get_comenzi_byClient')
-            this.$store.dispatch('get_comenziAzi_byClient')
-            this.$store.dispatch('get_comenziProgramate')
-            this.$store.dispatch('get_comenziAzi')
-            this.$store.dispatch('get_comenziInLucru')
-            this.$store.dispatch('get_comenziDisponibile')
-            this.$store.dispatch('get_comenziGata')
-            this.$store.dispatch('get_comenziRidicate')
-            this.$store.dispatch('get_comenziInLivrare')
-            this.$store.dispatch('get_comenziLivrate')
-            this.$store.dispatch('get_comenziNedecontate')
+            this.$store.dispatch('get_comenzi', 'byToday');
+            this.$store.dispatch('get_comenzi_byClient');
+            this.$store.dispatch('get_comenziAzi_byClient');
+            this.$store.dispatch('get_comenziAzi_byClientLuna');
+            this.$store.dispatch('get_comenziProgramate');
+            this.$store.dispatch('get_comenziAzi');
+            this.$store.dispatch('get_comenziInLucru');
+            this.$store.dispatch('get_comenziDisponibile');
+            this.$store.dispatch('get_comenziGata');
+            this.$store.dispatch('get_comenziRidicate');
+            this.$store.dispatch('get_comenziInLivrare');
+            this.$store.dispatch('get_comenziLivrate');
+            this.$store.dispatch('get_comenziNedecontate');
+
 
             // this.$store.dispatch('get_comenzi', 'byStareGata')
         },
+
+         methods:{
+             // refresh(){
+             //     this.$store.dispatch('get_comenzi', 'byToday');
+             //     this.$store.dispatch('get_comenzi_byClient');
+             // },
+         },
+
         mounted () {
             //const d = new Date()
             // const t = new getTime()
@@ -159,13 +175,17 @@
             ...mapState({
                 user: 'user',
                 comenzi: 'comenzi',
-                comenziAzi_byClient: 'comenziAzi_byClient'
+                comenziAzi_byClient: 'comenziAzi_byClient',
+                comenziAzi_byClientLuna: 'comenziAzi_byClientLuna'
             }),
+
             totalComenziAdmin () {
                 return this.comenzi.length
             },
+
             totalComenziUser () {
-               return this.comenziAzi_byClient.length
+
+                return   this.comenziAzi_byClientLuna.length
             },
             aziRef () {
                 const d = new Date()
@@ -173,7 +193,8 @@
                 const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
                 const today = `${d.getFullYear()}-${month}-${day}`;
                 return today;
-            }
+            },
+
 
         },
     }

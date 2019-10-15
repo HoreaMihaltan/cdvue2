@@ -1,5 +1,5 @@
 <template>
-    <div class="container" onload="location.reload()">
+    <div class="container" >
 
         <!--            style="text-align: left" @submit.prevent="submitValidation ">-->
         <!--            <input type="text"-->
@@ -12,6 +12,7 @@
         <button class="btn btn-primary dropdown-toggle" style="font-size: medium " @click="goToComenziAzi">Inapoi la Comenzi
         </button>
         <h2>Comanda Noua ( {{ totalComenzi}} ) {{user.nume}}</h2>
+        <h2>Din total {{user.clientCurseIncluse}} curse incluse in abonament mai aveti la dispozitie {{restComenziAbonament}} </h2>
 
         <form v-if="!formIsSent"
               style="text-align: left" @submit.prevent="submitValidation ">
@@ -20,8 +21,8 @@
 
 
                 <tr style="padding: 10px">
-                    <td>{{IdComanda}} Adresa livrare: <input
-                            style="width: auto"
+                    <td>{{IdComanda}} <br/>Adresa livrare: <input
+                            style="width: 30%"
                             type="text"
                             v-model="adresaLivrare" disabled/></td>
                 </tr>
@@ -90,20 +91,29 @@
                                     v-model="adresa.nr"></td>
                     </tr>
                     <tr>
+                        <td><label>Este:</label></td>
+                        <td><input
+                                v-if="adresa.nr"
+                                style="width: auto" type="radio" name="Bloc" v-model="adresa.bloc" value="true"
+                                checked/> Bloc <input style="width: auto" type="radio" name="Bloc"
+                                                    v-model="adresa.bloc" value="false" checked/> Casa
+                        </td>
+                    </tr>
+                    <tr>
                         <td><label>
                             Sc</label>
                         <td>
                             <input
-                                    v-if="adresa.nr"
+                                    v-if="adresa.bloc==='true'"
                                     type="text"
                                     v-model="adresa.sc"></td>
                     </tr>
-                    <tr>
+                                        <tr>
                         <td><label>
                             Et</label>
                         <td>
                             <input
-                                    v-if="adresa.nr"
+                                    v-if="adresa.bloc==='true' && adresa.sc"
                                     type="text" v-model="adresa.et"></td>
                     </tr>
                     <tr>
@@ -111,15 +121,15 @@
                             Ap</label>
                         <td>
                             <input
-                                    v-if="adresa.nr"
+                                    v-if="adresa.bloc==='true' && adresa.et"
                                     type="text"
                                     v-model="adresa.ap"></td>
                     </tr>
                     <tr>
                         <td><label>Telefon</label></td>
-                        <td><input type="text"
+                        <td><input type="tel"
                                    name="TelefonDestinatar"
-                                   v-if="adresa.nr"
+                                   v-if="adresa.bloc==='false' && adresa.nr || adresa.bloc==='true' && adresa.ap"
                                    required="true"
                                    v-validate="'required|min:10'"
                                    placeholder="Telefon destinatar"
@@ -140,7 +150,7 @@
                     <tr>
                         <td><label>Plata cash</label></td>
                         <td><input
-                                v-if="comenzi.telefonDestinatar"
+                                v-if="adresa.bloc==='false' && adresa.nr && comenzi.telefonDestinatar || adresa.bloc==='true' && adresa.ap && comenzi.telefonDestinatar"
                                 type="text" v-model="comenzi.plataCash"/></td>
                     </tr>
                     <tr>
@@ -171,6 +181,7 @@
                         <td><select type="text" v-model="comenzi.stareComanda">
                             <option value="in lucru" label="In lucru"/>
                             <option value="programata" label="Programata"/>
+                            <option value="gata de livrare" label="Gata de livrare"/>
 
                         </select></td>
                     </tr>
@@ -187,7 +198,11 @@
                                 v-else="comenzi.stareComanda === 'programata'"
                                 type="date" v-model="comenzi.dataComanda"/></td>
                     </tr>
-
+                    <tr>
+                        <td><label>Tarifare</label></td>
+                        <td><input
+                                type="text" v-model="setTarifare" disabled/></td>
+                    </tr>
 
                     </td></tr>
 
@@ -198,7 +213,7 @@
             <input v-if="user._id
              && (comenzi.plataCash >0 || comenzi.plataCard>0)"
                    class="btn btn-primary dropdown-toggle"  style="font-size: xx-large"
-                   type="submit" value="Trimite Comanda" @click="submit,goToComenziAzi"/>
+                   type="submit" value="Trimite Comanda" @click="submit"/>
 
         </form>
 <!--        <h1 v-else>Comanda lansata</h1>-->
@@ -216,6 +231,7 @@
         created () {
             this.$store.dispatch('get_comenzi', 'byToday')
             this.$store.dispatch('get_straziCluj')
+            this.$store.dispatch('get_comenziAzi_byClientLuna')
         },
         data () {
             return {
@@ -226,22 +242,27 @@
                 nume: '',
                 CodClient: '',
                 AdresaLocatie: '',
+                luna: '',
+                tarif: '',
                 adresa: {
                     strada: '',
+                    bloc: 'false',
                     sc: '',
                     ap: '',
                     et: '',
                     nr: '',
                     cod: '',
                     cartier: '',
-                    zona:""
+                    zona:'',
+                    nrCD:''
                 },
                 comenzi: {
+
                     idComanda: '',
                     dataComanda: ``,
                     numeClient: '',
                     adresaLivrare: '',
-                    telefonDestinatar: '07',
+                    telefonDestinatar: '',
                     cartier: '',
                     livrator: 'fara livrator',
                     plataCash: '',
@@ -267,17 +288,20 @@
             const ora = (d.getHours() < 10 ? '0' : '') + d.getHours();
             const minute = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
             const secunde = (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
-            const nr = +this.comenziData.length + 1;
-            const cod = `${nr}-${month}${day}${ora}${minute}${secunde}`;
+            // const nr = +this.comenziData.length + 1;
+            const nr = +this.nrCD + 1;
+            const cod = `-${month}${day}${ora}${minute}${secunde}`;
             const acum = ora + ":" + minute + ":" + secunde;
             const mtranzit = 90;
             const mt = ((d.getMinutes() + mtranzit) % 60 < 10 ? '0' : '') + (d.getMinutes() + mtranzit) % 60;
             const ht = ((d.getMinutes() + mtranzit) < 120 ? d.getHours() + 1 : d.getHours() + 2);
             const tranzit = ht + ":" + mt;
+            const lunaCd = month+"/"+year
             this.adresa.cod = cod;
             this.comenzi.oraComanda = acum;
             this.comenzi.oraLimita = tranzit;
             this.comenzi.dataComanda = today;
+            this.luna = lunaCd;
 
             // const length = this.comenzi.length();
             // this.comenzi.tarifare = length;
@@ -293,18 +317,27 @@
                 formIsSent: 'formIsSent',
                 comenziData: 'comenzi',
                 clienti: 'clienti',
+                comenziAzi_byClientLuna: 'comenziAzi_byClientLuna',
 
 
             }),
+            numarcomanda(){
+                return this.comenziData.length + 1
+
+            },
             total() {
                 // return   1+1
                 return +this.comenzi.plataCash + +this.comenzi.plataCard
             },
             adresaLivrare() {
-                return `Str: ${this.adresa.strada} ${this.adresa.nr}, Cluj-Napoca (sc:${this.adresa.sc}, et:${this.adresa.et}, ap:${this.adresa.ap})`
-            },
+                if(this.adresa.bloc==="true") {
+                    return `Str: ${this.adresa.strada} ${this.adresa.nr}, Cluj-Napoca (sc:${this.adresa.sc}, et:${this.adresa.et}, ap:${this.adresa.ap})`
+                }else{
+                    return `Str: ${this.adresa.strada} ${this.adresa.nr}, Cluj-Napoca `
+                }
+                },
             IdComanda() {
-                return `${this.user._id}0${this.adresa.cod}/(${this.adresa.strada}-${this.adresa.nr})Z${this.adresa.zona}`
+                return `${this.user._id}0${this.comenziData.length + 1}${this.adresa.cod}/(${this.adresa.strada}-${this.adresa.nr})Z${this.adresa.zona}`
             },
             NumeClient() {
                 return `${this.user.nume}`
@@ -312,6 +345,10 @@
             AdresaRidicare() {
                 return `${this.user.adresaLocatie}`
             },
+            ceas(){
+                return moment().format('LTS');
+            },
+
             // setCartier: function () {
             //    const str  = ["Lunii", "Rasinari","Observator"];
             // const strIF = this.adresa.strada;
@@ -324,9 +361,41 @@
             totalComenzi: function () {
                 const nrCRT = this.comenziData.length;
                 return nrCRT
-            }
+            },
+            totalComenziLuna: function () {
+                const comenziLuna = this.comenziAzi_byClientLuna.length;
+                return comenziLuna;
+            },
+            restComenziAbonament: function () {
+                return this.user.clientCurseIncluse - this.comenziAzi_byClientLuna.length;
+
+            },
+            setTarifare () {
+                    if (this.user.clientCurseIncluse - this.comenziAzi_byClientLuna.length > 0 && this.adresa.zona=== '1') {
+                        return this.tarif = 0;
+                    };
+                     if (this.user.clientCurseIncluse - this.comenziAzi_byClientLuna.length <=0  && this.adresa.zona=== '1'){
+                      return this.tarif = this.user.clientTarifareBaza;
+                     };
+                     if (this.adresa.zona=== '2'){
+                      return this.tarif = this.user.clientTarifareZona2;
+                     };
+                     if (this.adresa.zona=== '3'){
+                      return this.tarif = this.user.clientTarifareZona3;
+                     };
+                    // else if ( this.adresa.zona=== "2" ){
+                    //     return this.tarif = user.clientTarifareZona2;
+                    // }else if ( this.adresa.zona=== "3" ){
+                    //     return this.tarif = user.clientTarifareZona3;
+                    // }
+
+            },
         },
         methods: {
+            // refresh(){
+            //     return location.reload();
+            // },
+
             setAddress () {
                 this.straziCluj.forEach(obj => {
                     if (obj.idStrada === this.adresa.strada) {
@@ -335,6 +404,7 @@
                     }
                 })
             },
+
             submitValidation() {
                 this.$validator.validateAll()
                     .then(resp => {
@@ -346,6 +416,8 @@
                             this.comenzi.idComanda = this.IdComanda;
                             this.comenzi.adresaLivrare = this.adresaLivrare;
                             this.comenzi.valoareComanda = this.total;
+                            this.comenzi.cartier = this.adresa.cartier;
+                            this.comenzi.luna = this.luna;
                             this.$store.dispatch('create_comanda', this.comenzi);
                             this.$store.dispatch('get_comenziProgramate');
                             this.$store.dispatch('get_comenziAzi');
@@ -356,7 +428,11 @@
                             this.$store.dispatch('get_comenziInLivrare');
                             this.$store.dispatch('get_comenziLivrate');
                             this.$store.dispatch('get_comenziNedecontate');
+                            this.$store.dispatch('get_comenziAzi_byClientLuna');
                             alert("Comanda a fost lansata!");
+                            location.reload();
+                            this.$router.push('/comenzi_azi');
+
 
                             // aici pui codul ce doresti sa ruleze daca validarile sunt corecte
                         } else {
@@ -369,6 +445,7 @@
                 this.comenzi.idComanda = this.IdComanda;
                 this.comenzi.adresaLivrare = this.adresaLivrare;
                 this.comenzi.valoareComanda = this.total;
+                this.comenzi.tarifare = this.setTarifare();
                 this.$store.dispatch('create_comanda', this.comenzi);
 
                 // this.$store.dispatch('create_comanda', this.adresa)
@@ -376,6 +453,7 @@
             setStatus(status) {
                 this.comenzi.stareComanda = status
             },
+
             goToComenziAzi(){
                 this.$router.push('/comenzi_azi')
             }
@@ -386,12 +464,4 @@
 
 
 <style>
-    /*[class*="col-"] {*/
-    /*    float: center;*/
-    /*    inline-size: 10px;*/
-    /*    padding: 10px;*/
-    /*    border: 0px solid blue;*/
-    /*}*/
-    /*.col-sm-2 {width: 50%; align: center}*/
-    /*.col-sm-12 {width: 100%; align: center}*/
 </style>

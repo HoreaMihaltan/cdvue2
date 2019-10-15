@@ -22,14 +22,17 @@
                 <th style="text-align: center">Cartier</th>
                 <th style="text-align: center">Zona</th>
             </tr>
-            <tr v-for="(straziCluj,index) in straziCluj" :key="index">
+            <tr @click="$router.push('/strada/'+ straziCluj.id);"
+                class="select"
+                    v-for="(straziCluj,index) in straziCluj" :key="index">
                 <!--                      <tr v-for="clienti in clienti">-->
-                <td> <router-link
-                        class="btn btn-primary"
-                        style="font-size: medium; width: 100%"
-                        :to="'/strada/' + straziCluj.id">
+                <td >
+<!--                    <router-link-->
+<!--                        class="btn btn-primary"-->
+<!--                        style="font-size: medium; width: 100%"-->
+<!--                        :to="'/strada/' + straziCluj.id">-->
                     {{ straziCluj.value.idStrada }}
-                </router-link>
+<!--                </router-link>-->
                 </td>
                 <td> {{ straziCluj.value.fromCartier }}
                 </td>
@@ -46,6 +49,7 @@
         name: 'strazi',
         created () {
             this.$store.dispatch('get_straziview')
+
         },
         computed: {
             ...mapState({

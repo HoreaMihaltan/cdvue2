@@ -196,8 +196,10 @@
                 return this.comenziLivrate.length;
             },
             totalNedecontate: function () {
+
                 return this.comenziNedecontate.length;
-            }
+            },
+
         }
     }
 
@@ -220,16 +222,7 @@
     //     ; // add zero in front of numbers < 10
     //     return i;
     // }
-    // var prevScrollpos = window.pageYOffset;
-    // window.onscroll = function() {
-    //     var currentScrollPos = window.pageYOffset;
-    //     if (prevScrollpos > currentScrollPos) {
-    //         document.getElementById("navbar").style.top = "0";
-    //     } else {
-    //         document.getElementById("navbar").style.top = "-50px";
-    //     }
-    //     prevScrollpos = currentScrollPos;
-    // }
+
 </script>
 
 <style>
