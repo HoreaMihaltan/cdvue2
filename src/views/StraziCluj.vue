@@ -1,7 +1,9 @@
-<template>
+<template >
+
     <div class="container" style="padding: 10px">
 <!--        <comenzi_azi></comenzi_azi>-->
         <h1>Strazi Cluj</h1>
+
         <table class="col-sm-12" style="padding: 10px">
           <tr colspan="12">
               <router-link to="/stradanoua"

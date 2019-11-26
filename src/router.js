@@ -92,6 +92,60 @@ const router =  new Router({
       component: () => import( './liste/ComenziDisponibile.vue')
     },
     {
+      path: '/comenzi_disponibile_user',
+      name: 'comenzi_disponibile_user',
+
+      component: () => import( './liste/ComenziDisponibileUser.vue')
+    },
+    {
+      path: '/comenzi_inlucru_user',
+      name: 'comenzi_inlucru_user',
+
+      component: () => import( './liste/ComenziInLucruUser.vue')
+    },
+    {
+      path: '/comenzi_gata_user',
+      name: 'comenzi_gata_user',
+
+      component: () => import( './liste/ComenziGataUser.vue')
+    },
+    {
+      path: '/comenzi_ridicate_user',
+      name: 'comenzi_ridicate_user',
+
+      component: () => import( './liste/ComenziRidicateUser.vue')
+    },
+    {
+      path: '/comenzi_inlivrare_user',
+      name: 'comenzi_inlivrare_user',
+
+      component: () => import( './liste/ComenziInLivrareUser.vue')
+    },
+    {
+      path: '/comenzi_livrate_user',
+      name: 'comenzi_livrate_user',
+
+      component: () => import( './liste/ComenziLivrateUser.vue')
+    },
+    {
+      path: '/demo',
+      name: 'demo',
+
+      component: () => import( './views/DEMO.vue')
+    },
+    {
+      path: '/comenzi_nedecontate_user',
+      name: 'comenzi_nedecontate_user',
+
+      component: () => import( './liste/ComenziNedecontateUser.vue')
+    },
+    {
+      path: '/comenzi_programate_user',
+      name: 'comenzi_programate_user',
+
+      component: () => import( './liste/ComenziProgramateUser.vue')
+    },
+    {
       path: '/comenzi_gata',
       name: 'comenzi_gata',
 

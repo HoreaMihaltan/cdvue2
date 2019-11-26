@@ -10,9 +10,8 @@
 
         <div class="col-sm-12" style="padding: 10px">
             <tr>
-                <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium" router-link
-                             to="/comandanoua">Adauga Comanda
-                </router-link>
+                <button class="btn btn-primary dropdown-toggle" style="font-size: medium" @click="goToComandaNoua">Adauga Comanda
+                </button>
             </tr>
             <tr>
                 <th style="text-align: center">IdComanda</th>
@@ -105,6 +104,10 @@
                 </td>
                 <td> {{ comenzi.value.decontat }}</td>
                 <td> {{ comenzi.value.oraLivrare }}</td>
+                <td>
+                    <select v-model="modificaStare" @change="modificaStare"><option v-for="modificaStare in modificaStare">{{ comenzi.value.stareComanda }}</option></select>
+
+                </td>
             </tr>
         </div>
 
@@ -117,36 +120,55 @@
 
         import Listnav from "../components/ListNav";
 
-        setTimeout(function(){ location.reload(); }, 30000);
+         //setTimeout(function(){ location.reload(); }, 60000);
+        //setTimeout(function(){'get_comenziAzi_byClient'}, 3000);
+
+
         export default {
         name: 'comenzi_azi',
         components: {Listnav},
+
         created () {
+
 
             // this.$store.dispatch('get_comenzi', 'byIdComanda')
             this.$store.dispatch('get_comenzi', 'byToday');
             this.$store.dispatch('get_comenzi_byClient');
             this.$store.dispatch('get_comenziAzi_byClient');
             this.$store.dispatch('get_comenziAzi_byClientLuna');
-            this.$store.dispatch('get_comenziProgramate');
-            this.$store.dispatch('get_comenziAzi');
-            this.$store.dispatch('get_comenziInLucru');
-            this.$store.dispatch('get_comenziDisponibile');
-            this.$store.dispatch('get_comenziGata');
-            this.$store.dispatch('get_comenziRidicate');
-            this.$store.dispatch('get_comenziInLivrare');
-            this.$store.dispatch('get_comenziLivrate');
-            this.$store.dispatch('get_comenziNedecontate');
-
-
+            //this.$store.dispatch('get_comenziProgramate');
+            //this.$store.dispatch('get_comenziAzi');
+            //this.$store.dispatch('get_comenziInLucru');
+            //this.$store.dispatch('get_comenziDisponibile');
+            //this.$store.dispatch('get_comenziGata');
+            //this.$store.dispatch('get_comenziRidicate');
+            //this.$store.dispatch('get_comenziInLivrare');
+            //this.$store.dispatch('get_comenziLivrate');
+            //this.$store.dispatch('get_comenziNedecontate');
             // this.$store.dispatch('get_comenzi', 'byStareGata')
+
+            const evtSource = new EventSource('/api/event-stream')
+            evtSource.onmessage = function(e) {
+                // console.log(`message from server`, e.data)
+                if (e.data === 'COMANDA NOUA' || e.data === 'COMANDA NOUA') {
+                    console.log('COMANDA NOUA');
+                    this.$store.dispatch('get_comenzi', 'byToday');
+                    this.$store.dispatch('get_comenzi_byClient');
+                    this.$store.dispatch('get_comenziAzi_byClient');
+                    this.$store.dispatch('get_comenziAzi_byClientLuna');
+
+                } else if (e.data === 'COMANDA UPDATATA') {
+                    console.log('dispatch action here for comanda updatata')
+                }
+            }
         },
 
          methods:{
-             // refresh(){
-             //     this.$store.dispatch('get_comenzi', 'byToday');
-             //     this.$store.dispatch('get_comenzi_byClient');
-             // },
+            goToComandaNoua(){
+                this.$router.push('/comandanoua')
+
+            }
+
          },
 
         mounted () {
@@ -170,13 +192,16 @@
             //this.adresa.cod = cod;
             //this.azi = today;
             //this.comenzi.oraLimita = tranzit
+            // const interval = setInterval(() => {this.$store.dispatch('get_comenzi', 'byToday'), 1000});
         },
         computed: {
             ...mapState({
+                modificaStare: 'modificaStare',
                 user: 'user',
                 comenzi: 'comenzi',
                 comenziAzi_byClient: 'comenziAzi_byClient',
                 comenziAzi_byClientLuna: 'comenziAzi_byClientLuna'
+
             }),
 
             totalComenziAdmin () {
@@ -192,6 +217,7 @@
                 const month = d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
                 const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
                 const today = `${d.getFullYear()}-${month}-${day}`;
+
                 return today;
             },
 

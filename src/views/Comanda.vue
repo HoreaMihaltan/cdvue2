@@ -24,7 +24,7 @@
                     <td><input type="text"
                                v-on:change="submit"
                                v-model="comenzi.telefonDestinatar "/></td></tr>
-                </td></tr>
+
                 <tr><td><label>Plata cash</label></td>
                     <td><input type="number"
                                v-on:change="submit"
@@ -34,7 +34,7 @@
                                v-on:change="submit"
                                v-model="comenzi.plataCard"/></td></tr>
 
-                </tr>
+
             </table>
             <!--            coloana2-->
             <table class="col-sm-6" style="padding: 10px" >
@@ -53,13 +53,10 @@
                 <tr><td><label>Tarifare</label></td>
                     <td style="text-align: left">{{comenzi.tarifare}}
                     </td></tr>
-
-
-                </td></tr>
             </table>
         </table>
         <div class="btn-group;icon-bar" style="width: auto" >
-            <h3>Modifica strare</h3><i-table style="margin-top: 10px" >
+            <h3>Modifica strare</h3><table style="margin-top: 10px" >
             <tr><button class="btn-primary" style="padding: 5px; width: 100%"v-if="comenzi.stareComanda ==='in lucru'"  @click="setStatus('programata')" @mouseup="goBack"><i class="fa fa-exclamation"></i><br/><h2>Programata</h2></button></tr>
             <tr><button v-if="comenzi.stareComanda ==='programata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in lucru')" @mouseup="goBack"><i class="fa fa-fire"></i><br/><h4>In Lucru</h4></button></tr>
             <tr><button v-if="comenzi.stareComanda ==='in lucru'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('gata de livrare')" @mouseup="goBack"><i class="fa fa-cart-arrow-down"></i><br/><h4>Gata de Livrare</h4></button></tr>
@@ -67,7 +64,7 @@
             <tr><button v-if="comenzi.stareComanda ==='ridicata'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('in livrare')" @mouseup="goBack"><i class="fa fa-fighter-jet"></i><br/><h4>In Livrare</h4></button></tr>
             <tr><button v-if="comenzi.stareComanda ==='in livrare'" class="btn-primary" style="padding: 5px; width: 100%" @click="setStatus('livrata')" @mouseup="goBack"><i class="fa fa-check"></i><br/><h4>Livrate</h4></button></tr>
             <tr><button v-if="comenzi.decontat ==='false'"class="btn-primary" style="padding: 5px; width: 100%" @click="decontat('true')" @mouseup="goBack"><i class="fa fa-money"></i><br/><h4>Decont</h4></button></tr>
-        </i-table>
+        </table>
         </div>
 <!--        <form   v-if="!updated" @submit.prevent="submit">-->
         <form    @submit.prevent="submit">

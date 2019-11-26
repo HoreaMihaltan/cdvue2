@@ -1,5 +1,5 @@
-<template>
-    <div class="container" >
+<template @click="refresh">
+    <div  class="container" >
 
         <!--            style="text-align: left" @submit.prevent="submitValidation ">-->
         <!--            <input type="text"-->
@@ -216,6 +216,7 @@
                    type="submit" value="Trimite Comanda" @click="submit"/>
 
         </form>
+        <button v-else @click="refresh" class="btn btn-primary "  style="font-size: xx-large">Adauga Comanda</button>
 <!--        <h1 v-else>Comanda lansata</h1>-->
     </div>
 
@@ -225,7 +226,7 @@
     // @ is an alias to /src
     import {mapState} from 'vuex'
     import moment from "moment";
-    import Vue from 'vue';
+    import * as io from 'socket.io-client'
     export default {
         name: 'ComandaNoua',
         created () {
@@ -235,6 +236,7 @@
         },
         data () {
             return {
+                socket: undefined,
                 idStrada: '',
                 fromCartier: '',
                 zona: '',
@@ -243,6 +245,7 @@
                 CodClient: '',
                 AdresaLocatie: '',
                 luna: '',
+                dataRef: '',
                 tarif: '',
                 adresa: {
                     strada: '',
@@ -273,12 +276,18 @@
                     decontat: 'false',
                     oraLivrare: '',
                     valoareComanda: '',
-                    tarifare: '16',
+                    tarifare: '',
                     detaliiComanda: '',
                 }
             }
         },
-        mounted: function () {
+        mounted () {
+            const socket = {
+                path: '/socketio/socket.io',
+                secure: true,
+                rejectUnauthorized: false
+            }
+            this.socket = io(socket)
             const d = new Date()
             // const t = new getTime()
             const month = d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
@@ -296,12 +305,13 @@
             const mt = ((d.getMinutes() + mtranzit) % 60 < 10 ? '0' : '') + (d.getMinutes() + mtranzit) % 60;
             const ht = ((d.getMinutes() + mtranzit) < 120 ? d.getHours() + 1 : d.getHours() + 2);
             const tranzit = ht + ":" + mt;
-            const lunaCd = month+"/"+year
+            const lunaCd = month+"/"+year;
             this.adresa.cod = cod;
             this.comenzi.oraComanda = acum;
             this.comenzi.oraLimita = tranzit;
             this.comenzi.dataComanda = today;
             this.luna = lunaCd;
+            this.dataRef = d;
 
             // const length = this.comenzi.length();
             // this.comenzi.tarifare = length;
@@ -317,19 +327,16 @@
                 formIsSent: 'formIsSent',
                 comenziData: 'comenzi',
                 clienti: 'clienti',
-                comenziAzi_byClientLuna: 'comenziAzi_byClientLuna',
-
-
+                comenziAzi_byClientLuna: 'comenziAzi_byClientLuna'
             }),
-            numarcomanda(){
+            numarcomanda () {
                 return this.comenziData.length + 1
-
             },
-            total() {
+            total () {
                 // return   1+1
                 return +this.comenzi.plataCash + +this.comenzi.plataCard
             },
-            adresaLivrare() {
+            adresaLivrare () {
                 if(this.adresa.bloc==="true") {
                     return `Str: ${this.adresa.strada} ${this.adresa.nr}, Cluj-Napoca (sc:${this.adresa.sc}, et:${this.adresa.et}, ap:${this.adresa.ap})`
                 }else{
@@ -349,15 +356,6 @@
                 return moment().format('LTS');
             },
 
-            // setCartier: function () {
-            //    const str  = ["Lunii", "Rasinari","Observator"];
-            // const strIF = this.adresa.strada;
-            //     forEach (str) {
-            //         if (strIF == str[i]) { const cart= "Zorilor"};
-            //     }
-            //      return cart
-            //
-            // },
             totalComenzi: function () {
                 const nrCRT = this.comenziData.length;
                 return nrCRT
@@ -392,9 +390,9 @@
             },
         },
         methods: {
-            // refresh(){
-            //     return location.reload();
-            // },
+            refresh(){
+                location.reload();
+            },
 
             setAddress () {
                 this.straziCluj.forEach(obj => {
@@ -405,7 +403,7 @@
                 })
             },
 
-            submitValidation() {
+            submitValidation () {
                 this.$validator.validateAll()
                     .then(resp => {
                         console.log(resp)
@@ -418,7 +416,9 @@
                             this.comenzi.valoareComanda = this.total;
                             this.comenzi.cartier = this.adresa.cartier;
                             this.comenzi.luna = this.luna;
-                            this.$store.dispatch('create_comanda', this.comenzi);
+                            this.comenzi.dataRef = this.dataRef;
+                            this.comenzi.tarifare = this.tarif;
+                            this.$store.dispatch('create_comanda', {comenzi: this.comenzi, socket: this.socket})
                             this.$store.dispatch('get_comenziProgramate');
                             this.$store.dispatch('get_comenziAzi');
                             this.$store.dispatch('get_comenziInLucru');
@@ -429,11 +429,7 @@
                             this.$store.dispatch('get_comenziLivrate');
                             this.$store.dispatch('get_comenziNedecontate');
                             this.$store.dispatch('get_comenziAzi_byClientLuna');
-                            alert("Comanda a fost lansata!");
-                            location.reload();
-                            this.$router.push('/comenzi_azi');
-
-
+                            console.log('comanda lansata')
                             // aici pui codul ce doresti sa ruleze daca validarile sunt corecte
                         } else {
                             alert("Camp necesar!");
@@ -441,19 +437,16 @@
                         }
                     })
             },
-            submit() {
+            submit () {
                 this.comenzi.idComanda = this.IdComanda;
                 this.comenzi.adresaLivrare = this.adresaLivrare;
                 this.comenzi.valoareComanda = this.total;
-                this.comenzi.tarifare = this.setTarifare();
-                this.$store.dispatch('create_comanda', this.comenzi);
-
-                // this.$store.dispatch('create_comanda', this.adresa)
+                this.comenzi.tarifare = this.setTarifare;
+                this.$store.dispatch('create_comanda', {comenzi: this.comenzi, socket: this.socket})
             },
             setStatus(status) {
                 this.comenzi.stareComanda = status
             },
-
             goToComenziAzi(){
                 this.$router.push('/comenzi_azi')
             }

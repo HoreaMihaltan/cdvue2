@@ -3,11 +3,22 @@ import Vuex from 'vuex'
 import * as axios from 'axios'
 import router from './router'
 import debugInfo from "less/lib/less/tree/debug-info";
+import {layerGroup} from "leaflet/dist/leaflet-src.esm";
+import ComandaNoua from "./views/ComandaNoua";
+
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
     state: {
+        data: {},
+        modificaStare: {
+          inLucru: '',
+          gataDeLivrare: '',
+          ridicata: '',
+          inLivrare: '',
+          livrata: ''
+        },
         straziCluj: {
             idStrada: '',
             fromCartier: '',
@@ -22,8 +33,6 @@ export default new Vuex.Store({
             tipUser: '',
             userActiv: ''
         },
-        updated: false,
-        formIsSent: false,
         clienti: {
             // _id: '',
             id: '',
@@ -69,10 +78,17 @@ export default new Vuex.Store({
             livratorIBANFirma: '',
             livratorActiv: ''
         },
-        updated: false,
         comenzi_byClient:[],
         comenziAzi_byClient:[],
         comenziAzi_byClientLuna:[],
+        disponibile_byClient: [],
+        inLucru_byClient: [],
+        gata_byClient: [],
+        ridicate_byClient: [],
+        inLivrare_byClient: [],
+        livrate_byClient: [],
+        nedecontate_byClient: [],
+        programate_byClient: [],
         comenziAzi: [],
         comenziProgramate: [],
         comenziInLucru: [],
@@ -82,10 +98,10 @@ export default new Vuex.Store({
         comenziLivrate: [],
         comenziDisponibile: [],
         comenziNedecontate: [],
-        formIsSent: false,
         comenzi: {
             idComanda: '',
             dataComanda: ``,
+            dataRef: '',
             numeClient: '',
             adresaLivrare: '',
             cartier: '',
@@ -99,12 +115,19 @@ export default new Vuex.Store({
             plataCard: '',
             valoareComanda: '',
             tarifare: '',
-            detaliiComanda: ''
-        },
-        updated: false
+            detaliiComanda: '',
+
+        }
     },
     mutations: {},
     actions: {
+        get_comenzi_nedecontate_user ({ state }) {
+            axios.get('/api/get-comenzi-nedecontate-user')
+              .then(resp => {
+                  state.data = resp.data
+              })
+              .catch(e => { console.log(e) })
+        },
         check_login ({ state }, next) {
             check()
             async function check () {
@@ -217,7 +240,7 @@ export default new Vuex.Store({
         update_stradaCluj({state}, id) {
             axios.post('/api/update-stradaCluj', {
                 id,
-                user: state.straziCluj
+                straziCluj: state.straziCluj
             })
                 .then(resp => {
                     state.updated = true
@@ -225,10 +248,10 @@ export default new Vuex.Store({
                 })
         },
 // de aici comenzi
-        create_comanda({state}, comenzi) {
+        create_comanda({state}, {comenzi, socket}) {
             axios.post('/api/create-comanda', comenzi)
                 .then(resp => {
-                    console.log(resp)
+                    socket.emit('comanda-noua-creata')
                     state.formIsSent = true
                 })
                 .catch(e => {
@@ -257,6 +280,78 @@ export default new Vuex.Store({
             axios(`/api/get-comenziAzi-by-client/${state.user.nume}`)
                 .then(resp => {
                     state.comenziAzi_byClient = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_disponibile_byClient({ state }) {
+            axios(`/api/get_disponibile_byClient/${state.user.nume}`)
+                .then(resp => {
+                    state.disponibile_byClient = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_inLucru_byClient({ state }) {
+            axios(`/api/get_inLucru_byClient/${state.user.nume}`)
+                .then(resp => {
+                    state.inLucru_byClient = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_gata_byClient({ state }) {
+            axios(`/api/get_gata_byClient/${state.user.nume}`)
+                .then(resp => {
+                    state.gata_byClient = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_ridicate_byClient({ state }) {
+            axios(`/api/get_ridicate_byClient/${state.user.nume}`)
+                .then(resp => {
+                    state.ridicate_byClient = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_inLivrare_byClient({ state }) {
+            axios(`/api/get_inLivrare_byClient/${state.user.nume}`)
+                .then(resp => {
+                    state.inLivrare_byClient = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_livrate_byClient({ state }) {
+            axios(`/api/get_livrate_byClient/${state.user.nume}`)
+                .then(resp => {
+                    state.livrate_byClient = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_nedecontate_byClient({ state }) {
+            axios(`/api/get_nedecontate_byClient/${state.user.nume}`)
+                .then(resp => {
+                    state.nedecontate_byClient = resp.data
+                })
+                .catch(e => {
+                    console.log(e.response)
+                })
+        },
+        get_programate_byClient({ state }) {
+            axios(`/api/get_programate_byClient/${state.user.nume}`)
+                .then(resp => {
+                    state.programate_byClient = resp.data
                 })
                 .catch(e => {
                     console.log(e.response)
@@ -371,16 +466,6 @@ export default new Vuex.Store({
                     console.log(resp.data)
                 })
         },
-        // delete_comanda: function ({state}, id) {
-        //     axios.post('/api/update-comanda', {
-        //         id,
-        //         comenzi: state.comenzi
-        //     })
-        //         .then(resp => {
-        //             state.deleted = true
-        //             console.log(resp.data)
-        //         })
-        // },
         // de aici livratori
         create_livrator({state}, livratori) {
             axios.post('/api/create-livrator', livratori)
@@ -469,3 +554,5 @@ export default new Vuex.Store({
     }
     }
 })
+
+export default store

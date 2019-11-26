@@ -1,6 +1,6 @@
 <template>
 
-    <div class="home">
+    <div  class="home">
 <br/>
         <h2>Editeaza Strada</h2>
         <table class="col-sm-12" style="padding: 10px" >
@@ -26,15 +26,8 @@
 
 <!--        <form   v-if="!updated" @submit.prevent="submit">-->
             <form    @submit.prevent="submit">
-<!--            <div v-for="(item, key) in clienti">-->
-<!--                <table>-->
-<!--                    <td style="width: 100px">  <label :for="key">{{ key }}</label> </td>-->
-<!--                    <td> <input  type="text" v-model="clienti[key]"></td>-->
-<!--                </table>-->
-<!--            </div>-->
-
             <input class="btn btn-primary dropdown-toggle" style="font-size: medium" type="submit" value="OK"><br>
-            <!--            <button onclick="delete(this)">-->
+
 
         </form>
 
@@ -49,7 +42,7 @@
 
     import { mapState } from 'vuex'
     export default {
-        name: 'strada',
+        name: 'stradaCluj',
         data () {
             return {
             }

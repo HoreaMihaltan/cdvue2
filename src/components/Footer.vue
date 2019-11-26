@@ -79,7 +79,7 @@
                  <h4>Comenzi Azi</h4>
              </router-link>
              <router-link
-                     to="/comenzi_programate"
+                     to="/comenzi_programate_user"
                      style="width: 11.11%"active-class="active">
                  <i class="fa fa-exclamation">
                      </i>
@@ -87,7 +87,7 @@
                  <h4>Programate</h4>
              </router-link>
              <router-link
-                     to="/comenzi_disponibile"
+                     to="/comenzi_disponibile_user"
                      style="width: 11.11%"active-class="active">
                  <i class="fa fa-eye">
                      </i>
@@ -95,45 +95,45 @@
                  <h4>Disponibile</h4>
              </router-link>
              <router-link
-                     to="/comenzi_in_lucru"
+                     to="/comenzi_inlucru_user"
                      style="width: 11.11%"active-class="active">
                  <i class="fa fa-fire"></i>
                  <br/>
                  <h4>In Lucru</h4>
              </router-link>
              <router-link
-                     to="/comenzi_gata"
+                     to="/comenzi_gata_user"
                      style="width: 11.11%"active-class="active">
                  <i class="fa fa-cart-arrow-down"></i>
                  <br/>
-                 <h4>Gata de Livrare({{totalGata}})</h4>
+                 <h4>Gata de Livrare({{totalGataUser}})</h4>
              </router-link>
              <router-link
-                     to="/comenzi_ridicate"
+                     to="/comenzi_ridicate_user"
                      style="width: 11.11%"active-class="active">
                  <i class="fa fa-truck"></i>
                  <br/>
-                 <h4>Ridicate</h4>
+                 <h4>Ridicate({{totalRidicateUser}})</h4>
              </router-link>
              <router-link
-                     to="/comenzi_in_livrare"
+                     to="/comenzi_inlivrare_user"
                      style="width: 11.11%"active-class="active">
                  <i class="fa fa-fighter-jet"></i>
                  <br/>
-                 <h4>In Livrare</h4>
+                 <h4>In Livrare({{totalInLivrareUser}})</h4>
              </router-link>
              <router-link
-                     to="/comenzi_livrate"
+                     to="/comenzi_livrate_user"
                      style="width: 11.11%"active-class="active">
                  <i class="fa fa-check"></i>
                  <br/>
-                 <h4>Livrate</h4>
+                 <h4>Livrate({{totalLivrateUser}})</h4>
              </router-link>
-             <router-link to="/comenzi_nedecontate"
+             <router-link to="/comenzi_nedecontate_user"
                           style="width: 11.11%"active-class="active">
                  <i class="fa fa-money"></i>
                  <br/>
-                 <h4>Decont</h4>
+                 <h4>Decont({{totalNedecontateUser}})</h4>
              </router-link>
          </div>
 <!--         <h1 style="color: #5b5b5b; width: 100%;">Call Delivery App</h1>-->
@@ -152,6 +152,11 @@
             this.$store.dispatch('get_comenziInLucru');
             this.$store.dispatch('get_comenziDisponibile');
             this.$store.dispatch('get_comenziGata');
+            this.$store.dispatch('get_gata_byClient');
+            this.$store.dispatch('get_ridicate_byClient');
+            this.$store.dispatch('get_inLivrare_byClient');
+            this.$store.dispatch('get_livrate_byClient');
+            this.$store.dispatch('get_nedecontate_byClient');
             this.$store.dispatch('get_comenziRidicate');
             this.$store.dispatch('get_comenziInLivrare');
             this.$store.dispatch('get_comenziLivrate');
@@ -166,6 +171,11 @@
                 comenziInLucru: 'comenziInLucru',
                 comenziDisponibile: 'comenziDisponibile',
                 comenziGata: 'comenziGata',
+                gata_byClient: 'gata_byClient',
+                ridicate_byClient: 'ridicate_byClient',
+                inLivrare_byClient: 'inLivrare_byClient',
+                livrate_byClient: 'livrate_byClient',
+                nedecontate_byClient: 'nedecontate_byClient',
                 comenziRidicate: 'comenziRidicate',
                 comenziInLivrare: 'comenziInLivrare',
                 comenziLivrate: 'comenziLivrate',
@@ -186,8 +196,23 @@
             totalGata: function () {
                 return this.comenziGata.length;
             },
+            totalGataUser: function () {
+                return this.gata_byClient.length;
+            },
             totalRidicate: function () {
                 return this.comenziRidicate.length;
+            },
+            totalRidicateUser: function () {
+                return this.ridicate_byClient.length;
+            },
+            totalInLivrareUser: function () {
+                return this.inLivrare_byClient.length;
+            },
+            totalLivrateUser: function () {
+                return this.livrate_byClient.length;
+            },
+            totalNedecontateUser: function () {
+                return this.nedecontate_byClient.length;
             },
             totalInLivrare: function () {
                 return this.comenziInLivrare.length;

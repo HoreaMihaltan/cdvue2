@@ -1,6 +1,13 @@
 <template>
+<div>
+  <h1>Bine ai revenit!<hr>
+    Te rugam sa te loghezi!</h1>
   <div class="login-page">
+
+
+
     <form @submit.prevent="submit">
+
       <label for="nume">nume*</label>
       <input type="text"
              v-model="user.name"
@@ -16,7 +23,7 @@
 
       <button>LOGIN</button>
     </form>
-
+  </div>
   </div>
 </template>
 

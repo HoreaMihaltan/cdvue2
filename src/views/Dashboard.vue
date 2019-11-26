@@ -2,9 +2,12 @@
 
     <div class="container" style="padding: 10px">
         <comenzi_azi></comenzi_azi>
+        <iframe style="width: 100%; height: 300px"
+                 src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRRPupSH5UJ41rqcZRHbnvRauVeVCRVaWYwhPClSzdjeQjDge3EABurqTqGYp8Fc_zJ1-tfjjlJ-dWQ/pubhtml?gid=1363757906&amp;single=true&amp;widget=true&amp;headers=false">
 
+        </iframe>
 
-
+        /*setTimeout(function(){ iframe.reload(); }, 1000);*/
 
     </div>
 </template>

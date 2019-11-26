@@ -11,6 +11,18 @@ const straziclujDb = `http://localhost:5984/strazicluj`;
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 const session = 'http://localhost:5984/_session'
+const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+const io = require('socket.io')(server)
+
+io.on('connection', socket => {
+    console.log('a user connected')
+
+    socket.on('comanda-noua-creata', data => {
+        io.emit('comanda-noua-response')
+    })
+
+})
+
 
 app.use('/check-login', (req, res) => {
     const config = {
@@ -32,8 +44,6 @@ app.use('/check-login', (req, res) => {
                         db = 'livratori'
                         break
                 }
-                console.log('db', db)
-                console.log('data.userCtx.name', data.userCtx.name)
                 const url = `http://localhost:5984/${db}/${data.userCtx.name}`
                 const user = await axios(url)
                 clbk ? clbk(user.data) : res.send(user.data)
@@ -49,7 +59,6 @@ app.use('/check-login', (req, res) => {
         }
     }
 })
-
 app.use('/login', (req, res) => {
     get_login()
     async function get_login () {
@@ -73,7 +82,6 @@ app.use('/login', (req, res) => {
         }
     }
 })
-
 app.use('/logout', (req, res) => {
     logout()
     async function logout() {
@@ -87,7 +95,6 @@ app.use('/logout', (req, res) => {
 
     }
 })
-
 app.use('/create-user', (req, res) => {
     const users = req.body;
     save();
@@ -100,7 +107,6 @@ app.use('/create-user', (req, res) => {
         }
     }
 })
-
 app.use('/get-users', (req, res) => {
     getUsers()
     async function getUsers () {
@@ -116,7 +122,6 @@ app.use('/get-users', (req, res) => {
         }
     }
 })
-
 app.use('/get-user/:id', (req, res) => {
     const id = req.params.id
    getUser()
@@ -134,7 +139,6 @@ app.use('/get-user/:id', (req, res) => {
         }
     }
 })
-
 app.use('/update-user', (req, res) => {
     const id = req.body.id
     const users = req.body.users
@@ -167,7 +171,6 @@ app.use('/create-livrator', (req, res) => {
         }
     }
 })
-
 app.use('/get-livratori', (req, res) => {
     getLivratori()
     async function getLivratori () {
@@ -183,7 +186,6 @@ app.use('/get-livratori', (req, res) => {
         }
     }
 })
-
 app.use('/get-livrator/:id', (req, res) => {
     const id = req.params.id
     getLivrator()
@@ -201,8 +203,6 @@ app.use('/get-livrator/:id', (req, res) => {
         }
     }
 })
-
-
 app.use('/update-livrator', (req, res) => {
     const id = req.body.id
     const livratori = req.body.livratori
@@ -235,6 +235,28 @@ app.use('/create-strada', (req, res) => {
         }
     }
 })
+
+//------pagina nedecontate user
+app.use('/get_nedecontate_client', (req, res) => {
+    getData()
+    async function getData () {
+        try {
+            const programate = await axios(`${comenziDb}/_design/comenziAzi/_view/byStareProgramata`)
+            //const nedecontate_byClient = await axios(`${comenziDb}/_design/comenziAzi/_view/byNedecontate?key="${nume}`)
+            const nedecontateClient = await axios(`${comenziDb}/_design/comenziAzi/_view/byNedecontate?key="${nume}`)
+            const gata_byClient = await axios(`${comenziDb}/_design/comenziAzi/_view/byStareGata`)
+            const data = {
+                programate: programate.data.rows,
+                nedecontateClient: nedecontateClient.data.rows,
+                gata_byClient: gata_byClient.data.rows
+            }
+            res.send(data)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+})
+//----pagina nedecontate user-----
 
 app.use('/get-straziview', (req, res) => {
     getStraziView()
@@ -307,6 +329,26 @@ app.use('/update-stradaCluj', (req, res) => {
         }
     }
 })
+//aici ebriza
+// app.use('/get-ebrizaShanghai/, (req, res) => {
+//     const view = req.params.view
+//     getEbrizaShanghai()
+//     async function getEbrizaShanghai () {
+//
+//         const url = `http://167.99.217.127/feed/b66d1304-0565-4cd3-a468-89aaa517945a/xml`
+//         console.log(url)
+//         try {
+//             axios(url)
+//                 .then(resp => {
+//                     //console.log(resp.data)
+//                     res.send(resp.data.rows)
+//                 })
+//         } catch (e) {
+//             console.log(e.response)
+//         }
+//     },
+// })
+//-----------
 // de aici comenzi
 app.use('/create-comanda', (req, res) => {
     const comenzi = req.body
@@ -327,11 +369,9 @@ app.use('/get-comenzi/:view', (req, res) => {
     async function getComenzi () {
         // const url = `${comenziDb}/_design/comenziAzi/_view/byIdComanda`
         const url = `${comenziDb}/_design/comenziAzi/_view/${view}`
-        console.log(url)
         try {
           axios(url)
               .then(resp => {
-                  //console.log(resp.data)
                   res.send(resp.data.rows)
               })
         } catch (e) {
@@ -341,14 +381,11 @@ app.use('/get-comenzi/:view', (req, res) => {
 })
 app.use('/get-comenzi-by-client/:nume', (req, res) => {
     const nume = req.params.nume
-    console.log(`nume: ${nume}`)
     getComenzibyClient()
     async function getComenzibyClient () {
         const url = `${comenziDb}/_design/comenziAzi/_view/byClient?key="${nume}"`
-        console.log(url)
         try {
             const { data } = await axios(url)
-            console.log('data ', data)
             res.send(data.rows)
         } catch (e) {
             console.log(e.response)
@@ -357,14 +394,121 @@ app.use('/get-comenzi-by-client/:nume', (req, res) => {
 })
 app.use('/get-comenziAzi-by-client/:nume', (req, res) => {
     const nume = req.params.nume
-    console.log(`nume: ${nume}`)
     getComenziAzibyClient()
     async function getComenziAzibyClient () {
         const url = `${comenziDb}/_design/comenziAzi/_view/byToday?key="${nume}"`
-        console.log(url)
         try {
             const { data } = await axios(url)
-            console.log('data ', data)
+            res.send(data.rows)
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+app.use('/get_disponibile_byClient/:nume', (req, res) => {
+    const nume = req.params.nume
+    getFaraLivratorbyClient()
+    async function getFaraLivratorbyClient () {
+        const url = `${comenziDb}/_design/comenziAzi/_view/byFaraLivrator?key="${nume}"`
+        try {
+            const { data } = await axios(url)
+            res.send(data.rows)
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+app.use('/get_inLucru_byClient/:nume', (req, res) => {
+    const nume = req.params.nume
+    getInLucrubyClient()
+    async function getInLucrubyClient () {
+        const url = `${comenziDb}/_design/comenziAzi/_view/byStareInLucru?key="${nume}"`
+        try {
+            const { data } = await axios(url)
+            res.send(data.rows)
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+
+app.use('/get_gata_byClient/:nume', (req, res) => {
+    const nume = req.params.nume
+    getGatabyClient()
+    async function getGatabyClient () {
+        const url = `${comenziDb}/_design/comenziAzi/_view/byStareGata?key="${nume}"`
+        try {
+            const { data } = await axios(url)
+            res.send(data.rows)
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+
+app.use('/get_ridicate_byClient/:nume', (req, res) => {
+    const nume = req.params.nume
+    getRidicatebyClient()
+    async function getRidicatebyClient () {
+        const url = `${comenziDb}/_design/comenziAzi/_view/byStareRidicata?key="${nume}"`
+        try {
+            const { data } = await axios(url)
+            res.send(data.rows)
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+
+app.use('/get_inLivrare_byClient/:nume', (req, res) => {
+    const nume = req.params.nume
+    getInLivrarebyClient()
+    async function getInLivrarebyClient () {
+        const url = `${comenziDb}/_design/comenziAzi/_view/byStareInLivrare?key="${nume}"`
+        try {
+            const { data } = await axios(url)
+            res.send(data.rows)
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+
+app.use('/get_Livrate_byClient/:nume', (req, res) => {
+    const nume = req.params.nume
+    getLivratebyClient()
+    async function getLivratebyClient () {
+        const url = `${comenziDb}/_design/comenziAzi/_view/byStareLivrata?key="${nume}"`
+        try {
+            const { data } = await axios(url)
+            res.send(data.rows)
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+
+app.use('/get_nedecontate_byClient/:nume', (req, res) => {
+    const nume = req.params.nume
+    getNedecontatebyClient()
+    async function getNedecontatebyClient () {
+        const url = `${comenziDb}/_design/comenziAzi/_view/byNedecontate?key="${nume}"`
+        try {
+            const { data } = await axios(url)
+            res.send(data.rows)
+        } catch (e) {
+            console.log(e.response)
+        }
+    }
+})
+
+app.use('/get_programate_byClient/:nume', (req, res) => {
+    const nume = req.params.nume
+    getProgramatebyClient()
+    async function getProgramatebyClient () {
+        const url = `${comenziDb}/_design/comenziAzi/_view/byStareProgramata?key="${nume}"`
+        try {
+            const { data } = await axios(url)
             res.send(data.rows)
         } catch (e) {
             console.log(e.response)
@@ -373,21 +517,17 @@ app.use('/get-comenziAzi-by-client/:nume', (req, res) => {
 })
 app.use('/get-comenzi-by-clientLuna/:nume', (req, res) => {
     const nume = req.params.nume
-    console.log(`nume: ${nume}`)
     getComenzibyClientLuna()
     async function getComenzibyClientLuna () {
         const url = `${comenziDb}/_design/comenziAzi/_view/byClientLuna?key="${nume}"`
-        console.log(url)
         try {
             const { data } = await axios(url)
-            console.log('data ', data)
             res.send(data.rows)
         } catch (e) {
             console.log(e.response)
         }
     }
 })
-
 app.use('/get-comanda/:id', (req, res) => {
     const id = req.params.id
    getComanda()
@@ -405,8 +545,6 @@ app.use('/get-comanda/:id', (req, res) => {
         }
     }
 })
-
-
 app.use('/update-comanda', (req, res) => {
     const id = req.body.id
     const comenzi = req.body.comenzi
@@ -414,37 +552,17 @@ app.use('/update-comanda', (req, res) => {
     async function update () {
         try {
             const { data } = await axios(`${comenziDb}/${id}`)
-            // console.log(data)
             for (let comenziKey in comenzi) {
                 data[comenziKey] = comenzi[comenziKey]
             }
             const resp = await axios.put(`${comenziDb}/${id}`, data)
-            console.log(resp.data)
             res.send(resp.data)
         } catch (e) {
             //
         }
     }
 })
-// app.use('/delete-comanda', (req, res) => {
-//     const id = req.body.id
-//     const comenzi = req.body.comenzi
-//     delete()
-//     async function delete () {
-//         try {
-//             const { data } = await axios(`${comenziDb}/${id}`)
-//             // console.log(data)
-//             for (let comenziKey in comenzi) {
-//                 data[comenziKey] = comenzi[comenziKey]
-//             }
-//             const resp = await axios.delete(`${comenziDb}/${id}`, data)
-//             console.log(resp.data)
-//             res.send(resp.data)
-//         } catch (e) {
-//             //
-//         }
-//     }
-// })
+
 // de aici clienti
 app.use('/create-client', (req, res) => {
     const clienti = req.body
@@ -458,7 +576,6 @@ app.use('/create-client', (req, res) => {
         }
     }
 })
-
 app.use('/get-clienti', (req, res) => {
     getClienti()
     async function getClienti () {
@@ -466,7 +583,6 @@ app.use('/get-clienti', (req, res) => {
         try {
           axios(url)
               .then(resp => {
-                  console.log(resp.data)
                   res.send(resp.data.rows)
               })
         } catch (e) {
@@ -474,7 +590,6 @@ app.use('/get-clienti', (req, res) => {
         }
     }
 })
-
 app.use('/get-client/:id', (req, res) => {
     const id = req.params.id
    getClient()
@@ -492,8 +607,6 @@ app.use('/get-client/:id', (req, res) => {
         }
     }
 })
-
-
 app.use('/update-client', (req, res) => {
     const id = req.body.id
     const clienti = req.body.clienti
@@ -501,39 +614,32 @@ app.use('/update-client', (req, res) => {
     async function update () {
         try {
             const { data } = await axios(`${clientiDb}/${id}`)
-            // console.log(data)
             for (let clientiKey in clienti) {
                 data[clientiKey] = clienti[clientiKey]
             }
             const resp = await axios.put(`${clientiDb}/${id}`, data)
-            console.log(resp.data)
             res.send(resp.data)
         } catch (e) {
             //
         }
     }
 })
-
-
-app.use('/create_user', (req, res) => {
-    const url = 'http://admin:admin@localhost:5984/_users'
-    const user = {
-        "_id": "org.couchdb.user:cristian",
-        "name": "cristian",
-        "type": "user",
-        "roles": [],
-        "password": "cristian"
-    }
-    axios.put(url, user)
-        .then(resp => {
-            console.log(resp.data)
-            res.send('ok')
-        })
-        .catch(e => {
-            console.log(e.response.data)
-            res.send('failed')
-        })
-})
-
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+// app.use('/create_user', (req, res) => {
+//     const url = 'http://admin:admin@localhost:5984/_users'
+//     const user = {
+//         "_id": "org.couchdb.user:cristian",
+//         "name": "cristian",
+//         "type": "user",
+//         "roles": [],
+//         "password": "cristian"
+//     }
+//     axios.put(url, user)
+//         .then(resp => {
+//             console.log(resp.data)
+//             res.send('ok')
+//         })
+//         .catch(e => {
+//             console.log(e.response.data)
+//             res.send('failed')
+//         })
+// })

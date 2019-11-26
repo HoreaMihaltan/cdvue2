@@ -24,6 +24,7 @@
                         <option value="Apahida" label="Apahida"/>
                         <option value="Baciu" label="Baciu"/>
                         <option value="Borhanci" label="Borhanci"/>
+                        <option value="Bulgaria-Iris" label="Bulgaria-Iris"/>
                         <option value="Buna Ziua" label="Buna Ziua"/>
                         <option value="Centru" label="Centru"/>
                         <option value="Dambu Rotund" label="Dambu Rotund"/>

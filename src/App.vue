@@ -18,7 +18,7 @@
   import MainHeader from "./components/Header.vue";
   import Header from "./components/Header";
   import Footer from "./components/Footer";
-
+  import * as io from 'socket.io-client'
     export default {
         name: 'App',
         components: {
@@ -26,8 +26,6 @@
             Footer
         }
     }
-
-  component: { MainHeader}
 </script>
 
 <style>

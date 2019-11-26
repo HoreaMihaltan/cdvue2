@@ -2,7 +2,7 @@
 
     <div class="container" style="padding: 10px">
 
-        <div><h2>Comenzi Programate ( {{ totalComenzi}} )</h2>
+        <div><h2>Comenzi Programate ( {{ totalProgramate}} )</h2>
         </div>
 
               <div class="col-sm-12" style="padding: 10px">
@@ -18,23 +18,23 @@
                           <th style="text-align: center">Valoare Comanda</th>
                           <th style="text-align: center">Tarifare</th>
                       </tr>
-                  <tr v-for="(comenzi,index) in comenzi" :key="index">
+                  <tr v-for="(programate_byClient,index) in programate_byClient" :key="index">
 <!--                      <tr v-for="comenzi in comenzi">-->
-                      <td> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium; width: 100%" :to="'/comanda/' + comenzi.id">Modifica Comanda</router-link><router-link class="btn btn-primary dropdown-toggle" style="font-size: medium; width: 100%" :to="'/modifica_adresa_comanda/' + comenzi.id">
+                      <td> <router-link class="btn btn-primary dropdown-toggle" style="font-size: medium; width: 100%" :to="'/comanda/' + programate_byClient.id">Modifica Comanda</router-link><router-link class="btn btn-primary dropdown-toggle" style="font-size: medium; width: 100%" :to="'/modifica_adresa_comanda/' + programate_byClient.id">
                           Modifica Adresa
                       </router-link> </td>
                           <td style="width: auto; alignment: center">
-                              {{ comenzi.value.idComanda }}
+                              {{ programate_byClient.value.idComanda }}
                           </td>
 <!--                          <td>-->
 <!--                              {{ comenzi.value.adresaLivrare }}-->
 <!--                          </td>-->
-                      <td> {{ comenzi.value.dataComanda }} </td>
-                          <td style="color: honeydew; background-color: red"> {{ comenzi.value.oraLimita }} </td>
-                          <td > {{ comenzi.value.decontat }} </td>
-                          <td> {{ comenzi.value.plataCash }} </td>
-                          <td> {{ comenzi.value.valoareComanda }} </td>
-                          <td> {{ comenzi.value.tarifare }} </td>
+                      <td> {{ programate_byClient.value.dataComanda }} </td>
+                          <td style="color: honeydew; background-color: red"> {{ programate_byClient.value.oraLimita }} </td>
+                          <td > {{ programate_byClient.value.decontat }} </td>
+                          <td> {{ programate_byClient.value.plataCash }} </td>
+                          <td> {{ programate_byClient.value.valoareComanda }} </td>
+                          <td> {{ programate_byClient.value.tarifare }} </td>
 
                       </tr>
 
@@ -51,7 +51,7 @@
         created () {
             // this.$store.dispatch('get_comenzi', 'byIdComanda')
              this.$store.dispatch('get_comenzi', 'byStareProgramata')
-            this.$store.dispatch('get_comenziProgramate')
+            this.$store.dispatch('get_programate_byClient')
            //this.$store.dispatch('get_comenziAzi')
             // this.$store.dispatch('get_comenziInLucru')
             //this.$store.dispatch('get_comenziDisponibile')
@@ -64,10 +64,11 @@
         computed: {
             ...mapState({
                 comenzi: "comenzi",
-                comenziProgramate: 'comenziProgramate'
+                user: 'user',
+                programate_byClient: 'programate_byClient'
             }),
-            totalComenzi: function () {
-                return this.comenziProgramate.length;
+            totalProgramate: function () {
+                return this.programate_byClient.length;
             }
         }
     }
