@@ -18,7 +18,7 @@
     "g": "^2.0.1",
     "jquery": "^3.4.1",
     "leaflet": "^1.5.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "nodemon": "^1.19.4",
     "socket.io": "^2.3.0",
     "validation": "0.0.1",
